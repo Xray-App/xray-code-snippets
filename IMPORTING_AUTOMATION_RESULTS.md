@@ -11,7 +11,8 @@ Xray also has a specific proprietary format named "Xray JSON" that can be used t
 The information that can be processed from these report formats differs a bit due to their nature.
 
 For all these formats, there are specific endpoints that can be used to submit the test automation results.
-There are in fact two endpoints per each format:
+
+**There are in fact two endpoints per each format**:
 - a "standard" one, that is simpler to use and provides the ability to specify common parameters to better identify what we aim to report against (e.g. project, version, Test Plan, Test Environment). Usually, these endpoint URLs end with ".../import/execution/<format>", with the exception of Xray JSON format that ends up with ".../import/execution";
 - a "multipart" one, which is a bit more low-level; its purpose is to allow full customization of the fields of the Test Execution that will be created (and eventually also on the Test issues). Usually, these endpoint URLs end with ".../import/execution/<format>/multipart", with the exception of Xray JSON format that ends up with ".../import/execution/multipart";
 
