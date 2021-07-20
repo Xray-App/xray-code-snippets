@@ -4,7 +4,16 @@
 ## Background
 
 Importing results is accomplished by using the REST APIs.
-There are some subtle differences between Xray server/DC REST API and Xray Cloud REST API, including authentication mechanisms and also on the request iself.
+There are some subtle differences between [Xray server/DC REST API](https://docs.getxray.app/display/XRAY/REST+API) and [Xray Cloud REST API](https://docs.getxray.app/display/XRAYCLOUD/REST+API), including authentication mechanisms and also on the request iself.
+
+First, Xray supports importing test automation results in different formats, including JUnit XML, TestNG XML, Robot Framework XML, Cucumber JSON, Behave JSON, etc.
+Xray also has a specific proprietary format named "Xray JSON" that can be used to import results
+The information that can be processed from these report formats differs a bit due to their nature.
+
+For all these formats, there are specific endpoints that can be used to submit the test automation results.
+There are in fact two endpoints per format:
+- a "standard" one, that is 
+
 
 
 ## Code snippets
@@ -12,6 +21,101 @@ There are some subtle differences between Xray server/DC REST API and Xray Cloud
 ### Java
 
 ### JavaScript
+
+In JavaScript, there are a bunch of HTTP client libraries (e.g. axios, request, superagent) that can be used to build our code.
+The following examples make use of [axios](https://www.npmjs.com/package/axios).
+
+#### Xray server/DC
+
+##### Importing results from Robot Framework to the project identified by key CALC, related to version/release "v1.0"
+
+This example shows how to either use HTTP basic authentication or Personal Access tokens.
+It uses the "standard" RF endpoint provided by Xray.
+
+```javascript
+var btoa = require('btoa');
+var axios = require('axios');
+var fs = require('fs');
+var FormData = require('form-data');
+
+var jira_base_url = "http://192.168.56.102";
+var personal_access_token = "OTE0ODc2NDE2NTgxOnrhigwOreFoyNIA9lXTZaOcgbNY";
+
+
+  //var basicAuth = 'Basic ' + btoa(jira_username + ':' + jira_password);
+
+  const report_content = fs.readFileSync("output.xml").toString();
+  console.log(report_content);
+
+  var bodyFormData = new FormData();
+  bodyFormData.append('file', report_content, 'output.xml'); 
+
+  var endpoint_url = jira_base_url + "/rest/raven/2.0/import/execution/robot";
+    const params = new URLSearchParams({
+        projectKey: "CALC"
+    }).toString();
+    const url = endpoint_url + "?" + params;
+
+
+    axios.post(url, bodyFormData, {
+        //headers: { 'Authorization': basicAuth, ...bodyFormData.getHeaders() }
+        headers: { 'Authorization': "Bearer " + personal_access_token, ...bodyFormData.getHeaders() }
+    }).then(function(response) {
+        console.log('success');
+        console.log(response.data.testExecIssue.key);
+    }).catch(function(error) {
+        console.log('Error on Authentication: ' + error);
+    });
+```
+
+#### Xray Cloud
+
+##### Importing results from Robot Framework to the project identified by key BOOK, related to version/release "1.0"
+
+
+```javascript
+var btoa = require('btoa');
+var axios = require('axios');
+var fs = require('fs');
+var FormData = require('form-data');
+
+var xray_cloud_base_url = "https://xray.cloud.xpand-it.com/api/v2";
+var client_id = "215FFD69FE4644728C72182E00000000";
+var client_secret = "1c00f8f22f56a8684d7c18cd6147ce2787d95e4da9f3bfb0af8f02ec00000000";
+
+var authenticate_url = xray_cloud_base_url + "/authenticate";
+
+    axios.post(authenticate_url, { "client_id": client_id, "client_secret": client_secret }, {}).then( (response) => {
+        console.log('success');
+        var auth_token = response.data;
+
+        console.log("AUTH: " + auth_token);
+
+        const report_content = fs.readFileSync("output.xml").toString();
+        console.log(report_content);
+      
+        var endpoint_url = xray_cloud_base_url + "/import/execution/robot";
+          const params = new URLSearchParams({
+              projectKey: "BOOK"
+          }).toString();
+          const url = endpoint_url + "?" + params;
+      
+      
+          axios.post(url, report_content, {
+              headers: { 'Authorization': "Bearer " + auth_token, "Content-Type": "application/xml" }
+          }).then(function(res) {
+              console.log('success');
+              console.log(res.data.key);
+          }).catch(function(error) {
+              console.log('Error on Authentication: ' + error);
+          });
+      
+
+    }).catch( (error) => {
+        console.log('Error on Authentication: ' + error);
+    });
+```
+
 
 ### Python
 
@@ -23,6 +127,7 @@ In Python, [requests](https://pypi.org/project/requests/) is one of the well-kno
 ##### Importing results from Robot Framework to the project identified by key CALC, related to version/release "v1.0"
 
 This example shows how to either use HTTP basic authentication or Personal Access tokens.
+It uses the "standard" RF endpoint provided by Xray.
 
 ```python
 import requests
