@@ -123,7 +123,8 @@ var authenticate_url = xray_cloud_base_url + "/authenticate";
 
 In Python, [requests](https://pypi.org/project/requests/) is one of the well-known HTTP libraries that we can use to build our client code.
 
-
+You can have a look at some Python files with these examples [in the repo](use_cases/import_automation_results/python). You need to run `pip install -r requirements.txt` before running them, to install the dependencies. Don't forget to customize the variables directly in the source-code, to specify the Xray/Jira credentials among other.
+  
 #### Importing results from Robot Framework to a given Jira project, identified by its key, for a specific version/release
 
 This example shows how to either use HTTP basic authentication or Personal Access tokens.
