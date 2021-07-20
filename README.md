@@ -1,6 +1,7 @@
-# Xray source-code snippets showcasing the integration with this test management tool for Jira
-
+# Xray source-code snippets
 This repo contains several source-code snippets that show how to invoke [Xray Test Management for Jira](https://getxray.app) using one of the available APIs (see References at bottom), in different languages and, eventually, different HTTP libraries.
+
+The purpose is to facilitate building out integrations with Xray. Nevertheless, since the open-source community is very active, please check first if there is something already available that meets your needs. There are many packages/libraries already available ([some contributions from the community for Xray server/DC](https://docs.getxray.app/display/XRAY/Integrations+from+the+community+and+other+products)).
 
 Feel free to copy and adapt the code to your own needs.
 
