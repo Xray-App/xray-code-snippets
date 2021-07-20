@@ -11,10 +11,11 @@ Xray also has a specific proprietary format named "Xray JSON" that can be used t
 The information that can be processed from these report formats differs a bit due to their nature.
 
 For all these formats, there are specific endpoints that can be used to submit the test automation results.
-There are in fact two endpoints per format:
-- a "standard" one, that is 
+There are in fact two endpoints per each format:
+- a "standard" one, that is simpler to use and provides the ability to specify common parameters to better identify what we aim to report against (e.g. project, version, Test Plan, Test Environment). Usually, these endpoint URLs end with ".../import/execution/<format>", with the exception of Xray JSON format that ends up with ".../import/execution";
+- a "multipart" one, which is a bit more low-level; its purpose is to allow full customization of the fields of the Test Execution that will be created (and eventually also on the Test issues). Usually, these endpoint URLs end with ".../import/execution/<format>/multipart", with the exception of Xray JSON format that ends up with ".../import/execution/multipart";
 
-
+To keep it simple, you can use the so called "standard" endpoints, as their syntax is simpler and it fits most scenarios. 
 
 ## Code snippets
 
@@ -25,13 +26,14 @@ There are in fact two endpoints per format:
 In JavaScript, there are a bunch of HTTP client libraries (e.g. axios, request, superagent) that can be used to build our code.
 The following examples make use of [axios](https://www.npmjs.com/package/axios).
 
-#### Xray server/DC
 
-##### Importing results from Robot Framework to the project identified by key CALC, related to version/release "v1.0"
+#### Importing results from Robot Framework to a given Jira project, identified by its key, for a specific version/release
 
 This example shows how to either use HTTP basic authentication or Personal Access tokens.
 It uses the "standard" RF endpoint provided by Xray.
 
+##### Xray server/DC
+  
 ```javascript
 var btoa = require('btoa');
 var axios = require('axios');
@@ -68,10 +70,7 @@ var personal_access_token = "OTE0ODc2NDE2NTgxOnrhigwOreFoyNIA9lXTZaOcgbNY";
     });
 ```
 
-#### Xray Cloud
-
-##### Importing results from Robot Framework to the project identified by key BOOK, related to version/release "1.0"
-
+##### Xray Cloud
 
 ```javascript
 var btoa = require('btoa');
@@ -122,13 +121,13 @@ var authenticate_url = xray_cloud_base_url + "/authenticate";
 In Python, [requests](https://pypi.org/project/requests/) is one of the well-known HTTP libraries that we can use to build our client code.
 
 
-#### Xray server/DC
-
-##### Importing results from Robot Framework to the project identified by key CALC, related to version/release "v1.0"
+#### Importing results from Robot Framework to a given Jira project, identified by its key, for a specific version/release
 
 This example shows how to either use HTTP basic authentication or Personal Access tokens.
 It uses the "standard" RF endpoint provided by Xray.
 
+##### Xray server/DC
+  
 ```python
 import requests
 from base64 import urlsafe_b64encode as b64e
@@ -154,10 +153,7 @@ print(response.status_code)
 print(response.content)
 ```
 
-#### Xray Cloud
-
-##### Importing results from Robot Framework to the project identified by key BOOK, related to version/release "1.0"
-
+##### Xray Cloud
 
 ```python
 import requests
