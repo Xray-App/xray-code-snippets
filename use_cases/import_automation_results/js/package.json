@@ -1,0 +1,20 @@
+{
+  "name": "xray_code_snippets",
+  "version": "1.0.0",
+  "description": "Xray source-code snippets",
+  "main": "import_results_robot_standard_axios.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "xray"
+  ],
+  "author": "Sergio Freire",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "btoa": "^1.2.1",
+    "form-data": "^4.0.0",
+    "qs": "^6.10.1"
+  }
+}
