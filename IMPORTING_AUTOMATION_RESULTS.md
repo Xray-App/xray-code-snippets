@@ -26,6 +26,8 @@ To keep it simple, you can use the so called "standard" endpoints, as their synt
 
 In JavaScript, there are a bunch of HTTP client libraries (e.g. axios, request, superagent) that can be used to build our code.
 The following examples make use of [axios](https://www.npmjs.com/package/axios).
+  
+You can have a look at some JavaScript files with these examples [in the repo](use_cases/import_automation_results/js). You need to run `npm install` before running them, to install the dependencies. Don't forget to customize the variables directly in the source-code, to specify the Xray/Jira credentials among other.
 
 
 #### Importing results from Robot Framework to a given Jira project, identified by its key, for a specific version/release
