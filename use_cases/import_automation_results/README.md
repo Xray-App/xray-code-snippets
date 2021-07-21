@@ -17,10 +17,16 @@ For all these formats, there are specific endpoints that can be used to submit t
 - a "multipart" one, which is a bit more low-level; its purpose is to allow full customization of the fields of the Test Execution that will be created (and eventually also on the Test issues). Usually, these endpoint URLs end with ".../import/execution/<format>/multipart", with the exception of Xray JSON format that ends up with ".../import/execution/multipart";
 
 To keep it simple, you can use the so called "standard" endpoints, as their syntax is simpler and it fits most scenarios. 
+  
+  
+To be able to import Cucumber JSON reports (or Behave JSON reports), we need to make sure the Scenarios are properly tagged with the correspoding Test issue keys in Jira. That can be done automatic if we generate the .feature file(s) by exporting them out of Jira before running the tests, accordingly with the [supported flows](https://docs.getxray.app/pages/viewpage.action?pageId=62267221#TestinginBDDwithGherkinbasedframeworks(e.g.Cucumber)-Workflows) detailed in Xray documentation. If Scenario/Scenario Outline are not tagged, then results cannot be imported as they need to be mapped to existing Test issues in Xray.
+
 
 ## Code snippets
 
 ### Java
+
+TBD
 
 ### JavaScript
 
@@ -116,6 +122,24 @@ var authenticate_url = xray_cloud_base_url + "/authenticate";
     }).catch( (error) => {
         console.log('Error on Authentication: ' + error);
     });
+```
+
+#### Importing results from Cucumber
+  
+This example shows how to either use HTTP basic authentication or Personal Access tokens.
+It uses the "standard" Cucumber endpoint provided by Xray. This endpoint doesn't provide the ability to define additional parameters, such as project, version, Test Plan, Test Environment. To accomplish that, we need to use the "multipart" endpoint instead.
+Whenever importing results using the Cucumber "standard" endpoint, a Test Execution will be created in the same project where Test issues are.
+
+##### Xray server/DC
+  
+```javascript
+
+```
+
+##### Xray Cloud
+
+```javascript
+
 ```
 
 
