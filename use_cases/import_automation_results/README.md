@@ -206,3 +206,70 @@ response = requests.post(f'{xray_cloud_base_url}/import/execution/robot', params
 
 print(response.content)
 ```
+
+#### Importing results from Cucumber
+  
+This example shows how to either use HTTP basic authentication or Personal Access tokens.
+It uses the "standard" Cucumber endpoint provided by Xray. This endpoint doesn't provide the ability to define additional parameters, such as project, version, Test Plan, Test Environment. To accomplish that, we need to use the "multipart" endpoint instead.
+Whenever importing results using the Cucumber "standard" endpoint, a Test Execution will be created in the same project where Test issues are.
+
+##### Xray server/DC
+  
+```python
+import requests
+
+jira_base_url = "http://192.168.56.102"
+jira_username = "admin"
+jira_password = "admin"
+personal_access_token = "OTE0ODc2NDE2NTgxOnrhigwOreFoyNIA9lXTZaOcgbNY"
+
+
+# endpoint doc for importing Cucumber JSON reports: https://docs.getxray.app/display/XRAY/Import+Execution+Results+-+REST#ImportExecutionResultsREST-CucumberJSONresults
+# unlike other endpoints, params are NOT YET supported for the Cucumber standard endpoint
+# params = (('projectKey', 'CALC'),('fixVersion','v1.0'))
+report_content = open(r'cucumber.json', 'rb').read()
+# print (report_content)
+
+headers = {'Authorization': 'Bearer ' + personal_access_token, "Content-Type": 'application/json'}
+
+# importing results using HTTP basic authentication
+response = requests.post(f'{jira_base_url}/rest/raven/2.0/import/execution/cucumber', data=report_content, auth=(jira_username, jira_password), headers=headers)
+
+# importing results using Personal Access Tokens 
+# response = requests.post(f'{jira_base_url}/rest/raven/2.0/import/execution/cucumber', data=report_content, headers=headers)
+
+print(response.status_code)
+print(response.content)  
+
+```
+
+##### Xray Cloud
+
+```python
+import requests
+import json
+
+xray_cloud_base_url = "https://xray.cloud.xpand-it.com/api/v2"
+client_id = "215FFD69FE4644728C72182E00000000"
+client_secret = "1c00f8f22f56a8684d7c18cd6147ce2787d95e4da9f3bfb0af8f02ec00000000"
+
+# endpoint doc for authenticating and obtaining token from Xray Cloud: https://docs.getxray.app/display/XRAYCLOUD/Authentication+-+REST+v2
+headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+auth_data = { "client_id": client_id, "client_secret": client_secret }
+response = requests.post(f'{xray_cloud_base_url}/authenticate', data=json.dumps(auth_data), headers=headers)
+auth_token = response.json()
+print(auth_token)
+
+
+# endpoint doc for importing Cucumber JSON reports: https://docs.getxray.app/display/XRAYCLOUD/Import+Execution+Results+-+REST#ImportExecutionResultsREST-CucumberJSONresults
+# unlike other endpoints, params are NOT YET supported for the Cucumber standard endpoint
+# params = (('projectKey', 'CALC'),('fixVersion','v1.0'))
+report_content = open(r'cucumber.json', 'rb').read()
+# print (report_content)
+
+headers = {'Authorization': 'Bearer ' + auth_token, 'Content-Type': 'application/json'}
+response = requests.post(f'{xray_cloud_base_url}/import/execution/cucumber', data=report_content, headers=headers)
+
+print(response.status_code)
+print(response.content)
+```
