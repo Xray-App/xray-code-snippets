@@ -52,76 +52,56 @@ var FormData = require('form-data');
 var jira_base_url = "http://192.168.56.102";
 var personal_access_token = "OTE0ODc2NDE2NTgxOnrhigwOreFoyNIA9lXTZaOcgbNY";
 
+//var basicAuth = 'Basic ' + btoa(jira_username + ':' + jira_password);
 
-  //var basicAuth = 'Basic ' + btoa(jira_username + ':' + jira_password);
+const report_content = fs.readFileSync("output.xml").toString();
+console.log(report_content);
 
-  const report_content = fs.readFileSync("output.xml").toString();
-  console.log(report_content);
+var bodyFormData = new FormData();
+bodyFormData.append('file', report_content, 'output.xml'); 
 
-  var bodyFormData = new FormData();
-  bodyFormData.append('file', report_content, 'output.xml'); 
-
-  var endpoint_url = jira_base_url + "/rest/raven/2.0/import/execution/robot";
-    const params = new URLSearchParams({
-        projectKey: "CALC"
-    }).toString();
-    const url = endpoint_url + "?" + params;
+var endpoint_url = jira_base_url + "/rest/raven/2.0/import/execution/robot";
+const params = new URLSearchParams({
+    projectKey: "CALC"
+}).toString();
+const url = endpoint_url + "?" + params;
 
 
-    axios.post(url, bodyFormData, {
-        //headers: { 'Authorization': basicAuth, ...bodyFormData.getHeaders() }
-        headers: { 'Authorization': "Bearer " + personal_access_token, ...bodyFormData.getHeaders() }
-    }).then(function(response) {
-        console.log('success');
-        console.log(response.data.testExecIssue.key);
-    }).catch(function(error) {
-        console.log('Error on Authentication: ' + error);
-    });
+axios.post(url, bodyFormData, {
+    //headers: { 'Authorization': basicAuth, ...bodyFormData.getHeaders() }
+    headers: { 'Authorization': "Bearer " + personal_access_token, ...bodyFormData.getHeaders() }
+}).then(function(response) {
+    console.log('success');
+    console.log(response.data.testExecIssue.key);
+}).catch(function(error) {
+    console.log('Error submiting results: ' + error);
+});
 ```
 
 ##### Xray Cloud
 
 ```javascript
-var btoa = require('btoa');
-var axios = require('axios');
-var fs = require('fs');
-var FormData = require('form-data');
+import requests
+import json
 
-var xray_cloud_base_url = "https://xray.cloud.xpand-it.com/api/v2";
-var client_id = "215FFD69FE4644728C72182E00000000";
-var client_secret = "1c00f8f22f56a8684d7c18cd6147ce2787d95e4da9f3bfb0af8f02ec00000000";
+xray_cloud_base_url = "https://xray.cloud.xpand-it.com/api/v2"
+client_id = "215FFD69FE4644728C72182E00000000"
+client_secret = "1c00f8f22f56a8684d7c18cd6147ce2787d95e4da9f3bfb0af8f02ec00000000"
 
-var authenticate_url = xray_cloud_base_url + "/authenticate";
+# endpoint doc for authenticating and obtaining token from Xray Cloud: https://docs.getxray.app/display/XRAYCLOUD/Authentication+-+REST+v2
+headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+auth_data = { "client_id": client_id, "client_secret": client_secret }
+response = requests.post(f'{xray_cloud_base_url}/authenticate', data=json.dumps(auth_data), headers=headers)
+auth_token = response.json()
+print(auth_token)
 
-    axios.post(authenticate_url, { "client_id": client_id, "client_secret": client_secret }, {}).then( (response) => {
-        console.log('success');
-        var auth_token = response.data;
+# endpoint doc for importing Robot Framework XML reports: https://docs.getxray.app/display/XRAYCLOUD/Import+Execution+Results+-+REST+v2#ImportExecutionResultsRESTv2-RobotFrameworkXMLresults
+params = (('projectKey', 'BOOK'),('fixVersion','1.0'))
+report_content = open(r'output.xml', 'rb')
+headers = {'Authorization': 'Bearer ' + auth_token, 'Content-Type': 'application/xml'}
+response = requests.post(f'{xray_cloud_base_url}/import/execution/robot', params=params, data=report_content, headers=headers)
 
-        console.log("AUTH: " + auth_token);
-
-        const report_content = fs.readFileSync("output.xml").toString();
-        console.log(report_content);
-      
-        var endpoint_url = xray_cloud_base_url + "/import/execution/robot";
-          const params = new URLSearchParams({
-              projectKey: "BOOK"
-          }).toString();
-          const url = endpoint_url + "?" + params;
-      
-      
-          axios.post(url, report_content, {
-              headers: { 'Authorization': "Bearer " + auth_token, "Content-Type": "application/xml" }
-          }).then(function(res) {
-              console.log('success');
-              console.log(res.data.key);
-          }).catch(function(error) {
-              console.log('Error on Authentication: ' + error);
-          });
-      
-
-    }).catch( (error) => {
-        console.log('Error on Authentication: ' + error);
-    });
+print(response.content)
 ```
 
 #### Importing results from Cucumber
