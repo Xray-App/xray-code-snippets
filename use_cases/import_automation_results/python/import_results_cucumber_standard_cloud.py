@@ -13,10 +13,15 @@ response = requests.post(f'{xray_cloud_base_url}/authenticate', data=json.dumps(
 auth_token = response.json()
 print(auth_token)
 
-# endpoint doc for importing Robot Framework XML reports: https://docs.getxray.app/display/XRAYCLOUD/Import+Execution+Results+-+REST+v2#ImportExecutionResultsRESTv2-RobotFrameworkXMLresults
-params = (('projectKey', 'BOOK'),('fixVersion','1.0'))
-report_content = open(r'output.xml', 'rb')
-headers = {'Authorization': 'Bearer ' + auth_token, 'Content-Type': 'application/xml'}
-response = requests.post(f'{xray_cloud_base_url}/import/execution/robot', params=params, data=report_content, headers=headers)
 
+# endpoint doc for importing Cucumber JSON reports: https://docs.getxray.app/display/XRAYCLOUD/Import+Execution+Results+-+REST#ImportExecutionResultsREST-CucumberJSONresults
+# unlike other endpoints, params are NOT YET supported for the Cucumber standard endpoint
+# params = (('projectKey', 'CALC'),('fixVersion','v1.0'))
+report_content = open(r'cucumber.json', 'rb').read()
+# print (report_content)
+
+headers = {'Authorization': 'Bearer ' + auth_token, 'Content-Type': 'application/json'}
+response = requests.post(f'{xray_cloud_base_url}/import/execution/cucumber', data=report_content, headers=headers)
+
+print(response.status_code)
 print(response.content)
