@@ -1,0 +1,468 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "as-a-user,-i-can-sum-two-numbers;sum-of-two-positive-numbers;;2",
+        "keyword": "Scenario Outline",
+        "line": 13,
+        "name": "sum of two positive numbers",
+        "before": [
+          {
+            "result": {
+              "duration": 24000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:9"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 6,
+            "name": "I have entered 20 into the calculator",
+            "result": {
+              "duration": 45000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:39"
+            }
+          },
+          {
+            "keyword": "And ",
+            "line": 7,
+            "name": "I have entered 30 into the calculator",
+            "result": {
+              "duration": 17000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:39"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 8,
+            "name": "I press add",
+            "result": {
+              "duration": 27000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:43"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the result should be 50 on the screen",
+            "result": {
+              "duration": 2836000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:51"
+            }
+          }
+        ],
+        "after": [
+          {
+            "result": {
+              "duration": 13000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:13"
+            }
+          }
+        ],
+        "type": "scenario",
+        "tags": [
+          {
+            "line": 1,
+            "name": "@REQ_CALC_8886"
+          },
+          {
+            "line": 4,
+            "name": "@TEST_CALC_8887"
+          }
+        ]
+      },
+      {
+        "description": "",
+        "id": "as-a-user,-i-can-sum-two-numbers;sum-of-two-positive-numbers;;3",
+        "keyword": "Scenario Outline",
+        "line": 14,
+        "name": "sum of two positive numbers",
+        "before": [
+          {
+            "result": {
+              "duration": 10000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:9"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 6,
+            "name": "I have entered 2 into the calculator",
+            "result": {
+              "duration": 22000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:39"
+            }
+          },
+          {
+            "keyword": "And ",
+            "line": 7,
+            "name": "I have entered 5 into the calculator",
+            "result": {
+              "duration": 15000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:39"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 8,
+            "name": "I press add",
+            "result": {
+              "duration": 19000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:43"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the result should be 7 on the screen",
+            "result": {
+              "duration": 29000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:51"
+            }
+          }
+        ],
+        "after": [
+          {
+            "result": {
+              "duration": 9000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:13"
+            }
+          }
+        ],
+        "type": "scenario",
+        "tags": [
+          {
+            "line": 1,
+            "name": "@REQ_CALC_8886"
+          },
+          {
+            "line": 4,
+            "name": "@TEST_CALC_8887"
+          }
+        ]
+      },
+      {
+        "description": "",
+        "id": "as-a-user,-i-can-sum-two-numbers;sum-of-two-positive-numbers;;4",
+        "keyword": "Scenario Outline",
+        "line": 15,
+        "name": "sum of two positive numbers",
+        "before": [
+          {
+            "result": {
+              "duration": 10000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:9"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 6,
+            "name": "I have entered 0 into the calculator",
+            "result": {
+              "duration": 19000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:39"
+            }
+          },
+          {
+            "keyword": "And ",
+            "line": 7,
+            "name": "I have entered 40 into the calculator",
+            "result": {
+              "duration": 17000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:39"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 8,
+            "name": "I press add",
+            "result": {
+              "duration": 19000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:43"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the result should be 40 on the screen",
+            "result": {
+              "duration": 24000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:51"
+            }
+          }
+        ],
+        "after": [
+          {
+            "result": {
+              "duration": 9000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:13"
+            }
+          }
+        ],
+        "type": "scenario",
+        "tags": [
+          {
+            "line": 1,
+            "name": "@REQ_CALC_8886"
+          },
+          {
+            "line": 4,
+            "name": "@TEST_CALC_8887"
+          }
+        ]
+      },
+      {
+        "description": "",
+        "id": "as-a-user,-i-can-sum-two-numbers;sum-of-two-positive-numbers;;5",
+        "keyword": "Scenario Outline",
+        "line": 16,
+        "name": "sum of two positive numbers",
+        "before": [
+          {
+            "result": {
+              "duration": 9000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:9"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 6,
+            "name": "I have entered 4 into the calculator",
+            "result": {
+              "duration": 20000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:39"
+            }
+          },
+          {
+            "keyword": "And ",
+            "line": 7,
+            "name": "I have entered 50 into the calculator",
+            "result": {
+              "duration": 16000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:39"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 8,
+            "name": "I press add",
+            "result": {
+              "duration": 20000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:43"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the result should be 54 on the screen",
+            "result": {
+              "duration": 37000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:51"
+            }
+          }
+        ],
+        "after": [
+          {
+            "result": {
+              "duration": 12000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:13"
+            }
+          }
+        ],
+        "type": "scenario",
+        "tags": [
+          {
+            "line": 1,
+            "name": "@REQ_CALC_8886"
+          },
+          {
+            "line": 4,
+            "name": "@TEST_CALC_8887"
+          }
+        ]
+      },
+      {
+        "description": "",
+        "id": "as-a-user,-i-can-sum-two-numbers;sum-of-two-positive-numbers;;6",
+        "keyword": "Scenario Outline",
+        "line": 17,
+        "name": "sum of two positive numbers",
+        "before": [
+          {
+            "result": {
+              "duration": 11000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:9"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 6,
+            "name": "I have entered 5 into the calculator",
+            "result": {
+              "duration": 23000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:39"
+            }
+          },
+          {
+            "keyword": "And ",
+            "line": 7,
+            "name": "I have entered 50 into the calculator",
+            "result": {
+              "duration": 18000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:39"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 8,
+            "name": "I press add",
+            "result": {
+              "duration": 20000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:43"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the result should be 55 on the screen",
+            "result": {
+              "duration": 33000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:51"
+            }
+          }
+        ],
+        "after": [
+          {
+            "result": {
+              "duration": 10000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "features/step_definitions/calculator_steps.rb:13"
+            }
+          }
+        ],
+        "type": "scenario",
+        "tags": [
+          {
+            "line": 1,
+            "name": "@REQ_CALC_8886"
+          },
+          {
+            "line": 4,
+            "name": "@TEST_CALC_8887"
+          }
+        ]
+      }
+    ],
+    "id": "as-a-user,-i-can-sum-two-numbers",
+    "keyword": "Feature",
+    "line": 2,
+    "name": "As a user, I can sum two numbers",
+    "uri": "features/sample_scenario_outline.feature",
+    "tags": [
+      {
+        "line": 1,
+        "name": "@REQ_CALC_8886"
+      }
+    ]
+  }
+]
