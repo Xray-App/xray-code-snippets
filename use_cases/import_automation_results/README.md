@@ -264,7 +264,7 @@ axios.post(url, bodyFormData, {
 import requests
 import json
 
-xray_cloud_base_url = "https://xray.cloud.xpand-it.com/api/v2"
+xray_cloud_base_url = "https://xray.cloud.getxray.app/api/v2"
 client_id = "215FFD69FE4644728C72182E00000000"
 client_secret = "1c00f8f22f56a8684d7c18cd6147ce2787d95e4da9f3bfb0af8f02ec00000000"
 
@@ -326,7 +326,7 @@ print(response.content)
 import requests
 import json
 
-xray_cloud_base_url = "https://xray.cloud.xpand-it.com/api/v2"
+xray_cloud_base_url = "https://xray.cloud.getxray.app/api/v2"
 client_id = "215FFD69FE4644728C72182E00000000"
 client_secret = "1c00f8f22f56a8684d7c18cd6147ce2787d95e4da9f3bfb0af8f02ec00000000"
 
@@ -431,7 +431,7 @@ var axios = require('axios');
 var fs = require('fs');
 var FormData = require('form-data');
 
-var xray_cloud_base_url = "https://xray.cloud.xpand-it.com/api/v2";
+var xray_cloud_base_url = "https://xray.cloud.getxray.app/api/v2";
 var client_id = "215FFD69FE4644728C72182E00000000";
 var client_secret = "1c00f8f22f56a8684d7c18cd6147ce2787d95e4da9f3bfb0af8f02ec00000000";
 
@@ -526,7 +526,7 @@ print(response.content)
 import requests
 import json
 
-xray_cloud_base_url = "https://xray.cloud.xpand-it.com/api/v2"
+xray_cloud_base_url = "https://xray.cloud.getxray.app/api/v2"
 client_id = "215FFD69FE4644728C72182E00000000"
 client_secret = "1c00f8f22f56a8684d7c18cd6147ce2787d95e4da9f3bfb0af8f02ec00000000"
 
@@ -764,7 +764,7 @@ print(response.content)
 import requests
 import json
 
-xray_cloud_base_url = "https://xray.cloud.xpand-it.com/api/v2"
+xray_cloud_base_url = "https://xray.cloud.getxray.app/api/v2"
 client_id = "215FFD69FE4644728C72182E00000000"
 client_secret = "1c00f8f22f56a8684d7c18cd6147ce2787d95e4da9f3bfb0af8f02ec00000000"
 
