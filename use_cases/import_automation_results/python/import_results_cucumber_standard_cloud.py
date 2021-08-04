@@ -2,7 +2,7 @@ import requests
 import json
 import os
 
-xray_cloud_base_url = "https://xray.cloud.xpand-it.com/api/v2"
+xray_cloud_base_url = "https://xray.cloud.getxray.app/api/v2"
 client_id = os.getenv('CLIENT_ID', "215FFD69FE4644728C72182E00000000")
 client_secret = os.getenv('CLIENT_SECRET',"1c00f8f22f56a8684d7c18cd6147ce2787d95e4da9f3bfb0af8f02ec00000000")
 
