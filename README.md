@@ -11,8 +11,6 @@ Feel free to copy and adapt the code to your own needs.
 
 ## Background
 
-TBD
-
 ### Xray server/DC vs Xray Cloud
 
 Although similar, Xray for Jira server/data center (DC) and Xray for Jira Cloud are different products, essentially because they are built on top of different infrastructure and application capabilities. Jira server/datacenter and Jira Cloud are distinct product, with different roadmaps, built using distinct technologies, providing also different APIs. This has a consequence that apps for Jira server/DC and for Jira Cloud are essentially totally different from an architecture standpoint, but eventually also from a feature perspective.
