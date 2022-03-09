@@ -18,10 +18,13 @@ info_json = {
         "project": {
             "key": "CALC"
         },
-        "summary": "Test Execution for RF execution",
+        "issuetype": {
+            "name": "Test Execution"
+        },
+        "summary": "Test Execution for JUnit tests",
         "description": "This contains test automation results",
         "fixVersions": [ {"name": "v1.0"}]
-       },
+    },
     "xrayFields": {
         "testPlanKey": "CALC-1369",
         "environments": ["dev"]
@@ -29,13 +32,13 @@ info_json = {
 }
 
 files = {
-        'results': ('cucumber.json', open(r'cucumber.json', 'rb')),
+        'results': ('junit.xml', open(r'junit.xml', 'rb')),
         'info': ('info.json', json.dumps(info_json) )
         }
 
-# endpoint doc for importing Cucumber JSON reports using the multipart endpoint: https://docs.getxray.app/display/XRAYCLOUD/Import+Execution+Results+-+REST#ImportExecutionResultsREST-CucumberJSONresultsMultipart
+# endpoint doc for importing JUnit XML reports using the multipart endpoint: https://docs.getxray.app/display/XRAYCLOUD/Import+Execution+Results+-+REST#ImportExecutionResultsREST-JUnitXMLresultsMultipart
 headers = {'Authorization': 'Bearer ' + auth_token}
-response = requests.post(f'{xray_cloud_base_url}/import/execution/cucumber/multipart', files=files, headers=headers)
+response = requests.post(f'{xray_cloud_base_url}/import/execution/junit/multipart', files=files, headers=headers)
 
 print(response.status_code)
 print(response.content)

@@ -12,29 +12,20 @@ var authenticate_url = xray_cloud_base_url + "/authenticate";
 axios.post(authenticate_url, { "client_id": client_id, "client_secret": client_secret }, {}).then( (response) => {
     console.log('success');
     var auth_token = response.data;
-
     console.log("AUTH: " + auth_token);
 
-    const report_content = fs.readFileSync("robot.xml").toString();
+    const report_content = fs.readFileSync("xray_cloud.json").toString();
     console.log(report_content);
     
-    var endpoint_url = xray_cloud_base_url + "/import/execution/robot";
-        const params = new URLSearchParams({
-            projectKey: "BOOK"
-        }).toString();
-        const url = endpoint_url + "?" + params;
-    
-    
-        axios.post(url, report_content, {
-            headers: { 'Authorization': "Bearer " + auth_token, "Content-Type": "application/xml" }
-        }).then(function(res) {
-            console.log('success');
-            console.log(res.data.key);
-        }).catch(function(error) {
-            console.log('Error submiting results: ' + error);
-        });
-    
-
+    var endpoint_url = xray_cloud_base_url + "/import/execution";
+    axios.post(endpoint_url, report_content, {
+	headers: { 'Authorization': "Bearer " + auth_token, "Content-Type": "application/json" }
+    }).then(function(res) {
+	console.log('success');
+	console.log(res.data.key);
+    }).catch(function(error) {
+	console.log('Error submiting results: ' + error);
+    });
 }).catch( (error) => {
     console.log('Error on Authentication: ' + error);
 });

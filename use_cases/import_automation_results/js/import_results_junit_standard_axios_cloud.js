@@ -15,10 +15,10 @@ axios.post(authenticate_url, { "client_id": client_id, "client_secret": client_s
 
     console.log("AUTH: " + auth_token);
 
-    const report_content = fs.readFileSync("robot.xml").toString();
+    const report_content = fs.readFileSync("junit.xml").toString();
     console.log(report_content);
     
-    var endpoint_url = xray_cloud_base_url + "/import/execution/robot";
+    var endpoint_url = xray_cloud_base_url + "/import/execution/junit";
         const params = new URLSearchParams({
             projectKey: "BOOK"
         }).toString();

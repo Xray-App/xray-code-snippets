@@ -6,7 +6,7 @@ jira_username = "admin"
 jira_password = "admin"
 personal_access_token = "OTE0ODc2NDE2NTgxOnrhigwOreFoyNIA9lXTZaOcgbNY"
 
-# endpoint doc for importing Robot Framework XML reports: https://docs.getxray.app/display/XRAY/Import+Execution+Results+-+REST#ImportExecutionResultsREST-RobotFrameworkXMLresultsMultipart
+# endpoint doc for importing Xray JSON reports: https://docs.getxray.app/display/XRAY/Import+Execution+Results+-+REST#ImportExecutionResultsREST-XrayJSONresultsMultipart
 # customfield_11805 corresponds to the "Test Environments" custom field; pls obtain this id on your Jira instance from Jira administration
 # customfield_11807 corresponds to the "Test Plan" custom field; pls obtain this id on your Jira instance from Jira administration
 info_json = { 
@@ -14,7 +14,7 @@ info_json = {
         "project": {
             "key": "CALC"
         },
-        "summary": "Test Execution for RF execution",
+        "summary": "Test Execution of some tests",
         "description": "This contains test automation results",
         "fixVersions": [ {"name": "v1.0"}],
         "customfield_11805": ["chrome"],
@@ -23,16 +23,16 @@ info_json = {
 }
 
 files = {
-        'file': ('robot.xml', open(r'robot.xml', 'rb')),
+        'result': ('xray.json', open(r'xray_dc.json', 'rb')),
         'info': ('info.json', json.dumps(info_json) )
         }
 
 # importing results using HTTP basic authentication
-# response = requests.post(f'{jira_base_url}/rest/raven/2.0/import/execution/robot', params=params, files=files, auth=(jira_username, jira_password))
+# response = requests.post(f'{jira_base_url}/rest/raven/2.0/import/execution/multipart', params=params, files=files, auth=(jira_username, jira_password))
 
 # importing results using Personal Access Tokens 
 headers = {'Authorization': 'Bearer ' + personal_access_token}
-response = requests.post(f'{jira_base_url}/rest/raven/2.0/import/execution/robot/multipart', files=files, headers=headers)
+response = requests.post(f'{jira_base_url}/rest/raven/2.0/import/execution/multipart', files=files, headers=headers)
 
 print(response.status_code)
 print(response.content)

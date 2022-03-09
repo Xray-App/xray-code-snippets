@@ -1,0 +1,20 @@
+{
+    "info" : {
+        "summary" : "Execution of automated tests",
+        "description" : "This execution is automatically created when importing execution results from an external source",
+        "project" : "CALC",
+        "version" : "v1.0",
+        "revision" : "1234",
+        "startDate" : "2014-08-30T11:47:35+01:00",
+        "finishDate" : "2014-08-30T11:53:00+01:00",
+        "testEnvironments": ["Chrome"]
+    },
+    "tests" : [
+        {
+            "testKey" : "CALC-3",
+            "start" : "2014-08-30T11:47:35+01:00",
+            "finish" : "2014-08-30T11:50:56+01:00",
+            "status" : "PASSED"
+        }
+    ]
+}

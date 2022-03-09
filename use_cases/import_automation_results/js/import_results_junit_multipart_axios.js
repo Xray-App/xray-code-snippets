@@ -9,7 +9,7 @@ var personal_access_token = "OTE0ODc2NDE2NTgxOnrhigwOreFoyNIA9lXTZaOcgbNY";
 
 //var basicAuth = 'Basic ' + btoa(jira_username + ':' + jira_password);
 
-const report_content = fs.readFileSync("robot.xml").toString();
+const report_content = fs.readFileSync("junit.xml").toString();
 console.log(report_content);
 
 var info_json = { 
@@ -17,7 +17,7 @@ var info_json = {
         "project": {
             "key": "CALC"
         },
-        "summary": "Test Execution for robot Execution",
+        "summary": "Test Execution for Junit tets",
         "description": "This contains test automation results"
     }
 };
@@ -26,7 +26,7 @@ bodyFormData.append('file', report_content, 'output.xml');
 bodyFormData.append('info', JSON.stringify(info_json), 'info.json'); 
 console.log(JSON.stringify(info_json));
 
-var endpoint_url = jira_base_url + "/rest/raven/2.0/import/execution/robot/multipart";
+var endpoint_url = jira_base_url + "/rest/raven/2.0/import/execution/junit/multipart";
 axios.post(endpoint_url, bodyFormData, {
     //headers: { 'Authorization': basicAuth, ...bodyFormData.getHeaders() }
     headers: { 'Authorization': "Bearer " + personal_access_token, ...bodyFormData.getHeaders() }

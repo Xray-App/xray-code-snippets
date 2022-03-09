@@ -1,13 +1,12 @@
 # Importing test automation results
 
-
 ## Background
 
 Importing results is accomplished by using the REST APIs.
 There are some subtle differences between [Xray server/DC REST API](https://docs.getxray.app/display/XRAY/REST+API) and [Xray Cloud REST API](https://docs.getxray.app/display/XRAYCLOUD/REST+API), including authentication mechanisms and also on the request iself.
 
 First, Xray supports importing test automation results in different formats, including JUnit XML, TestNG XML, Robot Framework XML, Cucumber JSON, Behave JSON, etc.
-Xray also has a specific proprietary format named "Xray JSON" that can be used to import results
+Xray also has a specific proprietary format named "Xray JSON" that can be used to import results; this format has some subtle differences between Xray server/DC and Xray cloud, so please check the documentation.
 The information that can be processed from these report formats differs a bit due to their nature.
 
 For all these formats, there are specific endpoints that can be used to submit the test automation results.
@@ -27,22 +26,282 @@ See examples for:
 - [JavaScript](js)
 - [Python](python)
 
-The Maven-based Java project code available in the repo contains a [possible implementation](java/xray-code-snippets/src/main/java/com/idera/xray/XrayResultsImporter.java) of a client library to import results, supporting multiple formats and the available endpoints, and also both Xray server/DC and Cloud.
+The Maven-based Java project code available in the repo contains a [possible implementation](java/xray-code-snippets/src/main/java/com/xblend/xray/XrayResultsImporter.java) of a client library to import results, supporting multiple formats and the available endpoints, and also both Xray server/DC and Cloud.
 
 ## Code snippets
 
-### Importing results from Robot Framework to a given Jira project, identified by its key, for a specific version/release
+### Importing results using the Xray JSON format
 
-This example shows how to either use HTTP basic authentication or Personal Access tokens.
-It uses the "standard" RF endpoint provided by Xray.
-If using JUnit, NUnit, TestNG, xUnit reports, the request would be similar.
+Xray has a specific proprietary format named "Xray JSON" that can be used to import results; this format has some subtle differences between [Xray server/DC](https://docs.getxray.app/display/XRAY/Import+Execution+Results#ImportExecutionResults-XrayJSONformat) and [Xray cloud](https://docs.getxray.app/display/XRAYCLOUD/Using+Xray+JSON+format+to+import+execution+results#UsingXrayJSONformattoimportexecutionresults-XrayJSONformat), so please check the proper technical documentation. Besides, some features/fields may only be available in a specific version of the endpoint (e.g., Test Run custom fields are only available on v2 of the REST API endpoint).
+
+In this repo, you can see one [example of contents for the Xray JSON in Xray server/DC](java/xray-code-snippets/src/main/resources/xray_dc.json) and another [example of contents for the Xray JSON as supported by Xray cloud](java/xray-code-snippets/src/main/resources/xray_cloud.json).
+
+The following code snippets make use of a prebuilt Xray JSON content; however, you could also build out this JSON programmaticaly.
 
 #### Java
+
+Please check the [possible implementation](java/xray-code-snippets/src/main/java/com/xblend/xray/XrayResultsImporter.java) of a Java client library.
+
+You can find these, or similar, [examples in a sample ImportResultsExamples class](java/xray-code-snippets/src/main/java/com/xblend/xray/ImportResultsExamples.java).
 
 ##### Xray server/DC
 
 ```java
 final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json");
+
+String jiraBaseUrl = System.getenv().getOrDefault("JIRA_BASE_URL", "http://192.168.56.102");
+String jiraUsername = System.getenv().getOrDefault("JIRA_USERNAME", "admin");
+String jiraPassword = System.getenv().getOrDefault("JIRA_PASSWORD", "admin");
+String jiraPersonalAccessToken = System.getenv().getOrDefault("JIRA_TOKEN", "OTE0ODc2NDE2NTgxOnrhigwOreFoyNIA9lXTZaOcgbNY");
+
+System.out.println("Importing a Xray JSON report to a Xray Server/Data Center instance...");
+
+OkHttpClient client = new OkHttpClient();
+String credentials;
+if (jiraPersonalAccessToken!= null) {
+    credentials = "Bearer " + jiraPersonalAccessToken;
+} else {
+    credentials = Credentials.basic(jiraUsername, jiraPassword);
+} 
+
+String endpointUrl = jiraBaseUrl + "/rest/raven/2.0/import/execution";
+RequestBody requestBody = null;
+try {
+    String reportContent = new String ( Files.readAllBytes( Paths.get(reportFile) ) );
+    requestBody = RequestBody.create(reportContent, MEDIA_TYPE_JSON);
+} catch (Exception e1) {
+    e1.printStackTrace();
+    throw e1;
+}
+Request request = new Request.Builder().url(endpointUrl).post(requestBody).addHeader("Authorization", credentials).build();
+Response response = null;
+try {
+    response = client.newCall(request).execute();
+    String responseBody = response.body().string();
+    if (response.isSuccessful()){
+        JSONObject responseObj = new JSONObject(responseBody);
+        System.out.println("Test Execution: "+((JSONObject)(responseObj.get("testExecIssue"))).get("key"));
+        return(responseBody);
+    } else {
+        throw new IOException("Unexpected HTTP code " + response);
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+    throw(e);
+}
+```
+
+If you use the sample client library code, it could become as simple as:
+
+```java
+XrayResultsImporter xrayImporter = new XrayResultsImporter.ServerDCBuilder(jiraBaseUrl, jiraUsername, jiraPassword).build();
+// xrayImporter = new XrayResultsImporter.ServerDCBuilder(jiraBaseUrl, jiraPersonalAccessToken).build();
+String response = xrayImporter.submit(XrayResultsImporter.XRAY_FORMAT, xrayJsonDCReport);
+```
+
+##### Xray Cloud
+
+```java
+final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json");
+
+String clientId = System.getenv().getOrDefault("CLIENT_ID", "215FFD69FE4644728C72182E00000000");
+String clientSecret = System.getenv().getOrDefault("CLIENT_SECRET", "1c00f8f22f56a8684d7c18cd6147ce2787d95e4da9f3bfb0af8f02ec00000000");
+String xrayCloudApiBaseUrl = "https://xray.cloud.getxray.app/api/v2";
+String authenticateUrl = xrayCloudApiBaseUrl + "/authenticate";
+
+System.out.println("Importing a Xray JSON report to a Xray Cloud instance...");
+
+OkHttpClient client = new OkHttpClient();
+String authenticationPayload = "{ \"client_id\": \"" + clientId +"\", \"client_secret\": \"" + clientSecret +"\" }";
+RequestBody body = RequestBody.create(authenticationPayload, MEDIA_TYPE_JSON);
+Request request = new Request.Builder().url(authenticateUrl).post(body).build();
+Response response = null;
+String authToken = null;
+try {
+    response = client.newCall(request).execute();
+    String responseBody = response.body().string();
+    if (response.isSuccessful()){
+        authToken = responseBody.replace("\"", "");	
+    } else {
+        throw new IOException("failed to authenticate " + response);
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+    throw e;
+}
+String credentials = "Bearer " + authToken;
+
+String endpointUrl =  xrayCloudApiBaseUrl + "/import/execution"; 
+RequestBody requestBody = null;
+try {
+    String reportContent = new String ( Files.readAllBytes( Paths.get(reportFile) ) );
+    requestBody = RequestBody.create(reportContent, MEDIA_TYPE_JSON);
+} catch (Exception e1) {
+    e1.printStackTrace();
+    throw e1;
+}
+
+request = new Request.Builder().url(endpointUrl).post(requestBody).addHeader("Authorization", credentials).build();
+response = null;
+try {
+    response = client.newCall(request).execute();
+    String responseBody = response.body().string();
+    if (response.isSuccessful()){
+        JSONObject responseObj = new JSONObject(responseBody);
+        System.out.println("Test Execution: " + responseObj.get("key"));
+        return(responseBody);
+    } else {
+        throw new IOException("Unexpected HTTP code " + response);
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+    throw e;
+}
+```
+
+If you use the sample client library code, it could become as simple as:
+
+```java
+XrayResultsImporter xrayImporter = new XrayResultsImporter.CloudBuilder(clientId, clientSecret).build();
+String response = xrayImporter.submit(XrayResultsImporter.XRAY_FORMAT, xrayJsonCloudReport);
+```
+
+#### JavaScript
+
+##### Xray server/DC
+
+```javascript
+var btoa = require('btoa');
+var axios = require('axios');
+var fs = require('fs');
+var FormData = require('form-data');
+
+var jira_base_url = "http://192.168.56.102";
+var personal_access_token = "OTE0ODc2NDE2NTgxOnrhigwOreFoyNIA9lXTZaOcgbNY";
+
+//var basicAuth = 'Basic ' + btoa(jira_username + ':' + jira_password);
+
+const report_content = fs.readFileSync("xray_dc.json").toString();
+console.log(report_content);
+
+var endpoint_url = jira_base_url + "/rest/raven/2.0/import/execution";
+axios.post(endpoint_url, report_content, {
+    //headers: { 'Authorization': basicAuth, "Content-Type": "application/json" }
+    headers: { 'Authorization': "Bearer " + personal_access_token, "Content-Type": "application/json" }
+}).then(function(response) {
+    console.log('success');
+    console.log(response.data.testExecIssue.key);
+}).catch(function(error) {
+    console.log('Error submiting results: ' + error);
+});
+```
+
+##### Xray Cloud
+
+```javascript
+var btoa = require('btoa');
+var axios = require('axios');
+var fs = require('fs');
+var FormData = require('form-data');
+
+var xray_cloud_base_url = "https://xray.cloud.getxray.app/api/v2";
+var client_id = process.env.CLIENT_ID || "215FFD69FE4644728C72182E00000000";
+var client_secret = process.env.CLIENT_SECRET || "1c00f8f22f56a8684d7c18cd6147ce2787d95e4da9f3bfb0af8f02ec00000000";
+
+var authenticate_url = xray_cloud_base_url + "/authenticate";
+
+axios.post(authenticate_url, { "client_id": client_id, "client_secret": client_secret }, {}).then( (response) => {
+    console.log('success');
+    var auth_token = response.data;
+    console.log("AUTH: " + auth_token);
+
+    const report_content = fs.readFileSync("xray_cloud.json").toString();
+    console.log(report_content);
+
+    var endpoint_url = xray_cloud_base_url + "/import/execution";
+    axios.post(endpoint_url, report_content, {
+        headers: { 'Authorization': "Bearer " + auth_token, "Content-Type": "application/json" }
+    }).then(function(res) {
+        console.log('success');
+        console.log(res.data.key);
+    }).catch(function(error) {
+        console.log('Error submiting results: ' + error);
+    });
+}).catch( (error) => {
+    console.log('Error on Authentication: ' + error);
+});
+```
+
+#### Python
+
+##### Xray server/DC
+
+```python
+import requests
+from base64 import urlsafe_b64encode as b64e
+
+jira_base_url = "http://192.168.56.102"
+jira_username = "admin"
+jira_password = "admin"
+personal_access_token = "OTE0ODc2NDE2NTgxOnrhigwOreFoyNIA9lXTZaOcgbNY"
+
+
+# endpoint doc for importing Xray JSON reports: https://docs.getxray.app/display/XRAY/Import+Execution+Results+-+REST#ImportExecutionResultsREST-XrayJSONresults
+report_content = open(r'xray_dc.json', 'rb')
+
+# importing results using HTTP basic authentication
+# response = requests.post(f'{jira_base_url}/rest/raven/2.0/import/execution', params=params, data=report_content, auth=(jira_username, jira_password), headers=headers)
+
+# importing results using Personal Access Tokens
+headers = {'Authorization': 'Bearer ' + personal_access_token, 'Content-Type': 'application/json'}
+response = requests.post(f'{jira_base_url}/rest/raven/2.0/import/execution', data=report_content, headers=headers)
+
+print(response.status_code)
+print(response.content)
+```
+
+##### Xray Cloud
+
+```python
+import requests
+import json
+import os
+
+xray_cloud_base_url = "https://xray.cloud.getxray.app/api/v2"
+client_id = os.getenv('CLIENT_ID', "215FFD69FE4644728C72182E00000000")
+client_secret = os.getenv('CLIENT_SECRET',"1c00f8f22f56a8684d7c18cd6147ce2787d95e4da9f3bfb0af8f02ec00000000")
+
+# endpoint doc for authenticating and obtaining token from Xray Cloud: https://docs.getxray.app/display/XRAYCLOUD/Authentication+-+REST+v2
+headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+auth_data = { "client_id": client_id, "client_secret": client_secret }
+response = requests.post(f'{xray_cloud_base_url}/authenticate', data=json.dumps(auth_data), headers=headers)
+auth_token = response.json()
+# print(auth_token)
+
+# endpoint doc for importing Xray JSON reports: https://docs.getxray.app/display/XRAYCLOUD/Import+Execution+Results+-+REST#ImportExecutionResultsREST-XrayJSONresults
+report_content = open(r'xray_cloud.json', 'rb')
+headers = {'Authorization': 'Bearer ' + auth_token, 'Content-Type': 'application/json'}
+response = requests.post(f'{xray_cloud_base_url}/import/execution', data=report_content, headers=headers)
+
+print(response.status_code)
+print(response.content)
+```
+
+### Importing results from JUnit to a given Jira project, identified by its key, for a specific version/release
+
+This example shows how to either use HTTP basic authentication or Personal Access tokens.
+It uses the "standard" JUnit endpoint provided by Xray for this purpose.
+If using TestNG, Robot Framework, NUnit, or xUnit reports, the request would be similar.
+
+#### Java
+
+Please check the [possible implementation](java/xray-code-snippets/src/main/java/com/xblend/xray/XrayResultsImporter.java) of a Java client library.
+
+You can find these, or similar, [examples in a sample ImportResultsExamples class](java/xray-code-snippets/src/main/java/com/xblend/xray/ImportResultsExamples.java).
+
+##### Xray server/DC
+
+```java
 final MediaType MEDIA_TYPE_XML = MediaType.parse("application/xml");
 
 String jiraBaseUrl = System.getenv().getOrDefault("JIRA_BASE_URL", "http://192.168.56.102");
@@ -56,7 +315,7 @@ String revision = null;
 String testPlanKey = "CALC-8895";
 String testEnvironment = "chrome";
 
-System.out.println("Importing a Robot Framework XML report to a Xray Server/Data Center instance...");
+System.out.println("Importing a JUnit XML report to a Xray Server/Data Center instance...");
 
 OkHttpClient client = new OkHttpClient();
 String credentials;
@@ -66,12 +325,12 @@ if (jiraPersonalAccessToken!= null) {
     credentials = Credentials.basic(jiraUsername, jiraPassword);
 } 
 
-String endpointUrl = jiraBaseUrl + "/rest/raven/2.0/import/execution/robot"; 
+String endpointUrl = jiraBaseUrl + "/rest/raven/2.0/import/execution/junit"; 
 MultipartBody requestBody = null;
 try {
     requestBody = new MultipartBody.Builder()
             .setType(MultipartBody.FORM)
-            .addFormDataPart("file", reportFile, RequestBody.create(MEDIA_TYPE_XML, new File(reportFile)))
+            .addFormDataPart("file", reportFile, RequestBody.create(new File(reportFile), MEDIA_TYPE_XML))
             .build();
 } catch (Exception e1) {
     e1.printStackTrace();
@@ -100,7 +359,82 @@ Request request = new Request.Builder().url(builder.build()).post(requestBody).a
 Response response = null;
 try {
     response = client.newCall(request).execute();
-    String responseBody = response.body().string();            
+    String responseBody = response.body().string();
+    if (response.isSuccessful()){
+        JSONObject responseObj = new JSONObject(responseBody);
+        System.out.println("Test Execution: "+((JSONObject)(responseObj.get("testExecIssue"))).get("key"));
+        return(responseBody);
+    } else {
+        throw new IOException("Unexpected HTTP code " + response);
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+    throw(e);
+}
+```
+
+##### Xray Cloud
+
+```java
+final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json");
+final MediaType MEDIA_TYPE_XML = MediaType.parse("application/xml");
+
+String jiraBaseUrl = System.getenv().getOrDefault("JIRA_BASE_URL", "http://192.168.56.102");
+String jiraUsername = System.getenv().getOrDefault("JIRA_USERNAME", "admin");
+String jiraPassword = System.getenv().getOrDefault("JIRA_PASSWORD", "admin");
+String jiraPersonalAccessToken = System.getenv().getOrDefault("JIRA_TOKEN", "OTE0ODc2NDE2NTgxOnrhigwOreFoyNIA9lXTZaOcgbNY");
+
+String projectKey = "CALC";
+String fixVersion = "v1.0";
+String revision = null;
+String testPlanKey = "CALC-8895";
+String testEnvironment = "chrome";
+
+System.out.println("Importing a JUnit XML report to a Xray Server/Data Center instance...");
+
+OkHttpClient client = new OkHttpClient();
+String credentials;
+if (jiraPersonalAccessToken!= null) {
+    credentials = "Bearer " + jiraPersonalAccessToken;
+} else {
+    credentials = Credentials.basic(jiraUsername, jiraPassword);
+} 
+
+String endpointUrl = jiraBaseUrl + "/rest/raven/2.0/import/execution/junit"; 
+MultipartBody requestBody = null;
+try {
+    requestBody = new MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("file", reportFile, RequestBody.create(MEDIA_TYPE_XML, new File(reportFile)))
+            .build();
+} catch (Exception e1) {
+    e1.printStackTrace();
+    throw e1;
+}
+
+HttpUrl url = HttpUrl.get(endpointUrl);
+HttpUrl.Builder builder = url.newBuilder();
+if (projectKey != null) {
+    builder.addQueryParameter("projectKey", projectKey);
+}
+if (fixVersion != null) {
+    builder.addQueryParameter("fixVersion", fixVersion);
+}
+if (revision != null) {
+    builder.addQueryParameter("revision", revision);
+}
+if (testPlanKey != null) {
+    builder.addQueryParameter("testPlanKey", testPlanKey);
+}
+if (testEnvironment != null) {
+    builder.addQueryParameter("testEnvironment", testEnvironment);
+}
+
+Request request = new Request.Builder().url(builder.build()).post(requestBody).addHeader("Authorization", credentials).build();
+Response response = null;
+try {
+    response = client.newCall(request).execute();
+    String responseBody = response.body().string();
     if (response.isSuccessful()){
         JSONObject responseObj = new JSONObject(responseBody);
         System.out.println("Test Execution: "+((JSONObject)(responseObj.get("testExecIssue"))).get("key"));
@@ -119,7 +453,7 @@ If you use the sample client library code, it could become as simple as:
 ```java
 XrayResultsImporter xrayImporter = new XrayResultsImporter.ServerDCBuilder(jiraBaseUrl, jiraUsername, jiraPassword).withProjectKey("CALC").withVersion("1.0").withTestPlanKey("CALC-8895")..withTestEnvironment("chrome").build();
 // XrayResultsImporter xrayImporter = new XrayResultsImporter.ServerDCBuilder(jiraBaseUrl, jiraPersonalAccessToken).withProjectKey("CALC").withVersion("1.0").withTestPlanKey("CALC-8895").withTestEnvironment("chrome").build();
-String response = xrayImporter.submit(XrayResultsImporter.ROBOT_FORMAT, robotReport);
+String response = xrayImporter.submit(XrayResultsImporter.JUNIT_FORMAT, junitReport);
 ````
 
 ##### Xray Cloud
@@ -139,7 +473,7 @@ String revision = null;
 String testPlanKey = "CALC-8895";
 String testEnvironment = "chrome";
 
-System.out.println("Importing a Robot Framework XML report to a Xray Cloud instance...");
+System.out.println("Importing a JUnit XML report to a Xray Cloud instance...");
 
 OkHttpClient client = new OkHttpClient();
 String authenticationPayload = "{ \"client_id\": \"" + clientId +"\", \"client_secret\": \"" + clientSecret +"\" }";
@@ -149,9 +483,9 @@ Response response = null;
 String authToken = null;
 try {
     response = client.newCall(request).execute();
-    String responseBody = response.body().string();    
+    String responseBody = response.body().string();
     if (response.isSuccessful()){
-        authToken = responseBody.replace("\"", "");	
+        authToken = responseBody.replace("\"", "");
     } else {
         throw new IOException("failed to authenticate " + response);
     }
@@ -161,7 +495,7 @@ try {
 }
 String credentials = "Bearer " + authToken;
 
-String endpointUrl =  xrayCloudApiBaseUrl + "/import/execution/robot"; 
+String endpointUrl =  xrayCloudApiBaseUrl + "/import/execution/junit"; 
 RequestBody requestBody = null;
 try {
     String reportContent = new String ( Files.readAllBytes( Paths.get(reportFile) ) );
@@ -193,7 +527,7 @@ request = new Request.Builder().url(builder.build()).post(requestBody).addHeader
 response = null;
 try {
     response = client.newCall(request).execute();
-    String responseBody = response.body().string();                
+    String responseBody = response.body().string();
     if (response.isSuccessful()){
         JSONObject responseObj = new JSONObject(responseBody);
         System.out.println("Test Execution: " + responseObj.get("key"));
@@ -211,7 +545,7 @@ If you use the sample client library code, it could become as simple as:
 
 ```java
 XrayResultsImporter xrayImporter = new XrayResultsImporter.CloudBuilder(clientId, clientSecret).withProjectKey("CALC").withVersion("1.0").withTestPlanKey("CALC-8895").withTestEnvironment("chrome").build();
-String response = xrayImporter.submit(XrayResultsImporter.ROBOT_FORMAT, robotReport);
+String response = xrayImporter.submit(XrayResultsImporter.JUNIT_FORMAT, junitReport);
 ````
 
 #### JavaScript
@@ -234,13 +568,13 @@ var personal_access_token = "OTE0ODc2NDE2NTgxOnrhigwOreFoyNIA9lXTZaOcgbNY";
 
 //var basicAuth = 'Basic ' + btoa(jira_username + ':' + jira_password);
 
-const report_content = fs.readFileSync("output.xml").toString();
+const report_content = fs.readFileSync("junit.xml").toString();
 console.log(report_content);
 
 var bodyFormData = new FormData();
-bodyFormData.append('file', report_content, 'output.xml'); 
+bodyFormData.append('file', report_content, 'junit.xml'); 
 
-var endpoint_url = jira_base_url + "/rest/raven/2.0/import/execution/robot";
+var endpoint_url = jira_base_url + "/rest/raven/2.0/import/execution/junit";
 const params = new URLSearchParams({
     projectKey: "CALC"
 }).toString();
@@ -275,11 +609,11 @@ response = requests.post(f'{xray_cloud_base_url}/authenticate', data=json.dumps(
 auth_token = response.json()
 print(auth_token)
 
-# endpoint doc for importing Robot Framework XML reports: https://docs.getxray.app/display/XRAYCLOUD/Import+Execution+Results+-+REST+v2#ImportExecutionResultsRESTv2-RobotFrameworkXMLresults
+# endpoint doc for importing JUnit XML reports: https://docs.getxray.app/display/XRAYCLOUD/Import+Execution+Results+-+REST#ImportExecutionResultsREST-JUnitXMLresults
 params = (('projectKey', 'BOOK'),('fixVersion','1.0'))
-report_content = open(r'output.xml', 'rb')
+report_content = open(r'junit.xml', 'rb')
 headers = {'Authorization': 'Bearer ' + auth_token, 'Content-Type': 'application/xml'}
-response = requests.post(f'{xray_cloud_base_url}/import/execution/robot', params=params, data=report_content, headers=headers)
+response = requests.post(f'{xray_cloud_base_url}/import/execution/junit', params=params, data=report_content, headers=headers)
 
 print(response.content)
 ```
@@ -305,16 +639,16 @@ jira_password = "admin"
 personal_access_token = "OTE0ODc2NDE2NTgxOnrhigwOreFoyNIA9lXTZaOcgbNY"
 
 
-# endpoint doc for importing Robot Framework XML reports: https://docs.getxray.app/display/XRAY/Import+Execution+Results+-+REST#ImportExecutionResultsREST-RobotFrameworkXMLresults
+# endpoint doc for importing JUnit XML reports: https://docs.getxray.app/display/XRAY/Import+Execution+Results+-+REST#ImportExecutionResultsREST-JUnitXMLresults
 params = (('projectKey', 'CALC'),('fixVersion','v1.0'))
-files = {'file': ('output.xml', open(r'output.xml', 'rb')),}
+files = {'file': ('output.xml', open(r'junit.xml', 'rb')),}
 
 # importing results using HTTP basic authentication
-# response = requests.post(f'{jira_base_url}/rest/raven/2.0/import/execution/robot', params=params, files=files, auth=(jira_username, jira_password))
+# response = requests.post(f'{jira_base_url}/rest/raven/2.0/import/execution/junit', params=params, files=files, auth=(jira_username, jira_password))
 
 # importing results using Personal Access Tokens 
 headers = {'Authorization': 'Bearer ' + personal_access_token}
-response = requests.post(f'{jira_base_url}/rest/raven/1.0/import/execution/robot', params=params, files=files, headers=headers)
+response = requests.post(f'{jira_base_url}/rest/raven/2.0/import/execution/junit', params=params, files=files, headers=headers)
 
 print(response.status_code)
 print(response.content)
@@ -337,16 +671,16 @@ response = requests.post(f'{xray_cloud_base_url}/authenticate', data=json.dumps(
 auth_token = response.json()
 print(auth_token)
 
-# endpoint doc for importing Robot Framework XML reports: https://docs.getxray.app/display/XRAYCLOUD/Import+Execution+Results+-+REST+v2#ImportExecutionResultsRESTv2-RobotFrameworkXMLresults
+# endpoint doc for importing JUnit XML reports: https://docs.getxray.app/display/XRAYCLOUD/Import+Execution+Results+-+REST#ImportExecutionResultsREST-JUnitXMLresults
 params = (('projectKey', 'BOOK'),('fixVersion','1.0'))
-report_content = open(r'output.xml', 'rb')
+report_content = open(r'junit.xml', 'rb')
 headers = {'Authorization': 'Bearer ' + auth_token, 'Content-Type': 'application/xml'}
-response = requests.post(f'{xray_cloud_base_url}/import/execution/robot', params=params, data=report_content, headers=headers)
+response = requests.post(f'{xray_cloud_base_url}/import/execution/junit', params=params, data=report_content, headers=headers)
 
 print(response.content)
 ```
 
-#### Importing results from Cucumber
+### Importing results from Cucumber
   
 This example shows how to either use HTTP basic authentication or Personal Access tokens.
 It uses the "standard" Cucumber endpoint provided by Xray. This endpoint doesn't provide the ability to define additional parameters, such as project, version, Test Plan, Test Environment. To accomplish that, we need to use the "multipart" endpoint instead.
@@ -354,7 +688,9 @@ Whenever importing results using the Cucumber "standard" endpoint, a Test Execut
 
 #### Java
 
-Please check the [possible implementation](java/xray-code-snippets/src/main/java/com/idera/xray/XrayResultsImporter.java) of a Java client library.
+Please check the [possible implementation](java/xray-code-snippets/src/main/java/com/xblend/xray/XrayResultsImporter.java) of a Java client library.
+
+You can find these, or similar, [examples in a sample ImportResultsExamples class](java/xray-code-snippets/src/main/java/com/xblend/xray/ImportResultsExamples.java).
 
 ##### Xray server/DC
 
@@ -558,7 +894,9 @@ It uses the "multipart" Cucumber endpoint provided by Xray so we can specify the
   
 #### Java
 
-Please check the [possible implementation](java/xray-code-snippets/src/main/java/com/idera/xray/XrayResultsImporter.java) of a Java client library.
+Please check the [possible implementation](java/xray-code-snippets/src/main/java/com/xblend/xray/XrayResultsImporter.java) of a Java client library.
+
+You can find these, or similar, [examples in a sample ImportResultsExamples class](java/xray-code-snippets/src/main/java/com/xblend/xray/ImportResultsExamples.java).
 
 ##### Xray server/DC
 
@@ -748,7 +1086,7 @@ files = {
         }
 
 # importing results using HTTP basic authentication
-# response = requests.post(f'{jira_base_url}/rest/raven/2.0/import/execution/robot', params=params, files=files, auth=(jira_username, jira_password))
+# response = requests.post(f'{jira_base_url}/rest/raven/2.0/import/execution/junit', params=params, files=files, auth=(jira_username, jira_password))
 
 # importing results using Personal Access Tokens 
 headers = {'Authorization': 'Bearer ' + personal_access_token}

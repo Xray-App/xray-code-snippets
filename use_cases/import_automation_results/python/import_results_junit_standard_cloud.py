@@ -13,10 +13,10 @@ response = requests.post(f'{xray_cloud_base_url}/authenticate', data=json.dumps(
 auth_token = response.json()
 print(auth_token)
 
-# endpoint doc for importing Robot Framework XML reports: https://docs.getxray.app/display/XRAYCLOUD/Import+Execution+Results+-+REST+v2#ImportExecutionResultsRESTv2-RobotFrameworkXMLresults
+# endpoint doc for importing JUnit XML reports: https://docs.getxray.app/display/XRAYCLOUD/Import+Execution+Results+-+REST#ImportExecutionResultsREST-JUnitXMLresults
 params = (('projectKey', 'BOOK'),('fixVersion','1.0'))
-report_content = open(r'robot.xml', 'rb')
+report_content = open(r'junit.xml', 'rb')
 headers = {'Authorization': 'Bearer ' + auth_token, 'Content-Type': 'application/xml'}
-response = requests.post(f'{xray_cloud_base_url}/import/execution/robot', params=params, data=report_content, headers=headers)
+response = requests.post(f'{xray_cloud_base_url}/import/execution/junit', params=params, data=report_content, headers=headers)
 
 print(response.content)

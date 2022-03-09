@@ -8,11 +8,11 @@ var personal_access_token = "OTE0ODc2NDE2NTgxOnrhigwOreFoyNIA9lXTZaOcgbNY";
 
 //var basicAuth = 'Basic ' + btoa(jira_username + ':' + jira_password);
 
-const report_content = fs.readFileSync("output.xml").toString();
+const report_content = fs.readFileSync("robot.xml").toString();
 console.log(report_content);
 
 var bodyFormData = new FormData();
-bodyFormData.append('file', report_content, 'output.xml'); 
+bodyFormData.append('file', report_content, 'robot.xml'); 
 
 var endpoint_url = jira_base_url + "/rest/raven/2.0/import/execution/robot";
 const params = new URLSearchParams({

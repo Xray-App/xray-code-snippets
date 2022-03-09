@@ -14,17 +14,17 @@ axios.post(authenticate_url, { "client_id": client_id, "client_secret": client_s
     var auth_token = response.data;
     // console.log("AUTH: " + auth_token);
 
-    const report_content = fs.readFileSync("output.xml").toString();
+    const report_content = fs.readFileSync("xray_cloud.json").toString();
     //console.log(report_content);
     
-    var endpoint_url = xray_cloud_base_url + "/import/execution/robot/multipart";
+    var endpoint_url = xray_cloud_base_url + "/import/execution/multipart";
     
         var info_json = { 
             "fields": {
                 "project": {
                     "key": "BOOK"
                 },
-                "summary": "Test Execution for robot Execution",
+                "summary": "Test Execution for some tests",
                 "description": "This contains test automation results",
                 "issuetype": {
                     "name": "Test Execution"
@@ -32,7 +32,7 @@ axios.post(authenticate_url, { "client_id": client_id, "client_secret": client_s
             }
         };
         var bodyFormData = new FormData();
-        bodyFormData.append('results', report_content, 'robot.xml'); 
+        bodyFormData.append('results', report_content, 'xray.json'); 
         bodyFormData.append('info', JSON.stringify(info_json), 'info.json'); 
         console.log(JSON.stringify(info_json));
 
