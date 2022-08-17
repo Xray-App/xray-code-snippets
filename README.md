@@ -18,7 +18,7 @@ Although similar, Xray for Jira server/data center (DC) and Xray for Jira Cloud 
 ## Use cases
 
 - [Import test automation results](use_cases/import_automation_results/README.md)
-
+- [Usage of GraphQL API in Xray Cloud](use_cases/graphql_api_usage/README.md)
 
 ## Contact
 
@@ -30,7 +30,6 @@ For Xray specific questions, please contact [Xray's support team](https://jira.g
 - [Xray server/DC REST API](https://docs.getxray.app/display/XRAY/REST+API)
 - [Xray cloud REST API](https://docs.getxray.app/display/XRAYCLOUD/REST+API)
 - [Xray cloud GraphQL API](https://docs.getxray.app/display/XRAYCLOUD/GraphQL+API)
-
 
 ## LICENSE
 

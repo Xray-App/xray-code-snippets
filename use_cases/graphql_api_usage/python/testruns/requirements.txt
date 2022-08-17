@@ -1,0 +1,4 @@
+requests
+gql
+gql[aiohttp]
+
