@@ -168,7 +168,7 @@ axios.post(authenticate_url, { "client_id": client_id, "client_secret": client_s
           console.log('Error performing query: ' + error);
       });
     }).catch(function(error) {
-      console.log('Error performing first query to obtain project id: ' + error);
+      console.log('Error performing first query to obtain test ids: ' + error);
     });
 }).catch( (error) => {
     console.log('Error on Authentication: ' + error);
