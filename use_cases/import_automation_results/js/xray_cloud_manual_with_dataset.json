@@ -1,0 +1,98 @@
+{
+    "info" : {
+        "summary" : "Execution of automated tests",
+        "description" : "This execution is automatically created when importing execution results from an external source",
+        "project" : "CALC",
+        "version" : "v1.0",
+        "revision" : "1234",
+        "startDate" : "2014-08-30T11:47:35+01:00",
+        "finishDate" : "2014-08-30T11:53:00+01:00",
+        "testEnvironments": ["Chrome"]
+    },
+    "tests" : [
+        {
+            "start" : "2014-08-30T11:47:35+01:00",
+            "finish" : "2014-08-30T11:50:56+01:00",
+            "status" : "PASSED",
+
+            "testInfo": {
+                "summary": "Strong password validation",
+                "type": "Manual",
+                "projectKey": "CALC",
+                "steps": [
+                    {
+                        "action": "Open the Change Password screen by selecting option \"My Profile > Password\"",
+                        "data": "",
+                        "result": ""
+                    },
+                    {
+                        "action": "Fill the password fields with data",
+                        "data": "Current Password: ${Password}\nNew Password: ${Password}\nConfirm New Password: ${Password}",
+                        "result": "The new password is: ${Valid}\nError:\n${Message}"
+                    }
+                ]
+            },
+
+            "iterations": [
+              {
+                "name": "Iteration 1",
+                "parameters": [
+                    {
+                        "name": "Password",
+                        "value": "2635ftvu23v7t!09"
+                    },
+                    {
+                        "name": "Valid",
+                        "value": "Valid"
+                    },
+                    {
+                        "name": "Message",
+                        "value": ""
+                    }
+                ],
+                "log": "Password changed successfully",
+                "status": "PASSED",
+                "steps": [
+                    {
+                        "actualResult": "",
+                        "status": "PASSED"
+                    },
+                    {
+                        "actualResult": "Password changed successfully",
+                        "status": "PASSED"
+                    }
+                ]
+              },
+              {
+                "name": "Iteration 2",
+                "parameters": [
+                    {
+                        "name": "Password",
+                        "value": "123123"
+                    },
+                    {
+                        "name": "Valid",
+                        "value": "Not Valid"
+                    },
+                    {
+                        "name": "Message",
+                        "value": "Password is too simple."
+                    }
+                ],
+                "log": "Password validation check failed. Password too simple!",
+                "status": "FAILED",
+                "steps": [
+                    {
+                        "actualResult": "",
+                        "status": "PASSED"
+                    },
+                    {
+                        "actualResult": "Password too simple!",
+                        "status": "FAILED"
+                    }
+                ]
+              }
+            ]
+        }
+    ]
+}
