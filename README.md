@@ -3,7 +3,7 @@
 [![license](https://img.shields.io/badge/License-BSD%203--Clause-green.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/Xray-App/community)
 
-This repo contains several source-code snippets that show how to invoke [Xray Test Management for Jira](https://getxray.app) using one of the available APIs (see References at bottom), in different languages and, eventually, different HTTP libraries.
+This repo contains several source-code snippets that show how to invoke [Xray Test Management for Jira](https://getxray.app) using one of the available APIs (see References at bottom), in different languages and, eventually, different HTTP libraries. You can also found examples of how to import from other tools into Xray.
 
 The purpose is to facilitate building out integrations with Xray. Nevertheless, since the open-source community is very active, please check first if there is something already available that meets your needs. There are many packages/libraries already available ([some contributions from the community for Xray server/DC](https://docs.getxray.app/display/XRAY/Integrations+from+the+community+and+other+products)).
 
@@ -20,6 +20,7 @@ Although similar, Xray for Jira server/data center (DC) and Xray for Jira Cloud 
 - [Import test automation results](use_cases/import_automation_results/README.md)
 - [Usage of GraphQL API in Xray Cloud](use_cases/graphql_api_usage/README.md)
 - [Usage of Jira REST API](use_cases/jira_rest_api_usage/README.md)
+- [Import test cases from TestLink](use_cases/import_from_testlink)
 
 ## Contact
 

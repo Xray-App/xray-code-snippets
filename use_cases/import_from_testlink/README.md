@@ -30,8 +30,16 @@ In each directory you have:
         * One configuration Json file that you can use to configure the mappings in the Test Case Importer
     * testlink2Xray.py - Script that will convert XML files to CSV files. 
 
+### Script usage
+
+#### Cloud
 ```Python
 python3 testlink2Xray.py -i one_test_case/LoginValidation.testcase.xml -o one_test_case/LoginValidation.testcase.csv
+```
+
+#### Server
+```Python
+python3 testlink2XrayServer.py -i one_test_case/LoginValidation.testcase.xml -o one_test_case/LoginValidation.testcase.csv
 ```
 
 
