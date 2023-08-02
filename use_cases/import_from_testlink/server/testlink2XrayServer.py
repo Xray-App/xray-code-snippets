@@ -107,7 +107,7 @@ def main(argv):
    #inputfile='RegressionTestSuite.xml'
    #outputfile='RegressionTestSuite2.csv'
    if not inputfile or not outputfile:
-    print ('One of the input parameters is missing, please use: testlink2Xray.py -i <XML_inputfile> -o <CSV_outputfile>')
+    print ('One of the input parameters is missing, please use: testlink2XrayServer.py -i <XML_inputfile> -o <CSV_outputfile>')
     sys.exit()
 
    parseTestlink2XrayData(inputfile, outputfile)
