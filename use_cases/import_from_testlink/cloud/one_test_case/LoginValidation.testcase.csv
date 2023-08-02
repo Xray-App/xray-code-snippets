@@ -1,0 +1,7 @@
+Issue ID,Issue Key,Test Type,Test Summary,Test Priority,Action,Data,Result,Test Set,Precondition,Issue Type,Precondition Type
+1,,,Site is up and running. ,,,,,,,precondition,Manual
+2,,Manual,Validate that an administrator user can login successfully and is redirected to the right page. ,2,Open application main page ,,The application main page is shown to the user whitout any visible error. ,,1,,
+2,,Manual,,,Click on the login button on the top right corner of the app. ,,"A login form pops up with two fields: Username and Password, a ""Login"" button, an option for the ""forget password"" and a ccancel button. ",,,,
+2,,Manual,,,"Insert ""Admin"" in the Username input ",,"The word ""Admin"" appear in the Username input ",,,,
+2,,Manual,,,"Insert ""Pass123"" in the password field ",,"Password ""Pass123"" appear in the password input form ",,,,
+2,,Manual,,,"Click in the ""Login"" button ",,Main page reloads and we can see the login details in the top right corner the app. ,,,,

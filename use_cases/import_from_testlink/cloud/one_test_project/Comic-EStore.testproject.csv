@@ -1,0 +1,22 @@
+Issue ID,Issue Key,Test Type,Test Summary,Test Priority,Action,Data,Result,Test Set,Precondition,Issue Type,Precondition Type
+1,,,Regression Test Suite,,,,,,,testset,
+2,,,Site is up and running. ,,,,,,,precondition,Manual
+3,,Manual,Validate that an administrator user can login successfully and is redirected to the right page. ,2,Open application main page ,,The application main page is shown to the user whitout any visible error. ,1,2,,
+3,,Manual,,,Click on the login button on the top right corner of the app. ,,"A login form pops up with two fields: Username and Password, a ""Login"" button, an option for the ""forget password"" and a ccancel button. ",,,,
+3,,Manual,,,"Insert ""Admin"" in the Username input ",,"The word ""Admin"" appear in the Username input ",,,,
+3,,Manual,,,"Insert ""Pass123"" in the password field ",,"Password ""Pass123"" appear in the password input form ",,,,
+3,,Manual,,,"Click in the ""Login"" button ",,Main page reloads and we can see the login details in the top right corner the app. ,,,,
+4,,,The application must be executing and available at the expected endpoint ,,,,,,,precondition,Manual
+5,,Manual,Tests to validate the main page of the application ,2,Open main page of the application ,,The main page of the applciation appears ,1,4,,
+5,,Manual,,,Scroll down on the main page ,,Products are loaded when you reach the end of page without errors ,,,,
+5,,Manual,,,Check the left menu filters ,,All filters appear ,,,,
+5,,Manual,,,,,,,,,
+6,,,The application is running  Login operation is working ,,,,,,,precondition,Manual
+7,,Manual,Test to validate the ability to checkout of the app ,2,Access the application ,,Tha application main page is shown ,1,6,,
+7,,Manual,,,"Login with user ""John"" ",,User is logged in in the application ,,,,
+7,,Manual,,,Click on a product from the main page ,,The details page of the product is loaded ,,,,
+7,,Manual,,,Add that product to your shopping bag ,,The product appear in your shopping bag ,,,,
+7,,Manual,,,Proceed to check out ,,Validate that the product is there with the right quantities and price ,,,,
+8,,,Authentication Tests,,,,,,,testset,
+9,,,Application is running  User is in the logged in state ,,,,,,,precondition,Manual
+10,,Manual,Validate that the logout is working ,2,,,,8,9,,
