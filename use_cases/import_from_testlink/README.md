@@ -4,7 +4,7 @@
 ## Background
 
 Here you can find some examples showcasing how you can export test cases from TestLink and import them into Xray using Test Case Importer.
-This repository supports the tutorial [Importing TestLink test cases using Test Case Importer](https://docs.getxray.app/display/XRAYCLOUDDRAFT/Importing+TestLink+test+cases+using+Test+Case+Importer)
+This repository supports the tutorial [Importing TestLink test cases using Test Case Importer](https://docs.getxray.app/display/XRAYCLOUD/Importing+TestLink+test+cases+using+Test+Case+Importer)
 
 [TestLink](https://testlink.org/) is an open source test management tool.
 
