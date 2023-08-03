@@ -7,4 +7,5 @@ As Xray uses different issue types (e.g., Test, Test Execution, Test Plan) as ab
 
 Examples of operations you may want to perform:
  - obtain issue keys based on issue ids (mostly relevant for Xray cloud and its primitives that use issue ids instead of issue keys)
+ - add attachment(s) to an existing issue (e.g., Test Execution, Test Plan, Test, etc) in Jira
  - ...
