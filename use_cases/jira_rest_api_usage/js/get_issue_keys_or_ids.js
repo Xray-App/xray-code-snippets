@@ -14,8 +14,8 @@ var fs = require('fs');
 
 var jira_base_url = "https://xray-demo3.getxray.app/rest/api/2";
 // var personal_access_token = process.env["JIRA_PAT"] || "OTE0ODc2NDE2NTgxOnrhigwOreFoyNIA9lXTZaOcgbNY";
-jira_username = process.env["JIRA_USERNAME"] || "xadmin";
-jira_password = process.env["JIRA_PASSWORD"] || "xispe";
+jira_username = process.env["JIRA_USERNAME"] || "xxx";
+jira_password = process.env["JIRA_PASSWORD"] || "xxx";
 
 
 /* 
