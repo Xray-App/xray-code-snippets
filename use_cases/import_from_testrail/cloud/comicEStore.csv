@@ -1,0 +1,28 @@
+Issue ID,Issue Key,Test Type,Test Summary,Test Priority,Action,Data,Result,Test Repo,Precondition,Issue Type,Precondition Type,Unstructured Definition,Labels
+1,,,Test Case Step *TEXT* Precondition,,,,,,,precondition,Manual,,
+2,,Manual,Test Case Steps (Text),3,"%Var3 
+%Var4
+",, ![](index.php?/attachments/get/d8d1d9e0-fe4c-43c8-b894-dfd83d9c160c) ,Test Cases,1,,,,Destructive
+3,,Generic,Automated Checkout,1,,,,Test Cases,,,,,Automated
+4,,,Manual Test Case (Steps) Precondition,,,,,,,precondition,Manual,,
+5,,Manual,Manual Test Case (Steps),3,"Login with user *%User1* 
+Expected Result:
+Application redirects you to the main page in a logged in state",,,Test Cases/Regression,4,,,,UAT
+5,,Manual,,3,First step description,Additional step description,Expected result for the first step,,,,,,
+5,,Manual,,3,Second step description with two variables: %Var1% and %Var2% ,Additional step 2 description,Expected result for the second step,,,,,,
+5,,Manual,,3,"Third step with a table:
+
+
+
+
+|||:Name 1|:Last name 2|:Phone 3|:Address 4
+|| John .. | Smack | 111111111 |  Address1
+|| Smith .. | Moon |222222222  |  Address2
+|| Jenkins .. | Stone | 333333333 |  Address3
+|| Ford .. | Mustang |444444444  |  Address4
+",Additional step 2 description (Var1: %Var1% and Var2: %Var2%),Expected result for the third step,,,,,,
+5,,Manual,,3, ![](index.php?/attachments/get/3b93e38b-5609-49c6-a987-8f2f6968121e) , ![](index.php?/attachments/get/5edccf31-330d-4e62-9e8a-324f771d96c8) , ![](index.php?/attachments/get/6c9ccdd6-446f-4b23-9244-3a16b997a0e6) ,,,,,,
+6,,Exploratory,Exploratory Session Test,3,,,,Exploratory Tests,,,,"*Mission:* Exploratory Mission
+ *Goals:* Exploratory Goal
+",Regression
+7,,Manual,Load Tests,3,,,,Performance Tessts,,,,,Performance
