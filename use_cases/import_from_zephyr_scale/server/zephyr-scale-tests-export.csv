@@ -1,0 +1,49 @@
+Issue ID,Issue Key,Test Type,Test Summary,Test Priority,Action,Data,Result,Test Repo,Issue Type,Unstructured Definition,Labels,Component,Description,Links
+1,,Manual,Zephyr second test case (Plain text),2,,,,Test Cases/Plain,,,,,"*Objective*: Second test Objective
+*Details*: Description of the plain text test  
+  
+*Bold*  
+_Italic_  
+Underline  
+  
+Colors: Yellow and Purple  
+  
+Table:  
+  
+
+
+
+| *Column1* | *Column2* | *Column3* |
+| Cell1 | Cell2 | Cell3 |",CE-28
+2,,Manual,Zephyr Scale Test Case (Steps),3,"First step description  
+  
+Bullet list:  
+  
+* *Bold*
+* _Italic_
+* Underline
+
+  
+
+
+
+| Column1 | Column2 |
+| Cell1 | Cell2 |
+
+  
+Normal text.",Test Data field,"Expected Result  
+  
+  
+",Test Cases/Steps,,,,,Zephyr Scale Test Case (Steps) Objective,CE-2
+2,,Manual,,3,"Second step (description)  
+  
+Image link below:  
+[Link|CCUNHA/rest/tests/1.0/attachment/image/1]","Data used in second step  
+  
+
+
+
+| Column | Column2 |
+
+  
+",Expected result,,,,,,Zephyr Scale Test Case (Steps) Objective,

@@ -1,0 +1,24 @@
+{
+  "projectKey" : {
+    "project" : "CE"
+  },
+  "field" : {
+    "Test Summary" : "summary",
+    "Action" : "Action",
+    "Test Repo" : "customfield_10122",
+    "Description" : "description",
+    "Links" : "link-10202",
+    "Data" : "Data",
+    "Labels" : "labels",
+    "Test Priority" : "priority",
+    "Issue ID" : "Test Case Identifier",
+    "Component" : "components",
+    "Result" : "Expected Result"
+  },
+  "link" : { },
+  "projectSelection" : {
+    "project" : "true"
+  },
+  "projectName" : { },
+  "value" : { }
+}

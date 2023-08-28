@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project>
+    <projectId>10601</projectId>
+    <projectKey>CE</projectKey>
+    <modelVersion>1.0</modelVersion>
+    <jiraVersion>8.22.6</jiraVersion>
+    <exportDate>2023-08-28 14:54:30 UTC</exportDate>
+    <folders>
+        <folder fullPath="Test Cases" index="0"/>
+        <folder fullPath="Test Cases/BDD" index="2"/>
+        <folder fullPath="Test Cases/Plain" index="0"/>
+        <folder fullPath="Test Cases/Steps" index="1"/>
+    </folders>
+    <testCases>
+        <testCase id="3" key="CE-T3">
+            <attachments/>
+            <confluencePageLinks/>
+            <createdBy>Cristiano</createdBy>
+            <createdOn>2023-08-28 11:15:59 UTC</createdOn>
+            <customFields/>
+            <folder><![CDATA[Test Cases/BDD]]></folder>
+            <issues/>
+            <labels/>
+            <name><![CDATA[Zephyr third test case (BDD)]]></name>
+            <objective><![CDATA[BDD Test Objective]]></objective>
+            <owner>JIRAUSER10700</owner>
+            <precondition><![CDATA[BDD Objective]]></precondition>
+            <priority><![CDATA[Low]]></priority>
+            <status><![CDATA[Draft]]></status>
+            <parameters/>
+            <testScript type="bdd">
+                <details><![CDATA[Given browser is opened to login page
+When user "<username>" logs in with password "<password>"
+Then error page should be open
+
+Examples:
+    | username  | password |
+    | invalid   |   mode   |
+    | demo      | invalid  |
+    | invalid   | invalid  |]]></details>
+            </testScript>
+            <updatedBy>Cristiano</updatedBy>
+            <updatedOn>2023-08-28 11:17:09 UTC</updatedOn>
+        </testCase>
+        <testCase id="2" key="CE-T2">
+            <attachments/>
+            <confluencePageLinks/>
+            <createdBy>Cristiano</createdBy>
+            <createdOn>2023-08-28 11:14:07 UTC</createdOn>
+            <customFields/>
+            <folder><![CDATA[Test Cases/Plain]]></folder>
+            <issues>
+                <issue>
+                    <key>CE-28</key>
+                    <summary><![CDATA[As a user, I can see comic books from the listing pages]]></summary>
+                </issue>
+            </issues>
+            <labels/>
+            <name><![CDATA[Zephyr second test case (Plain text)]]></name>
+            <objective><![CDATA[Second test Objective]]></objective>
+            <owner>JIRAUSER10700</owner>
+            <precondition><![CDATA[Zephyr precondition field<br /><br />Bullet list:<br /><br /><ul><li><strong>Bold</strong></li><li><em>Italic</em></li><li><u>Underline</u></li></ul>Colors: <span style="color:rgb(44, 130, 201)">Blue</span> and <span style="color:rgb(184, 49, 47)">Red</span><br /><br />Table:<br /><br /><table><tbody><tr><td><strong>Column1</strong></td><td><strong>Column2</strong></td><td><strong>Column3</strong></td></tr><tr><td>Cell1</td><td>Ceel2</td><td>Cell3</td></tr></tbody></table><br /><br />Normal Text]]></precondition>
+            <priority><![CDATA[High]]></priority>
+            <status><![CDATA[Draft]]></status>
+            <parameters/>
+            <testScript type="plain">
+                <details><![CDATA[Description of the plain text test<br /><br /><strong>Bold</strong><br /><em>Italic</em><br /><u>Underline</u><br /><br />Colors: <span style="color:rgb(247, 218, 100)">Yellow</span> and <span style="color:rgb(147, 101, 184)">Purple</span><br /><br />Table:<br /><br /><table style="width:100%"><tbody><tr><td style="width:33.3333%"><strong>Column1</strong></td><td style="width:33.3333%"><strong>Column2</strong><br /></td><td style="width:33.3333%"><strong>Column3</strong><br /></td></tr><tr><td style="width:33.3333%">Cell1</td><td style="width:33.3333%">Cell2</td><td style="width:33.3333%">Cell3</td></tr></tbody></table><br />]]></details>
+            </testScript>
+            <updatedBy>Cristiano</updatedBy>
+            <updatedOn>2023-08-28 14:51:02 UTC</updatedOn>
+        </testCase>
+        <testCase id="1" key="CE-T1">
+            <attachments/>
+            <confluencePageLinks/>
+            <createdBy>Cristiano</createdBy>
+            <createdOn>2023-08-28 11:05:34 UTC</createdOn>
+            <customFields/>
+            <folder><![CDATA[Test Cases/Steps]]></folder>
+            <issues>
+                <issue>
+                    <key>CE-2</key>
+                    <summary><![CDATA[Checkout workflow]]></summary>
+                </issue>
+            </issues>
+            <labels/>
+            <name><![CDATA[Zephyr Scale Test Case (Steps)]]></name>
+            <objective><![CDATA[Zephyr Scale Test Case (Steps) Objective]]></objective>
+            <owner>JIRAUSER10700</owner>
+            <precondition><![CDATA[Zephyr Scale Test Case (Steps) - <strong>Precondition</strong>]]></precondition>
+            <priority><![CDATA[Normal]]></priority>
+            <status><![CDATA[Draft]]></status>
+            <parameters/>
+            <testScript type="steps">
+                <steps>
+                    <step index="0">
+                        <customFields/>
+                        <description><![CDATA[First step description<br /><br />Bullet list:<br /><br /><ul><li><strong>Bold</strong></li><li><em>Italic</em></li><li><u>Underline</u></li></ul><br /><table style="width:100%"><tbody><tr><td style="width:50.0000%">Column1</td><td style="width:50.0000%">Column2</td></tr><tr><td style="width:50.0000%">Cell1</td><td style="width:50.0000%">Cell2</td></tr></tbody></table><br />Normal text.]]></description>
+                        <expectedResult><![CDATA[Expected Result<br /><br /><br />]]></expectedResult>
+                        <testData><![CDATA[Test Data field]]></testData>
+                    </step>
+                    <step index="1">
+                        <customFields/>
+                        <description><![CDATA[Second step (description)<br /><br />Image link below:<br /><img src="../rest/tests/1.0/attachment/image/1" style="width:300px" class="fr-fil fr-dib" />]]></description>
+                        <expectedResult><![CDATA[Expected result]]></expectedResult>
+                        <testData><![CDATA[Data used in second step<br /><br /><table style="width:100%"><tbody><tr><td style="width:50.0000%">Column</td><td style="width:50.0000%">Column2</td></tr></tbody></table><br />]]></testData>
+                    </step>
+                </steps>
+            </testScript>
+            <updatedBy>Cristiano</updatedBy>
+            <updatedOn>2023-08-28 14:53:05 UTC</updatedOn>
+        </testCase>
+    </testCases>
+</project>
