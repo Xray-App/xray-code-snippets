@@ -33,6 +33,12 @@ The output for cloud version creates preconditions and test sections (if they ex
 ```Python
 python3 testrail2XrayServer.py -i comic_estore.xml -o comicEstore.csv
 ```
+Another option is also available to complete the links sent in the XMl by TestRail. This endpoint entry will be concatenated with the URL from the links in steps.
+
+```Python
+python3 testrail2XrayServer.py -i comic_estore.xml -o comicEstore.csv -e https://testrail.com/
+```
+
 The output for server version only creates the tests into Xray and the Test Repo structure. Creation and association of preconditions must be done separately. It only supports Manual Tests.
 
 

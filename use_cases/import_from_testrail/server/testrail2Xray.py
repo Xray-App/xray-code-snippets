@@ -14,7 +14,6 @@ def cleanTags(txt):
     if txt:
         cleanTxt = re.sub(QUOTES, '"', txt)
         cleanTxt = re.sub(CLEANR, '', cleanTxt)
-        #cleanTxt = re.sub(EMPTYSPACES, ' ', cleanTxt)
     else:
         cleanTxt = ''
 
@@ -46,19 +45,30 @@ def getTestType(type):
 
     return testType
 
-def appendRows(issueID='', issueKey='', testType=None, testSummary=None, testPriority=None, action=None, data=None, result=None, testRepo=None, labels=None):
+ENDPOINT = re.compile(r'(\!\[\]\(index.php)(.*?)(\))')
+def handleSteps(text, outputtestrailEndpoint):
+    result = ''
+    startTag = '![](index.php'
+    text = cleanTags(text)
+    if startTag in text:
+        result=re.sub(ENDPOINT, r'[Link|'+outputtestrailEndpoint+'index.php'+r'\2]',text)
+    else:
+        result = text
+    return result
+
+def appendRows(issueID='', issueKey='', testType=None, testSummary=None, testPriority=None, action=None, data=None, result=None, testRepo=None, labels=None, outputtestrailEndpoint=None):
     row.append({"Issue ID": issueID,
                 "Issue Key": '',
                 "Test Type": getTestType(testType),
                 "Test Summary": cleanTags(testSummary.text) if testSummary is not None else '',
                 "Test Priority": getPriorityValue(testPriority.text) if testPriority is not None else '3',
-                "Action": cleanTags(action.text) if action is not None else '',
-                "Data": cleanTags(data.text) if data is not None else '',
-                "Result": cleanTags(result.text) if result is not None else '',
+                "Action": handleSteps(action.text, outputtestrailEndpoint) if action is not None else '',
+                "Data": handleSteps(data.text, outputtestrailEndpoint) if data is not None else '',
+                "Result": handleSteps(result.text, outputtestrailEndpoint) if result is not None else '',
                 "Test Repo": testRepo if testRepo else '',
                 "Labels": labels.text if labels is not None else ''})
 
-def handleTestSections(root, issueID, outputfile, repoName):
+def handleTestSections(root, issueID, outputfile, repoName, outputtestrailEndpoint):
     if root.tag == 'suite':
         testsections = root.findall('sections/section')
     else:
@@ -93,7 +103,7 @@ def handleTestSections(root, issueID, outputfile, repoName):
                 if steps is not None:
                     # Text field with steps
                     expected = custom.find('expected')
-                    appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority,action=steps,result=expected, testRepo=testRepoName, labels=labels)
+                    appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority,action=steps,result=expected, testRepo=testRepoName, labels=labels, outputtestrailEndpoint=outputtestrailEndpoint)
                     issueID = issueID+1  
                 elif steps_separated is not None:
                     # Steps in different cells
@@ -106,25 +116,22 @@ def handleTestSections(root, issueID, outputfile, repoName):
                         additional_info = step.find('additional_info')
                         hasSteps = True
                         if first_step:
-                            appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority,action=content,result=expected,testRepo=testRepoName, data=additional_info, labels=labels)
+                            appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority,action=content,result=expected,testRepo=testRepoName, data=additional_info, labels=labels, outputtestrailEndpoint=outputtestrailEndpoint)
                             first_step = False
                         else:
-                            appendRows(issueID=issueID,testType=type, action=content,result=expected, data=additional_info)
+                            appendRows(issueID=issueID,testType=type, action=content,result=expected, data=additional_info, outputtestrailEndpoint=outputtestrailEndpoint)
                     if not hasSteps:
-                        appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority, testRepo=testRepoName, data=additional_info)
+                        appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority, testRepo=testRepoName, data=additional_info, outputtestrailEndpoint=outputtestrailEndpoint)
                     issueID = issueID+1  
                 else:
                     #ignore all other types 
                     continue
             else:
-                # Empty line
-                #appendRows(issueID=issueID,testType=labels.text,testSummary=title,testPriority=priority, testRepo=testRepoName, labels=labels)
-                #issueID = issueID+1  
                 continue
         
         innerSection = testsection.find('sections')
         if innerSection is not None:
-            issueID = handleTestSections(root=innerSection, issueID=issueID, outputfile=outputfile, repoName=testRepoName)
+            issueID = handleTestSections(root=innerSection, issueID=issueID, outputfile=outputfile, repoName=testRepoName, outputtestrailEndpoint=outputtestrailEndpoint)
 
         df = pd.DataFrame(row, columns=column)  
         df.set_index("Issue ID", inplace=True)
@@ -132,38 +139,40 @@ def handleTestSections(root, issueID, outputfile, repoName):
     return issueID
 
 
-def parseTestrail2XrayData(inputfile, outputfile):
+def parseTestrail2XrayData(inputfile, outputfile, outputtestrailEndpoint):
     # Parsing XML file
     xmlParse = ET.parse(inputfile)
     root = xmlParse.getroot()
     issueID = 1
 
-    handleTestSections(root=root, issueID=issueID, outputfile=outputfile, repoName=None)
+    handleTestSections(root=root, issueID=issueID, outputfile=outputfile, repoName=None, outputtestrailEndpoint=outputtestrailEndpoint)
     
 def main(argv):
    inputfile = ''
    outputfile = ''
+   outputtestrailEndpoint = ''
 
    try:
-        opts, args = getopt.getopt(argv,"hi:o:",["ifile=","ofile="])
+        opts, args = getopt.getopt(argv,"hi:o:e:",["ifile=","ofile=","efile="])
         for opt, arg in opts:
             if opt == '-h':
-                print ('testrail2Xray.py -i <XML_inputfile> -o <CSV_outputfile>')
+                print ('testrail2Xray.py -i <XML_inputfile> -o <CSV_outputfile> -e <TestRailEndpoint>')
+                print ('-e <TestRailEndpoint> is optional')
                 sys.exit()
             elif opt in ("-i", "--ifile"):
                 inputfile = arg
             elif opt in ("-o", "--ofile"):
                 outputfile = arg
+            elif opt in ("-e", "--efile"):
+                outputtestrailEndpoint = arg
    except Exception as err:
        print ("An exception occurred:", err)
 
-   #inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_testrail/comic_estore.xml'
-   #outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_testrail/comicEStore.csv'
    if not inputfile or not outputfile:
-    print ('One of the input parameters is missing, please use: testrail2Xray.py -i <XML_inputfile> -o <CSV_outputfile>')
+    print ('One of the input parameters is missing, please use: testrail2Xray.py -i <XML_inputfile> -o <CSV_outputfile> ')
     sys.exit()
 
-   parseTestrail2XrayData(inputfile, outputfile)
+   parseTestrail2XrayData(inputfile, outputfile, outputtestrailEndpoint)
 
 if __name__ == "__main__":
    main(sys.argv[1:])
