@@ -1,0 +1,144 @@
+Issue ID,Issue Key,Test Type,Test Summary,Test Priority,Action,Data,Result,Test Repo,Precondition,Issue Type,Precondition Type,Unstructured Definition,Labels,Component,Gherkin definition,Description,Links
+1,,,Zephyr precondition field,,,,,,,precondition,Manual,,,,,Zephyr precondition field,
+2,,Manual,Zephyr first test case (Plain Text),2,,,,Tests,1,,,,,,,"*Objective*: Zephyr test objective
+*Details*: Description of the plain text test  
+  
+Bullet list  
+  
+* *one*
+* _two_
+* three
+
+  
+Table:  
+
+
+
+| Column1 | Column2 |
+| Cell1 | Cell2 |
+
+  
+More description of the Test Case.",
+3,,,BDD Precondition  ,,,,,,,precondition,Cucumber,,,,,"BDD Precondition  
+  
+*Bold*  
+_Italic_  
+  
+Bullet* one
+* two
+* three
+
+  
+
+
+
+| Column1 | Column2 |
+| Cell1 | Cell2 |
+
+  
+",
+4,,Cucumber,Zephyr BDD Test Case,3,,,,Tests,3,,,,,,"Given browser is opened to login page
+When user ""<username>"" logs in with password ""<password>""
+Then error page should be open
+
+Examples:
+    | username  | password |
+    | invalid   |   mode   |
+    | demo      | invalid  |
+    | invalid   | invalid  |",BDD Objective,
+5,,,Test case steps precondition,,,,,,,precondition,Manual,,,,,Test case steps precondition,
+6,,Manual,Zephyr second test case (Steps),3,Step one description,Step one test data,Step one Expected Result,Tests/Regression Tests,5,,,,,,,Test case steps objective,
+6,,Manual,,3,"Step two description  
+  
+*Bold*  
+_Italic_  
+Underline  
+  
+  
+","Step two Test Data  
+  
+***Bold***_Italic_Underline  
+  
+  
+","Step two Expected result  
+  
+*Bold*  
+_Italic_  
+Underline",,,,,,,,,Test case steps objective,
+6,,Manual,,3,"Step three description  
+  
+Colors  
+  
+Blue  
+Red","Step three test data  
+  
+Colors  
+  
+Blue  
+Red","Step three Expected Result  
+  
+Colors  
+  
+Blue  
+Red",,,,,,,,,Test case steps objective,
+6,,Manual,,3,"Step four description  
+  
+table  
+
+
+
+| Column1 | Column2 |
+| Cell1 | Cell2 |
+
+  
+","Step four test data  
+  
+table  
+
+
+
+| Column1 | Column2 |
+| Cell1 | Cell2 |
+
+  
+","Step four Expected Result  
+  
+table  
+
+
+
+| Column1 | Column2 |
+| Cell1 | Cell2 |
+|  |  |
+|  |  |
+
+  
+",,,,,,,,,Test case steps objective,
+6,,Manual,,3,"Step five description  
+  
+[Link|https://smartbear-tm4j-prod-us-west-2-attachment-rich-text.s3.us-west-2.amazonaws.com/embedded-80a83e8ee105d2b385c6087100adf4f43f8fd13a255b2528cf8ace53be7703e3-1692614231114-image2023-3-15_17-10-45.png]","Step five test data  
+  
+[Link|https://smartbear-tm4j-prod-us-west-2-attachment-rich-text.s3.us-west-2.amazonaws.com/embedded-80a83e8ee105d2b385c6087100adf4f43f8fd13a255b2528cf8ace53be7703e3-1692614231114-image2023-3-15_17-10-45.png]  
+","Step five Expected Result  
+  
+",,,,,,,,,Test case steps objective,
+7,,,Zephyr Data Driven Test Case Precondition,,,,,,,precondition,Manual,,,,,Zephyr Data Driven Test Case Precondition,
+8,,Manual,Zephyr Data Driven Test Case,4,Access the main page,NA,The main page is loaded,Tests/Regression Tests,7,,,,,,,Zephyr Data Driven Test Case Objective,
+8,,Manual,,3,Click on the login button,NA,The login pop up appear,,,,,,,,,Zephyr Data Driven Test Case Objective,
+8,,Manual,,3,Insert Username in the username input,NA,The Username appear in the input,,,,,,,,,Zephyr Data Driven Test Case Objective,
+8,,Manual,,3,Insert the Password in the password field,NA,The Password appear in the password field,,,,,,,,,Zephyr Data Driven Test Case Objective,
+8,,Manual,,3,Click on the Submit button,NA,The user in the logged in state,,,,,,,,,Zephyr Data Driven Test Case Objective,
+9,,,NA,,,,,,,precondition,Manual,,,,,NA,
+10,,Manual,Zephyr Test Case (Steps) Login,3,Access main page,NA,Main page is loaded and the login button is visible,Performance,9,,,,,,,Manual steps for the authentication procedure,EWB-444;EWB-445
+10,,Manual,,3,Click on the Login button,NA,The login pop up appear,,,,,,,,,Manual steps for the authentication procedure,
+10,,Manual,,3,Insert Username in the username field,NA,The Username appears in the username field,,,,,,,,,Manual steps for the authentication procedure,
+10,,Manual,,3,Insert Password in the password field,NA,The Password appears in the password field,,,,,,,,,Manual steps for the authentication procedure,
+10,,Manual,,3,Click on the Submit button,NA,The user is in the logged in state,,,,,,,,,Manual steps for the authentication procedure,
+11,,,Zephyr ModularTest Case precondition,,,,,,,precondition,Manual,,,,,Zephyr ModularTest Case precondition,
+12,,Manual,Zephyr Modular test case (Login),3,Access main page,NA,Main page is loaded and the login button is visible,Performance,11,,,,,,,Zephyr modular test case objective,
+12,,Manual,,3,Click on the Login button,NA,The login pop up appear,,,,,,,,,Zephyr modular test case objective,
+12,,Manual,,3,Insert John in the username field,NA,The John appears in the username field,,,,,,,,,Zephyr modular test case objective,
+12,,Manual,,3,Insert passwd1 in the password field,NA,The passwd1 appears in the password field,,,,,,,,,Zephyr modular test case objective,
+12,,Manual,,3,Click on the Submit button,NA,The user is in the logged in state,,,,,,,,,Zephyr modular test case objective,
+12,,Manual,,3,"Click on the ""Basket"" button",NA,User enter s the checkout area and all products saved are present.,,,,,,,,,Zephyr modular test case objective,
+12,,Manual,,3,,,,,,,,,,,,Zephyr modular test case objective,

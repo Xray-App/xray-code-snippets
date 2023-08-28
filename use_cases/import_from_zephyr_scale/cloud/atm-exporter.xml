@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project>
+    <projectId>10007</projectId>
+    <projectKey>EWB</projectKey>
+    <exportDate>2023-08-28 08:35:08 UTC</exportDate>
+    <folders>
+        <folder fullPath="Performance" index="1"/>
+        <folder fullPath="Tests" index="0"/>
+        <folder fullPath="Tests/Regression Tests" index="0"/>
+    </folders>
+    <testCases>
+        <testCase id="98193130" key="EWB-T1">
+            <attachments/>
+            <component><![CDATA[Modules]]></component>
+            <confluencePageLinks/>
+            <createdBy>Cristiano Cunha</createdBy>
+            <createdOn>2023-08-21 10:28:31 UTC</createdOn>
+            <customFields/>
+            <folder><![CDATA[Tests]]></folder>
+            <issues/>
+            <labels/>
+            <name><![CDATA[Zephyr first test case (Plain Text)]]></name>
+            <objective><![CDATA[Zephyr test objective]]></objective>
+            <owner>6064569b352e1e0069ef5bfa</owner>
+            <precondition><![CDATA[Zephyr precondition field]]></precondition>
+            <priority><![CDATA[High]]></priority>
+            <status><![CDATA[Draft]]></status>
+            <parameters/>
+            <testDataWrapper/>
+            <testScript type="plain">
+                <details><![CDATA[Description of the plain text test<br><br>Bullet list<br><br><ul><li><strong>one</strong></li><li><em>two</em>&nbsp;</li><li><u>three</u></li></ul><br>Table:<br><table style="width: 100.0%;"><tbody><tr><td style="width: 50.0%;">Column1</td><td style="width: 50.0%;">Column2</td></tr><tr><td style="width: 50.0%;">Cell1</td><td style="width: 50.0%;">Cell2</td></tr></tbody></table><br>More description of the Test Case.]]></details>
+            </testScript>
+        </testCase>
+        <testCase id="98193720" key="EWB-T3">
+            <attachments/>
+            <confluencePageLinks/>
+            <createdBy>Cristiano Cunha</createdBy>
+            <createdOn>2023-08-21 10:41:33 UTC</createdOn>
+            <customFields/>
+            <folder><![CDATA[Tests]]></folder>
+            <issues/>
+            <labels/>
+            <name><![CDATA[Zephyr BDD Test Case]]></name>
+            <objective><![CDATA[BDD Objective]]></objective>
+            <owner>6064569b352e1e0069ef5bfa</owner>
+            <precondition><![CDATA[BDD Precondition<br><br><strong>Bold</strong><br><em>Italic</em><br><br>Bullet<ul><li>one</li><li>two</li><li>three</li></ul><br><table style="width: 100.0%;"><tbody><tr><td style="width: 50.0%;">Column1</td><td style="width: 50.0%;">Column2</td></tr><tr><td style="width: 50.0%;">Cell1</td><td style="width: 50.0%;">Cell2</td></tr></tbody></table><br>]]></precondition>
+            <priority><![CDATA[Normal]]></priority>
+            <status><![CDATA[Draft]]></status>
+            <parameters/>
+            <testDataWrapper/>
+            <testScript type="bdd">
+                <details><![CDATA[Given browser is opened to login page
+When user "<username>" logs in with password "<password>"
+Then error page should be open
+
+Examples:
+    | username  | password |
+    | invalid   |   mode   |
+    | demo      | invalid  |
+    | invalid   | invalid  |]]></details>
+            </testScript>
+        </testCase>
+        <testCase id="98193533" key="EWB-T2">
+            <attachments/>
+            <confluencePageLinks/>
+            <createdBy>Cristiano Cunha</createdBy>
+            <createdOn>2023-08-21 10:38:16 UTC</createdOn>
+            <customFields/>
+            <folder><![CDATA[Tests/Regression Tests]]></folder>
+            <issues/>
+            <labels/>
+            <name><![CDATA[Zephyr second test case (Steps)]]></name>
+            <objective><![CDATA[Test case steps objective]]></objective>
+            <owner>6064569b352e1e0069ef5bfa</owner>
+            <precondition><![CDATA[Test case steps precondition]]></precondition>
+            <priority><![CDATA[Normal]]></priority>
+            <status><![CDATA[Draft]]></status>
+            <parameters/>
+            <testDataWrapper/>
+            <testScript type="steps">
+                <steps>
+                    <step index="0">
+                        <customFields/>
+                        <description><![CDATA[Step one description]]></description>
+                        <expectedResult><![CDATA[Step one Expected Result]]></expectedResult>
+                        <testData><![CDATA[Step one test data]]></testData>
+                    </step>
+                    <step index="1">
+                        <customFields/>
+                        <description><![CDATA[Step two description<br><br><strong>Bold</strong><br><em>Italic</em><br><u>Underline</u><br><br><br>]]></description>
+                        <expectedResult><![CDATA[Step two Expected result<br><br><strong>Bold</strong><br><em>Italic</em><br><u>Underline</u>]]></expectedResult>
+                        <testData><![CDATA[Step two Test Data<br><br><strong><strong>Bold</strong><br></strong><em>Italic</em><strong><br></strong><u>Underline</u><br><br><br>]]></testData>
+                    </step>
+                    <step index="2">
+                        <customFields/>
+                        <description><![CDATA[Step three description<br><br>Colors<br><br><span style="color: rgb(44,130,201);">Blue</span><br><span style="color: rgb(184,49,47);">Red</span>]]></description>
+                        <expectedResult><![CDATA[Step three Expected Result<br><br>Colors<br><br><span style="color: rgb(44,130,201);">Blue</span><br><span style="color: rgb(184,49,47);">Red</span>]]></expectedResult>
+                        <testData><![CDATA[Step three test data<br><br>Colors<br><br><span style="color: rgb(44,130,201);">Blue</span><br><span style="color: rgb(184,49,47);">Red</span>]]></testData>
+                    </step>
+                    <step index="3">
+                        <customFields/>
+                        <description><![CDATA[Step four description<br><br>table<br><table style="width: 100.0%;"><tbody><tr><td style="width: 50.0%;">Column1</td><td style="width: 50.0%;">Column2<br></td></tr><tr><td style="width: 50.0%;">Cell1</td><td style="width: 50.0%;">Cell2</td></tr></tbody></table><br>]]></description>
+                        <expectedResult><![CDATA[Step four Expected Result<br><br>table<br><table><tbody><tr><td>Column1</td><td>Column2<br></td></tr><tr><td>Cell1</td><td>Cell2</td></tr><tr><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td></tr></tbody></table><br>]]></expectedResult>
+                        <testData><![CDATA[Step four test data<br><br>table<br><table><tbody><tr><td>Column1</td><td>Column2<br></td></tr><tr><td>Cell1</td><td>Cell2</td></tr></tbody></table><br>]]></testData>
+                    </step>
+                    <step index="4">
+                        <customFields/>
+                        <description><![CDATA[Step five description<br><br><img src="https://smartbear-tm4j-prod-us-west-2-attachment-rich-text.s3.us-west-2.amazonaws.com/embedded-80a83e8ee105d2b385c6087100adf4f43f8fd13a255b2528cf8ace53be7703e3-1692614231114-image2023-3-15_17-10-45.png" style="width: 182.0px;" class="fr-fil fr-dib">]]></description>
+                        <expectedResult><![CDATA[Step five Expected Result<br><br>]]></expectedResult>
+                        <testData><![CDATA[Step five test data<br><br><img src="https://smartbear-tm4j-prod-us-west-2-attachment-rich-text.s3.us-west-2.amazonaws.com/embedded-80a83e8ee105d2b385c6087100adf4f43f8fd13a255b2528cf8ace53be7703e3-1692614231114-image2023-3-15_17-10-45.png" class="fr-fic fr-dii"><br>]]></testData>
+                    </step>
+                </steps>
+            </testScript>
+        </testCase>
+        <testCase id="98194957" key="EWB-T4" paramType="TEST_DATA">
+            <attachments/>
+            <confluencePageLinks/>
+            <createdBy>Cristiano Cunha</createdBy>
+            <createdOn>2023-08-21 10:59:42 UTC</createdOn>
+            <customFields/>
+            <folder><![CDATA[Tests/Regression Tests]]></folder>
+            <issues/>
+            <labels/>
+            <name><![CDATA[Zephyr Data Driven Test Case]]></name>
+            <objective><![CDATA[Zephyr Data Driven Test Case Objective]]></objective>
+            <owner>6064569b352e1e0069ef5bfa</owner>
+            <precondition><![CDATA[Zephyr Data Driven Test Case Precondition]]></precondition>
+            <priority><![CDATA[Low]]></priority>
+            <status><![CDATA[Draft]]></status>
+            <parameters/>
+            <testDataWrapper>
+                <testDataRow>
+                    <testDataColumns>
+                        <testData index="0">
+                            <name><![CDATA[Username]]></name>
+                            <type><![CDATA[FREE_TEXT_INPUT]]></type>
+                            <value><![CDATA[John]]></value>
+                        </testData>
+                        <testData index="1">
+                            <name><![CDATA[Password]]></name>
+                            <type><![CDATA[FREE_TEXT_INPUT]]></type>
+                            <value><![CDATA[Passwd1]]></value>
+                        </testData>
+                    </testDataColumns>
+                </testDataRow>
+                <testDataRow>
+                    <testDataColumns>
+                        <testData index="0">
+                            <name><![CDATA[Username]]></name>
+                            <type><![CDATA[FREE_TEXT_INPUT]]></type>
+                            <value><![CDATA[Julie]]></value>
+                        </testData>
+                        <testData index="1">
+                            <name><![CDATA[Password]]></name>
+                            <type><![CDATA[FREE_TEXT_INPUT]]></type>
+                            <value><![CDATA[Passwd2]]></value>
+                        </testData>
+                    </testDataColumns>
+                </testDataRow>
+            </testDataWrapper>
+            <testScript type="steps">
+                <steps>
+                    <step index="0">
+                        <customFields/>
+                        <description><![CDATA[Access the main page]]></description>
+                        <expectedResult><![CDATA[The main page is loaded]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                    <step index="1">
+                        <customFields/>
+                        <description><![CDATA[Click on the login button]]></description>
+                        <expectedResult><![CDATA[The login pop up appear]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                    <step index="2">
+                        <customFields/>
+                        <description><![CDATA[Insert <var>Username</var>&nbsp;in the username input]]></description>
+                        <expectedResult><![CDATA[The <var>Username</var>&nbsp;appear in the input]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                    <step index="3">
+                        <customFields/>
+                        <description><![CDATA[Insert the <var>Password</var>&nbsp;in the password field]]></description>
+                        <expectedResult><![CDATA[The <var>Password</var>&nbsp;appear in the password field]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                    <step index="4">
+                        <customFields/>
+                        <description><![CDATA[Click on the Submit button]]></description>
+                        <expectedResult><![CDATA[The user in the logged in state]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                </steps>
+            </testScript>
+        </testCase>
+        <testCase id="98195185" key="EWB-T5" paramType="PARAMETER">
+            <attachments/>
+            <confluencePageLinks/>
+            <createdBy>Cristiano Cunha</createdBy>
+            <createdOn>2023-08-21 11:08:07 UTC</createdOn>
+            <customFields/>
+            <folder><![CDATA[Performance]]></folder>
+            <issues>
+                <issue>
+                    <key>EWB-444</key>
+                    <summary><![CDATA[Ads plugin]]></summary>
+                </issue>
+                <issue>
+                    <key>EWB-445</key>
+                    <summary><![CDATA[Checkout feature]]></summary>
+                </issue>
+            </issues>
+            <labels/>
+            <name><![CDATA[Zephyr Test Case (Steps) Login]]></name>
+            <objective><![CDATA[Manual steps for the authentication procedure]]></objective>
+            <owner>6064569b352e1e0069ef5bfa</owner>
+            <precondition><![CDATA[NA]]></precondition>
+            <priority><![CDATA[Normal]]></priority>
+            <status><![CDATA[Draft]]></status>
+            <parameters>
+                <parameter index="0">
+                    <defaultValue><![CDATA[Michel]]></defaultValue>
+                    <name><![CDATA[Username]]></name>
+                </parameter>
+                <parameter index="1">
+                    <defaultValue><![CDATA[pwd123]]></defaultValue>
+                    <name><![CDATA[Password]]></name>
+                </parameter>
+            </parameters>
+            <testDataWrapper/>
+            <testScript type="steps">
+                <steps>
+                    <step index="0">
+                        <customFields/>
+                        <description><![CDATA[Access main page]]></description>
+                        <expectedResult><![CDATA[Main page is loaded and the login button is visible]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                    <step index="1">
+                        <customFields/>
+                        <description><![CDATA[Click on the Login button]]></description>
+                        <expectedResult><![CDATA[The login pop up appear]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                    <step index="2">
+                        <customFields/>
+                        <description><![CDATA[Insert <var>Username</var>&nbsp;in the username field]]></description>
+                        <expectedResult><![CDATA[The <var>Username</var>&nbsp;appears in the username field]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                    <step index="3">
+                        <customFields/>
+                        <description><![CDATA[Insert <var>Password</var>&nbsp;in the password field]]></description>
+                        <expectedResult><![CDATA[The <var>Password</var>&nbsp;appears in the password field]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                    <step index="4">
+                        <customFields/>
+                        <description><![CDATA[Click on the Submit button]]></description>
+                        <expectedResult><![CDATA[The user is in the logged in state]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                </steps>
+            </testScript>
+        </testCase>
+        <testCase id="98196071" key="EWB-T6">
+            <attachments/>
+            <confluencePageLinks/>
+            <createdBy>Cristiano Cunha</createdBy>
+            <createdOn>2023-08-21 11:18:17 UTC</createdOn>
+            <customFields/>
+            <folder><![CDATA[Performance]]></folder>
+            <issues/>
+            <labels/>
+            <name><![CDATA[Zephyr Modular test case (Login)]]></name>
+            <objective><![CDATA[Zephyr modular test case objective]]></objective>
+            <owner>6064569b352e1e0069ef5bfa</owner>
+            <precondition><![CDATA[Zephyr ModularTest Case precondition]]></precondition>
+            <priority><![CDATA[Normal]]></priority>
+            <status><![CDATA[Draft]]></status>
+            <parameters/>
+            <testDataWrapper/>
+            <testScript type="steps">
+                <steps>
+                    <step index="0">
+                        <customFields/>
+                        <description><![CDATA[Access main page]]></description>
+                        <expectedResult><![CDATA[Main page is loaded and the login button is visible]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                    <step index="1">
+                        <customFields/>
+                        <description><![CDATA[Click on the Login button]]></description>
+                        <expectedResult><![CDATA[The login pop up appear]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                    <step index="2">
+                        <customFields/>
+                        <description><![CDATA[Insert <var>John</var> in the username field]]></description>
+                        <expectedResult><![CDATA[The <var>John</var> appears in the username field]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                    <step index="3">
+                        <customFields/>
+                        <description><![CDATA[Insert <var>passwd1</var> in the password field]]></description>
+                        <expectedResult><![CDATA[The <var>passwd1</var> appears in the password field]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                    <step index="4">
+                        <customFields/>
+                        <description><![CDATA[Click on the Submit button]]></description>
+                        <expectedResult><![CDATA[The user is in the logged in state]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                    <step index="5">
+                        <customFields/>
+                        <description><![CDATA[Click on the &quot;Basket&quot; button]]></description>
+                        <expectedResult><![CDATA[User enter s the checkout area and all products saved are present.]]></expectedResult>
+                        <testData><![CDATA[NA]]></testData>
+                    </step>
+                    <step index="6">
+                        <customFields/>
+                    </step>
+                </steps>
+            </testScript>
+        </testCase>
+    </testCases>
+</project>
