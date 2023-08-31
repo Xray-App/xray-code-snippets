@@ -1,0 +1,69 @@
+Issue ID,Issue Key,Test Type,Test Summary,Test Priority,Action,Data,Result,Issue Type,Labels,Component,Description,Links
+1,,Manual,Scenario outline,3,,,,Test,,,,
+2,,Manual,My second Test Zephyr Squad (Detail),3,"First test step Zephyr Squad Details
+
+*Bold*
+_Italic_
+
+Table
+||heading 1||heading 2||heading 3||
+                                |col A1|col A2|col A3|
+                                |col B1|col B2|col B3|","test Data Zephyr Squad Details
+
+*Bold*
+_Italic_
+
+Table
+||heading 1||heading 2||heading 3||
+                                |col A1|col A2|col A3|
+                                |col B1|col B2|col B3|","test Result Zephyr Squad Details
+
+*Bold*
+_Italic_
+
+Table
+||heading 1||heading 2||heading 3||
+                                |col A1|col A2|col A3|
+                                |col B1|col B2|col B3|",Test,,,"My second Test Zephyr Squad
+
+*Bold*
+_Italic_
++Underline+
+
+List
+* One
+* Two
+* Three
+
+Table
+
+
+||Heading 1||Heading 2||
+|Col A1|Col A2|
+",
+2,,Manual,,3,"Second step Zephyr Squad Details
+
+[Atlassian|http://atlassian.com]","Test Data Zephyr Squad Details
+
+[Atlassian|http://atlassian.com]","Test Result Zephyr Squad Result
+",Test,,,,
+3,,Manual,My first Zephyr Squad Test (Lite),3,First step of Zephyr Squad first test,Test Data of Zephyr Squad first test,Test Result of Zephyr Squad first test,Test,,,Description of the Zephyr Squad Test,
+3,,Manual,,3,"Second Step of Zephyr Squad
+*Bold*
+_Italic_
++Underline+",Second Step Test Data,Second step test result,Test,,,,
+3,,Manual,,3,"Third Step
+
+Table
+
+||heading 1||heading 2||heading 3||
+                                |col A1|col A2|col A3|
+                                |col B1|col B2|col B3|","Third Step Test Data
+
+||heading 1||heading 2||heading 3||
+                                |col A1|col A2|col A3|
+                                |col B1|col B2|col B3|","Third Step Test Result
+
+||heading 1||heading 2||heading 3||
+                                |col A1|col A2|col A3|
+                                |col B1|col B2|col B3|",Test,,,,
