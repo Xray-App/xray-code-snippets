@@ -1,0 +1,108 @@
+Issue ID,Issue Key,Test Type,Test Summary,Test Priority,Action,Data,Result,Issue Type,Precondition,Precondition Type,Description,Unstructured Definition,Gherkin Definition
+1,,,Manual Precondition,,,,,precondition,,Manual,"Manual Precondition
+
+Bold
+
+Italic
+
+Underscript
+
+ 
+
+Table:
+
+One 	Two 	Three
+1 	2 	3
+4 	5 	6
+  	  	 
+
+ 
+
+ 
+
+google.com <https://ccunha.qtestnet.com/p/122328/portal/google.com>",,
+2,,Manual,Manual Login,4,First step description using the [~username]  ,,First step expected result,Test,1,,"Manual Login Description
+
+Bold
+
+Italic
+
+Underscript
+
+ 
+
+Table:
+
+One 	Two 	Three
+1 	2 	3
+4 	5 	6
+  	  	 
+
+ 
+
+ 
+
+google.com",,
+2,,Manual,Manual Login,4,"Second step description
+
+Bold Italic Underline
+
+With Table
+
+
+one 	two
+three 	four
+
+",,Second step expeted result,Test,,,,,
+2,,Manual,Manual Login,4,Third step description using the [~Password]  ,,Third step expected result,Test,,,,,
+3,,,Automated test pre condition,,,,,precondition,,Generic,"Automated test pre condition
+
+Bold
+
+Italic
+
+Underscript
+
+ 
+
+Table:
+
+One 	Two 	Three
+1 	2 	3
+4 	5 	6
+  	  	 
+
+ 
+
+ 
+
+google.com <https://ccunha.qtestnet.com/p/122328/portal/google.com>",,
+4,,Generic,Automated test ,3,,,,Test,3,,Automated test description,,
+5,,Cucumber,Scenario test case,2,,,,Test,,,Scenario test case description,,"Given is on a Linux Computer using Chrome
+And is a Primary Account Holder
+And transfers money from a Checking to a Checking
+And would like to send transfer Once
+And sends it Today
+And it is a Small
+When transfer is submitted by customer
+Then transfer should be properly initiated
+"
+6,,,Performance precondition step,,,,,precondition,,Manual,Performance precondition step,,
+7,,Manual,Performance test,1,"Performance step 1 definition
+
+",,Performance step 1 expected result,Test,6,,Performance test description,,
+7,,Manual,Performance test,1,Performance step 2 definition,,Performance step 2 expected result,Test,,,,,
+8,,Manual,Manual login (import from other test),3,First step description using the [~username]  ,,First step expected result,Test,,,Manual login test with import of steps from another test,,
+8,,Manual,Manual login (import from other test),3,"Second step description
+
+Bold Italic Underline
+
+With Table
+
+
+one 	two
+three 	four
+
+",,Second step expeted result,Test,,,,,
+8,,Manual,Manual login (import from other test),3,Third step description using the [~Password]  ,,Third step expected result,Test,,,,,
+8,,Manual,Manual login (import from other test),3,Last step of manual login (after import step),,,Test,,,,,

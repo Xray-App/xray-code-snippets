@@ -1,0 +1,49 @@
+Issue ID,Issue Key,Test Summary,Test Priority,Action,Data,Result,Description
+1,,Manual Login,4,First step description using the [~username]  ,,First step expected result,"Manual Login Description
+
+Bold
+
+Italic
+
+Underscript
+
+ 
+
+Table:
+
+One 	Two 	Three
+1 	2 	3
+4 	5 	6
+  	  	 
+
+ 
+
+ 
+
+google.com"
+1,,Manual Login,4,"Second step description
+
+Bold Italic Underline
+
+With Table
+
+
+one 	two
+three 	four
+
+",,Second step expeted result,
+1,,Manual Login,4,Third step description using the [~Password]  ,,Third step expected result,
+2,,Manual login (import from other test),3,First step description using the [~username]  ,,First step expected result,Manual login test with import of steps from another test
+2,,Manual login (import from other test),3,"Second step description
+
+Bold Italic Underline
+
+With Table
+
+
+one 	two
+three 	four
+
+",,Second step expeted result,
+2,,Manual login (import from other test),3,Third step description using the [~Password]  ,,Third step expected result,
+2,,Manual login (import from other test),3,Last step of manual login (after import step),,,
