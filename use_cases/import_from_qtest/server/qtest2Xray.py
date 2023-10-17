@@ -23,7 +23,6 @@ def getPriorityValue(priorityName):
 
 
 def appendRows(issueID='', issueKey='', testSummary=None, testPriority=None, action=None, data=None, result=None, issueType=None, description=None, unstrusturedDefinition=None, gherkinDefinition=None):
-    noActionTypes = ['Scenario', 'Automation']
     row.append({"Issue ID": issueID,
                 "Issue Key": '',
                 "Test Summary": testSummary if testSummary is not None else '',
@@ -83,8 +82,8 @@ def main(argv):
    except Exception as err:
        print ("An exception occurred:", err)
 
-   inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qtest/server/qTest-Regression-TestCase.xls'
-   outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qtest/server/qTest-Regression-TestCase.csv'
+   #inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qtest/server/qTest-Regression-TestCase.xls'
+   #outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qtest/server/qTest-Regression-TestCase.csv'
 
    if not inputfile or not outputfile:
         print ('One of the input parameters is missing, please use: qTest2Xray.py -i <Excel_inputfile> -o <CSV_outputfile>')

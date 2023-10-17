@@ -140,8 +140,8 @@ def main(argv):
    except Exception as err:
        print ("An exception occurred:", err)
 
-   inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qtest/cloud/qTest-Regression-TestCase.xls'
-   outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qtest/cloud/qTest-Regression-TestCase.csv'
+   #inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qtest/cloud/qTest-Regression-TestCase.xls'
+   #outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qtest/cloud/qTest-Regression-TestCase.csv'
 
    if not inputfile or not outputfile:
         print ('One of the input parameters is missing, please use: qTest2Xray.py -i <Excel_inputfile> -o <CSV_outputfile>')
