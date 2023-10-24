@@ -1,0 +1,149 @@
+Issue ID,Issue Key,Test Type,Test Summary,Test Priority,Action,Data,Result,IssueType,Description
+1,,Manual,"login
+
+",3,"First step description
+
+",,"First step expected result
+
+",,
+1,,Manual,,3,"Second step description
+
+*Bold*
+
+_Italic_
+
+_Underline_
+
+Table:  
+  
+
+|Header 1|Header2|
+|Row1|Row2|
+|
+
+Bullets
+
+  * One point
+  * Second point
+
+",,"Second step expected result
+
+*Bold*
+
+_Italic_
+
+_Underline_
+
+Table:  
+  
+
+|Header 1|Header2|
+|Row1|Row2|
+|
+
+Bullets
+
+  * One point
+  * Second point
+
+",,
+1,,Manual,,3,"Third step with attachments
+
+",,"Third step with attachments
+
+and Links  ![graphic](file://\[IMAGE_BASE_PATH_PLACEHOLDER\]Jira%20icons.png)
+
+",,
+2,,Manual,"logout
+
+",3,"Call <login> with the following parameters: password = admin, username = ?
+
+",,,,"Logout test descriptions
+
+*Bold*
+
+_Italic_
+
+_Underline_  
+  
+
+|*Header1*|*Header2*|*Header3*|
+|Row11|Row12|Row13|
+|Row21|Row22|Row23|
+|
+
+*Bullet list*
+
+  * _Item1_
+  * _Item2_
+
+"
+2,,Manual,,3,"First step description
+
+*Bold*
+
+_Italic_
+
+_Underline_
+
+Table:  
+  
+
+|Header 1|Header2|
+|Row1|Row2|
+|
+
+Bullets
+
+  * One point
+  * Second point
+
+",,"Expected Result
+
+First step description
+
+*Bold*
+
+_Italic_
+
+_Underline_
+
+Table:  
+  
+
+|Header 1|Header2|
+|Row1|Row2|
+|
+
+Bullets
+
+  * One point
+  * Second point
+
+",,
+2,,Manual,,3," Insert <<<UserName>>> in the username field
+
+",,"The <<<UserName>>> appears in the username field
+
+",,
+3,,Manual,"Checkout
+
+",3,"First step of checkout
+
+Ident of first step
+
+",,"Expected result for first step of checkout
+
+Font color blue
+
+",,"Checkout description
+
+  * Bullet1
+  * Bullet2
+
+"
+3,,Manual,,3,"Second step of checkout
+
+",,"Second expectation of checkout
+
+",,
