@@ -76,8 +76,8 @@ def appendRows(issueID='', issueKey='', testSummary=None, action=None, data=None
                 "Description": cleanTags(description) if description is not None else '',})
     
 def parsehpqc2XrayData(project, domain, outputfile):
-    almUserName = config.get('hpqc','username') #"admin"
-    almPassword = config.get('hpqc','password') #"wYE!M%H189&a"
+    almUserName = config.get('hpqc','username') 
+    almPassword = config.get('hpqc','password') 
     testList = []
 
     almURL = config.get('hpqc', 'base_endpoint')
@@ -108,7 +108,7 @@ def parsehpqc2XrayData(project, domain, outputfile):
             if cookieName == 'XSRF-TOKEN':
                 headers['X-XSRF-TOKEN'] = cookieValue
 
-    #if not idList:
+    
         issueID = 1
         #First call to get all tests in the domain + Project
         readTestsperDomainProject = almURL + f"rest/domains/{domain}/projects/{project}/tests"
