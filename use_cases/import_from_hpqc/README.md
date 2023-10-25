@@ -20,6 +20,8 @@ The directory have several files:
 * hpqc2Xray.py - Scripts that will extracts the tests from the REST API and convert it to CSV files. 
 
 ### Script usage
+Update the hpqc_config.ini file with the username, password and endpoint of your HP ALM/QC instance.
+Extract, from HP ALM/QC, the Domain and Project that you want to export tests from.
 
 #### Cloud/Server
 ```Python
