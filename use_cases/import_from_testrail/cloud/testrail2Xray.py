@@ -1,7 +1,7 @@
 import sys, getopt
 import re
 import xml.etree.ElementTree as ET
-import pandas as pd
+
 
 column = ["Issue ID","Issue Key","Test Type","Test Summary", "Test Priority", "Action","Data","Result","Test Repo","Precondition","Issue Type", "Precondition Type", "Unstructured Definition", "Labels"]
 row = []
