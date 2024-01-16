@@ -1,0 +1,21 @@
+{
+  "projectKey" : {
+    "project" : "COM"
+  },
+  "field" : {
+    "Test Summary" : "summary",
+    "Action" : "Action",
+    "Description" : "description",
+    "Precondition" : "customfield_10007",
+    "Test Priority" : "priority",
+    "Data" : "Data",
+    "Issue ID" : "Test Case Identifier",
+    "Result" : "Expected Result"
+  },
+  "link" : { },
+  "projectSelection" : {
+    "project" : "true"
+  },
+  "projectName" : { },
+  "value" : { }
+}
