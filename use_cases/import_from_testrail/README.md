@@ -23,6 +23,11 @@ In each directory you have (same for cloud and server):
 
 ### Script usage
 
+#### Install dependencies
+```Python
+pip install -r requirements.txt
+```
+
 #### Cloud
 ```Python
 python3 testrail2Xray.py -i comic_estore.xml -o comicEstore.csv
@@ -44,4 +49,4 @@ The output for server version only creates the tests into Xray and the Test Repo
 
 ### Source-code
 
-- [Python](./python/)
+- [Python 3.12.0](https://www.python.org/downloads/release/python-3120/)

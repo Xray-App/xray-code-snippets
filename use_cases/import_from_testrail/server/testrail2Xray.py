@@ -6,9 +6,9 @@ import pandas as pd
 column = ["Issue ID","Issue Key","Test Type","Test Summary", "Test Priority", "Action","Data","Result","Test Repo", "Labels"]
 row = []
 
-CLEANR = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
-EMPTYSPACES = re.compile('\n|\r')
-QUOTES = re.compile('\&quot\;')
+CLEANR = re.compile(r'<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
+EMPTYSPACES = re.compile(r'\n|\r')
+QUOTES = re.compile(r'\&quot\;')
 
 def cleanTags(txt):
     if txt:
@@ -93,7 +93,7 @@ def handleTestSections(root, issueID, outputfile, repoName, outputtestrailEndpoi
             estimate = testcase.find('estimate')
 
             custom = testcase.find('custom')
-            if custom:
+            if custom is not None:
                 automation_type = custom.find('automation_type')
                 type = automation_type.find('value').text.strip() if automation_type is not None else 'Manual'
                                    
