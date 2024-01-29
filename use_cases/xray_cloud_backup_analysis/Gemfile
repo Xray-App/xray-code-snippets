@@ -1,0 +1,9 @@
+source 'https://rubygems.org'
+
+gem 'rest-client'
+gem 'json' 
+gem 'graphql'
+gem "graphql-client", github: "rmosolgo/graphql-client", ref: "27ef61f"
+gem 'pry'
+gem 'pry-byebug'
+gem 'graphlient'
