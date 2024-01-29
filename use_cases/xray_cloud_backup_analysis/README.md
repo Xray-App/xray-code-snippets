@@ -7,7 +7,7 @@ It provides:
 
 * total storage usage
 * storage usage by Jira project
-* count of some Xray relevant entities
+* count of some relevant Xray entities
 * top Test Plans with most folders
 * top Test Plans with most Tests
 * total empty Test Plans (i.e., without Tests)
@@ -17,11 +17,15 @@ It provides:
 
 ## How to
 
-Create a backup from [Xray global settings page](https://docs.getxray.app/display/XRAYCLOUD/Global+Settings%3A+Backup), for the metadata and the Xray managed attachments; you can also do it from the [REST API](https://docs.getxray.app/display/XRAYCLOUD/Backup+-+REST+v2).
+Create two zipped backups from [Xray global settings page](https://docs.getxray.app/display/XRAYCLOUD/Global+Settings%3A+Backup), one for the metadata and one for the Xray-managed attachments; 
 
-Then extract the previous zipped files to two directories that we'll be used as source for the script ahead.
+![image](https://github.com/Xray-App/xray-code-snippets/assets/34485244/44e8b730-bd88-4dcc-b9e7-d0d053359a96)
 
-Make sure you obtain an "API key" (i.e., a pair of Client ID + Client Secret) from [Xray global settings](https://docs.getxray.app/display/XRAYCLOUD/Global+Settings%3A+API+Keys), as it will be necessary to obtain some information that is not present on the backup files.
+You can also do it from the [REST API](https://docs.getxray.app/display/XRAYCLOUD/Backup+-+REST+v2).
+
+Then extract the previous zipped files to two directories that will be used as the source for the script ahead.
+
+Make sure you obtain an "API key" (i.e., a pair of Client ID + Client Secret) from [Xray global settings](https://docs.getxray.app/display/XRAYCLOUD/Global+Settings%3A+API+Keys), as it will be necessary to obtain some information that is not present in the backup files.
 
 ## Running directly
 
@@ -34,11 +38,11 @@ Use the `` Ruby script, which has the following syntax:
 
 ```bash
 Usage: bundle exec ruby process_xray_cloud_backup.rb [options]
-    -m METADATA_DIRECTORY            Directory with extracted Xray Cloud backup metadata composed of multiple JSON files
+    -m METADATA_DIRECTORY            Directory with extracted Xray Cloud metadata backup composed of multiple JSON files
     -a ATTACHMENTS_DIRECTORY,        Directory with extracted Xray Cloud attachments backup composed of multiple attachment files
         --metadata
-    -i, --id CLIENT_ID               Xray Cloud client id from related API key
-    -s, --secret CLIENT_SECRET       Xray Cloud client secret from related API key
+    -i, --id CLIENT_ID               Xray Cloud client id from the related API key
+    -s, --secret CLIENT_SECRET       Xray Cloud client secret from the related API key
     -h, --help                       Prints this help
 ```
 
