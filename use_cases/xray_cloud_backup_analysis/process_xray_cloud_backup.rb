@@ -73,6 +73,19 @@ require 'optparse'
     return h
   end
 
+  def obtain_precondition_keys_for_ids(client, ids)
+    h = {}
+    ids.each_slice(100) do |slice|
+      variables = { issueIds: slice }
+      response = client.query(PreconditionsQuery, variables)
+      response.to_h["data"]["getPreconditions"]["results"].each do |result|
+        h[result["issueId"]] = result["jira"]["key"]
+      end
+      
+    end
+    return h
+  end
+
   def obtain_test_keys_for_ids(client, ids)
     h = {}
     ids.each_slice(100) do |slice|
@@ -86,6 +99,18 @@ require 'optparse'
     return h
   end
 
+  def obtain_testset_keys_for_ids(client, ids)
+    h = {}
+    ids.each_slice(100) do |slice|
+      variables = { issueIds: slice }
+      response = client.query(TestSetsQuery, variables)
+      response.to_h["data"]["getTestSets"]["results"].each do |result|
+        h[result["issueId"]] = result["jira"]["key"]
+      end
+      
+    end
+    return h
+  end
 
   def obtain_testplan_keys_for_ids(client, ids)
     h = {}
@@ -146,6 +171,20 @@ query($issueIds: [String]) {
 }
 GRAPHQL
 
+TestSetsQuery  = <<-GRAPHQL
+query($issueIds: [String]) {
+  getTestSets(issueIds: $issueIds, limit: 100) {  
+    total
+    start
+    limit
+    results {
+        issueId
+        jira(fields: ["key"])
+    }
+  }
+}
+GRAPHQL
+
 TestExecsQuery  = <<-GRAPHQL
 query($issueIds: [String]) {
   getTestExecutions(issueIds: $issueIds, limit: 100) {  
@@ -163,6 +202,20 @@ GRAPHQL
 TestsQuery  = <<-GRAPHQL
 query($issueIds: [String]) {
   getTests(issueIds: $issueIds, limit: 100) {  
+    total
+    start
+    limit
+    results {
+        issueId
+        jira(fields: ["key"])
+    }
+  }
+}
+GRAPHQL
+
+PreconditionsQuery  = <<-GRAPHQL
+query($issueIds: [String]) {
+  getPreconditions(issueIds: $issueIds, limit: 100) {  
     total
     start
     limit
@@ -198,6 +251,16 @@ if !File.directory?(attachments_dir)
   exit
 end
 
+test_environments = []
+test_types = []
+psettings_files = Dir.entries(xraydata_dir).grep(/^(projectSettings_|settings.json)/)
+psettings_files.each do |psettings_file|
+  settings = JSON.parse!(File.read(File.join(xraydata_dir, psettings_file)))["projectSettings"]
+  test_environments.append( settings["testEnvironmentOptions"]["testEnvironments"] ) if settings["testEnvironmentOptions"]
+  test_types.append( settings["testTypeOptions"]["testTypes"] ) if settings["testTypeOptions"]
+end
+test_environments = test_environments.flatten()
+test_types = test_types.flatten()
 
 testplans = []
 testplan_files = Dir.entries(xraydata_dir).grep(/^testPlans_/)
@@ -205,7 +268,6 @@ testplan_files.each do |testplan_file|
   testplans.append( JSON.parse!(File.read(File.join(xraydata_dir, testplan_file)))["testPlans"] )
 end
 testplans = testplans.flatten()
-#print(JSON.pretty_generate(testplans))
 
 htestplans = {}
 testplans.each do |testplan|
@@ -220,27 +282,25 @@ htestplans.each do |k, v|
 end
 #print(JSON.pretty_generate(htestplans))
 
-# print the total number of test plans
-print("\nTotal test plans: #{testplans.length}\n")
-# print the total number of test plans having no tests
-print("Total test plans having no tests: #{testplans.select { |tp| tp["tests"] && tp["tests"].empty? }.length}\n")
-# print the 3 test plans having the most tests, including the key and the number of tests
-print("3 test plans having the most tests:\n")
-testplans.sort_by { |tp| -tp["tests"].length }[0..2].each do |tp|
-  print("#{tp["testPlanKey"]}\t\t#{tp["tests"].length}\n")
+
+preconditions = []
+precondition_files = Dir.entries(xraydata_dir).grep(/^preconditions_/)
+precondition_files.each do |precondition_file|
+  preconditions.append( JSON.parse!(File.read(File.join(xraydata_dir, precondition_file)))["preconditions"] )
 end
-# print the 3 test plans having the most folders, inside the testPlanBoard attribute, if present, including the key and the number of folders; the folders can contain other folders and we want to consider the total number of folders, including subfolders
-print("\n")
-print("3 test plans having the most folders in the Board:\n")
-=begin
-testplans.select { |tp| tp["testPlanBoard"] }.sort_by { |tp| -tp["testPlanBoard"]["folders"].length }[0..2].each do |tp|
-  print("#{tp["testPlanKey"]}\t\t#{tp["testPlanBoard"]["folders"].length}\n")
-end
-=end
-testplans.select { |tp| tp["testPlanBoard"] }.sort_by { |tp| -count_folders(tp["testPlanBoard"]) }[0..2].each do |tp|
-  print("#{tp["testPlanKey"]}\t\t#{count_folders(tp["testPlanBoard"])}\n")
+preconditions = preconditions.flatten()
+
+hpreconditions = {}
+preconditions.each do |precondition|
+  hpreconditions[precondition["id"]] = precondition
 end
 
+precondition_ids = hpreconditions.keys.map { |k| k.to_s }
+h = obtain_precondition_keys_for_ids(graphql_client, precondition_ids)
+hpreconditions.each do |k, v|
+  v["preconditionKey"] = h[k]
+end
+#print(JSON.pretty_generate(hpreconditions))
 
 
 tests = []
@@ -249,8 +309,6 @@ test_files.each do |test_file|
   	tests.append( JSON.parse!(File.read(File.join(xraydata_dir, test_file)))["tests"] )
 end
 tests = tests.flatten()
-#print(JSON.pretty_generate(tests))
-
 
 htests = {}
 tests.each do |test|
@@ -265,6 +323,24 @@ end
 #print(JSON.pretty_generate(htests))
 
 
+testsets = []
+testset_files = Dir.entries(xraydata_dir).grep(/^testSets_/)
+testset_files.each do |testset_file|
+  testsets.append( JSON.parse!(File.read(File.join(xraydata_dir, testset_file)))["testSets"] )
+end
+testsets = testsets.flatten()
+
+htestsets = {}
+testsets.each do |testset|
+  htestsets[testset["id"]] = testset
+end
+
+testset_ids = htestsets.keys.map { |k| k.to_s }
+h = obtain_testset_keys_for_ids(graphql_client, testset_ids)
+htestsets.each do |k, v|
+  v["testSetKey"] = h[k]
+end
+#print(JSON.pretty_generate(htestsets))
 
 testexecs = []
 testexec_files = Dir.entries(xraydata_dir).grep(/^testExecutions_/)
@@ -284,12 +360,6 @@ testexecs.each do |testexec|
     end
   end
 end
-print("3 test plans having the most Test Executions:\n")
-testplans.sort_by { |tp| -tp["testExecutions"].length }[0..2].each do |tp|
-  print("#{tp["testPlanKey"]}\t\t#{tp["testExecutions"].length}\n")
-end
-
-
 
 
 testexec_ids = htestexecs.keys.map { |k| k.to_s }
@@ -315,7 +385,7 @@ testrun_files.each do |testrun_file|
 end
 
 testruns = testruns.flatten()
-#print(testruns.length)
+
 #print(JSON.pretty_generate(testruns))
 htestruns = {}
 testruns.each do |testrun|
@@ -366,6 +436,9 @@ end
 
 sorted = attachs.sort_by { |hash| -hash[hash.keys.first]['size'] }
 
+print("========================================================================\n")
+print("========== Top test runs by attachment size ============================\n")
+# print the top test runs having the biggest attachments
 # for the first 10 elements, print attachment entity, test key, test execution key, size in MB, archived in a tabular format, delimited by tabs
 print("\nentity\t\ttestKey\t\ttestExecKey\t\tsize (MB)\t\tarchived\n")
 sorted[0..9].each do |attach|
@@ -373,6 +446,7 @@ sorted[0..9].each do |attach|
   print("#{attach[id]["entity"]}\t\t#{attach[id]["testKey"]}\t\t#{attach[id]["testExecKey"]}\t\t#{attach[id]["size"]/1024/1024}\t\t#{attach[id]["archived"]}\n")
 end
 print("\n")
+print("========================================================================\n")
 
 
 # calculate the sum of sizes of all attachments based on project
@@ -414,18 +488,90 @@ end
 sorted_sums = sums.sort_by { |k, v| -v }.to_h
 #print(JSON.pretty_generate(sorted_sums),"\n")
 
+print("========================================================================\n")
 print("\nProject\t\tSize (MB)\n")
 # print each project size in MB, formatted as a table
 sorted_sums.each do |k, v|
   print("#{k}\t\t#{v/1024/1024}\n")
 end
 # print total of sums
-print("========================\n")
+print("========================================================================\n")
 print("Total\t\t#{sorted_sums.values.sum/1024/1024} MB\n")
 
-print("=========================================\n")
-print("=========================================\n")
+print("========================================================================\n")
+print("========================================================================\n")
+
+
+
+print("Total tests: #{tests.length}\n")
+# print unique test types by their value
+print("Test types: #{test_types.map { |t| t["value"] }.uniq}\n")
+# print total tests grouped by type
+tests.group_by { |t| t["type"] }.each do |k, v|
+  # print the test type name based on the value on the test_types array
+  print("#{test_types.select { |tt| tt["_id"] == k }.first["value"]}\t\t#{v.length}\n")
+end
+
 
 # print the total tests having no steps
 print("\nTotal tests having no steps: #{tests.select { |t| t["steps"] && t["steps"].empty? }.length}\n")
+print("Total preconditions: #{preconditions.length}\n")
+# print the total of tests having no preconditions
+print("Total tests having no preconditions: #{tests.select { |t| t["preConditionTargetIssueIds"].nil? || t["preConditionTargetIssueIds"].empty? }.length}\n")
+print("Total preconditions being referenced by tests: #{tests.select { |t| t["preConditionTargetIssueIds"] && !t["preConditionTargetIssueIds"].empty? }.length}\n")
+# print total of orphan preconditions, having in mind that tests using preconditions use a field called preConditionTargetIssueIds
+tmph = hpreconditions
+tests.select { |t| t["preConditionTargetIssueIds"] && !t["preConditionTargetIssueIds"].empty? }.each do |t|
+  t["preConditionTargetIssueIds"].each do |precondition_id|
+    tmph.delete(precondition_id)
+  end
+end
+print("Total orphan preconditions: #{tmph.length}\n")
+
+
+print("Total test sets: #{testsets.length}\n")
+# print the total number of test sets having no tests
+print("Total test sets having no tests: #{testsets.select { |ts| ts["tests"] && ts["tests"].empty? }.length}\n")
+# print the 3 test sets having the most tests, including the key and the number of tests
+print("3 test sets having the most tests:\n")
+testsets.sort_by { |ts| -ts["tests"].length }[0..2].each do |ts|
+  print("#{ts["testSetKey"]}\t\t#{ts["tests"].length}\n")
+end
+
+
+# print the total number of test plans
+print("\nTotal test plans: #{testplans.length}\n")
+# print the total number of test plans having no tests
+print("Total test plans having no tests: #{testplans.select { |tp| tp["tests"] && tp["tests"].empty? }.length}\n")
+# print the 3 test plans having the most tests, including the key and the number of tests
+print("3 test plans having the most tests:\n")
+testplans.sort_by { |tp| -tp["tests"].length }[0..2].each do |tp|
+  print("#{tp["testPlanKey"]}\t\t#{tp["tests"].length}\n")
+end
+# print the 3 test plans having the most folders, inside the testPlanBoard attribute, if present, including the key and the number of folders; the folders can contain other folders and we want to consider the total number of folders, including subfolders
+print("\n")
+print("3 test plans having the most folders in the Board:\n")
+testplans.select { |tp| tp["testPlanBoard"] }.sort_by { |tp| -count_folders(tp["testPlanBoard"]) }[0..2].each do |tp|
+  print("#{tp["testPlanKey"]}\t\t#{count_folders(tp["testPlanBoard"])}\n")
+end
+print("3 test plans having the most Test Executions:\n")
+testplans.sort_by { |tp| -tp["testExecutions"].length }[0..2].each do |tp|
+  print("#{tp["testPlanKey"]}\t\t#{tp["testExecutions"].length}\n")
+end
+print("Total test executions: #{testexecs.length}\n")
+print("Total test runs: #{testruns.length}\n")
+print("Test environments: #{test_environments}\n")
+
+# obtain all the issue keys from preconditions, tests, testexecs, testplans, and print the total of different projects using them
+precondition_keys = preconditions.map { |precondition| precondition["preconditionKey"] }
+test_keys = tests.map { |test| test["testKey"] }
+testset_keys = testsets.map { |ts| ts["testSetKey"] }
+testplan_keys = testplans.map { |tp| tp["testPlanKey"] }
+testexec_keys = testexecs.map { |te| te["testExecKey"] }
+all_keys = precondition_keys + test_keys + testset_keys + testplan_keys + testexec_keys
+# iterate over all keys, split them by "-" and get the first element, which is the project name, and count the total of different projects
+all_xray_related_projects = all_keys.flatten.map { |k| k.split("-")[0] if !k.nil? }.uniq.reject {|data| data.nil?}
+print("Total different projects using Preconditions, Tests, Test Executions, or Test Plans: #{all_xray_related_projects.length}\n")
+
+
 exit
