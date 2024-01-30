@@ -3,8 +3,6 @@
 require 'rubygems'
 require 'json'
 require 'rest-client'
-require "graphql/client"
-require "graphql/client/http"
 require 'pry'
 require 'graphlient'
 require 'optparse'
