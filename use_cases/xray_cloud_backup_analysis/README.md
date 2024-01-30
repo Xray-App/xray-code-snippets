@@ -77,21 +77,8 @@ Then you can run the docker image:
 
 
 ```bash
-Total test plans: 56
-Total test plans having no tests: 12
-3 test plans having the most tests:
-XT-509		19
-EWB-705		16
-XT-295		15
-
-3 test plans having the most folders in the Board:
-XT-509		7
-EWB-338		3
-BTW-154		3
-3 test plans having the most Test Executions:
-XT-4		66
-XT-509		52
-XT-3		50
+========================================================================
+========== Top test runs by attachment size ============================
 
 entity		testKey		testExecKey		size (MB)		archived
 TESTRUN		FIN-82		FIN-54		4		
@@ -105,8 +92,10 @@ TESTRUN		EWB-509		EWB-510		1
 TESTRUN		XT-506		XT-562		1		
 TESTRUN		XT-506		XT-558		1		
 
+========================================================================
 
 No test or test execution found for attachment {"19520c89-4d66-4891-b508-0d0614f02e82"=>{"tenant"=>"dfc07383-782b-3a88-9f9b-bf458a9f1e70", "filename"=>"TestSession_2021-11-23_11-52-56-631.pdf", "compressed"=>"false", "size"=>2469686}}
+========================================================================
 
 Project		Size (MB)
 XT		30
@@ -116,10 +105,42 @@ BTW		9
 CALC		6
 ET		5
 CALC-archived		2
-========================
+========================================================================
 Total		86 MB
-=========================================
-=========================================
+========================================================================
+========================================================================
+Total tests: 717
+Test types: ["Manual", "Generic", "Cucumber", "Exploratory"]
+Manual		383
+Generic		222
+Cucumber		72
+Exploratory		26
+Generic		3
+Exploratory		7
+Manual		4
 
 Total tests having no steps: 399
+Total preconditions: 179
+Total tests having no preconditions: 562
+Total preconditions being referenced by tests: 155
+Total orphan preconditions: 28
+
+Total test plans: 56
+Total test plans having no tests: 12
+3 test plans having the most tests:
+XT-509		19
+EWB-705		16
+XT-295		15
+
+3 test plans having the most folders in the Board:
+XT-509		7
+BTW-154		3
+EWB-338		3
+3 test plans having the most Test Executions:
+XT-4		66
+XT-509		52
+XT-3		50
+Total test executions: 904
+Total test runs: 3016
+Test environments: ["Production", "qa", "firefox", "chrome", "TestCloud", "Linux", "Chrome", "Windows", "NODE_15.x", "test", "staging", "prod", "firefox", "jdk11", "chrome", "net50", "Dark", "Production"]
 ```
