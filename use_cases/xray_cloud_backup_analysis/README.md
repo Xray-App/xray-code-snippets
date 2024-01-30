@@ -60,6 +60,13 @@ You can also run this script using docker.
 ### Prerequisites
 
 * Docker
+* docker image built using the code from this repo
+
+```
+docker build -t xray-cloud-data-analysis .
+```
+
+Then you can run the docker image:
 
 ```bash
 ./run_docker.sh   ~/Downloads/dfc07383-782b-3a88-9f9b-bf458a9f1e70  ~/Downloads/dfc07383-782b-3a88-9f9b-bf458a9f1e70_attachment  DA2258616A5944198E9BE40000000000 5bae1aa5b49e5d263781da54ba55cc7deebd7840c68fe2fdfd2a070000000000
