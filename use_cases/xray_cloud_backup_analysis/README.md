@@ -124,6 +124,12 @@ Total preconditions: 179
 Total tests having no preconditions: 562
 Total preconditions being referenced by tests: 155
 Total orphan preconditions: 28
+Total test sets: 19
+Total test sets having no tests: 0
+3 test sets having the most tests:
+EWB-204		74
+EWB-361		14
+BTW-152		7
 
 Total test plans: 56
 Total test plans having no tests: 12
@@ -143,4 +149,5 @@ XT-3		50
 Total test executions: 904
 Total test runs: 3016
 Test environments: ["Production", "qa", "firefox", "chrome", "TestCloud", "Linux", "Chrome", "Windows", "NODE_15.x", "test", "staging", "prod", "firefox", "jdk11", "chrome", "net50", "Dark", "Production"]
+Total different projects using Preconditions, Tests, Test Executions, or Test Plans: 6
 ```
