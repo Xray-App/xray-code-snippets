@@ -249,6 +249,12 @@ if !File.directory?(attachments_dir)
   exit
 end
 
+test_repos = []
+trepos_files = Dir.entries(xraydata_dir).grep(/^testRepository_/)
+trepos_files.each do |trepo_file|
+  test_repos.append( JSON.parse!(File.read(File.join(xraydata_dir, trepo_file))) )
+end
+
 test_environments = []
 test_types = []
 psettings_files = Dir.entries(xraydata_dir).grep(/^(projectSettings_|settings.json)/)
@@ -257,8 +263,8 @@ psettings_files.each do |psettings_file|
   test_environments.append( settings["testEnvironmentOptions"]["testEnvironments"] ) if settings["testEnvironmentOptions"]
   test_types.append( settings["testTypeOptions"]["testTypes"] ) if settings["testTypeOptions"]
 end
-test_environments = test_environments.flatten()
-test_types = test_types.flatten()
+test_environments = test_environments.flatten().uniq
+test_types = test_types.flatten().uniq
 
 testplans = []
 testplan_files = Dir.entries(xraydata_dir).grep(/^testPlans_/)
@@ -304,7 +310,12 @@ end
 tests = []
 test_files = Dir.entries(xraydata_dir).grep(/^tests_/)
 test_files.each do |test_file|
-  	tests.append( JSON.parse!(File.read(File.join(xraydata_dir, test_file)))["tests"] )
+    testsObj = JSON.parse!(File.read(File.join(xraydata_dir, test_file)))
+    partialTests = testsObj["tests"]
+    partialTests.each do |test|
+      test["projectId"] = testsObj["info"]["projectId"]
+    end
+  	tests.append( partialTests )
 end
 tests = tests.flatten()
 
@@ -317,9 +328,20 @@ test_ids = htests.keys.map { |k| k.to_s }
 h = obtain_test_keys_for_ids(graphql_client, test_ids)
 htests.each do |k, v|
   v["testKey"] = h[k]
+  # update the test repo having the same project id as the test, if present, adding a field named "projectKey"
+  test_repos.each do |trepo|
+    if trepo["info"]["projectId"] == v["projectId"]
+      if v["testKey"]
+        projectKey = v["testKey"].split("-")[0]
+        trepo["info"]["projectKey"] = projectKey
+        v["projectKey"] =  projectKey
+      end
+      break
+    end
+  end
 end
 #print(JSON.pretty_generate(htests))
-
+#print(JSON.pretty_generate(test_repos))
 
 testsets = []
 testset_files = Dir.entries(xraydata_dir).grep(/^testSets_/)
@@ -387,6 +409,7 @@ testruns = testruns.flatten()
 #print(JSON.pretty_generate(testruns))
 htestruns = {}
 testruns.each do |testrun|
+  testrun["testEnvironments"] = htestexecs[testrun["testExecIssueId"]]["testEnvironments"]
   htestruns[testrun["_id"]] = testrun
 end
 
@@ -510,6 +533,15 @@ tests.group_by { |t| t["type"] }.each do |k, v|
   print("#{test_types.select { |tt| tt["_id"] == k }.first["value"]}\t\t#{v.length}\n")
 end
 
+# print the 3 test repos having the most folders, inside the testRepository attribute, including the project id and the number of folders; the folders can contain other folders and we want to consider the total number of folders, including subfolders
+print("\n")
+print("3 test repositories, by project ID and project key, if present, having the most folders in Jira:\n")
+print("Project ID\t\tProject Key\t\tTotal folders\n")
+test_repos.sort_by { |tp| -count_folders(tp["testRepository"]) }[0..2].each do |tp|
+  print("#{tp["info"]["projectId"]}\t\t\t#{tp["info"]["projectKey"]}\t\t\t#{count_folders(tp["testRepository"])}\n")
+end
+print("\n")
+
 
 # print the total tests having no steps
 print("\nTotal tests having no steps: #{tests.select { |t| t["steps"] && t["steps"].empty? }.length}\n")
@@ -560,6 +592,15 @@ print("Total test executions: #{testexecs.length}\n")
 print("Total test runs: #{testruns.length}\n")
 print("Test environments: #{test_environments}\n")
 
+# for each existent test environment, print the total of test runs, sorted by total, descending
+print("\nTest runs per Test Environment:\n")
+print("Test Environment\t\tTotal\n")
+test_environments.sort_by { |te| -testruns.select { |tr| tr["testEnvironments"].include?(te) }.length }.each do |te|
+  print("#{te}\t\t#{testruns.select { |tr| tr["testEnvironments"].include?(te) }.length}\n")
+end
+# print the total of test runs without test environments
+print("Test runs without Test Environment\t\t#{testruns.select { |tr| tr["testEnvironments"].empty? }.length}\n")
+
 # obtain all the issue keys from preconditions, tests, testexecs, testplans, and print the total of different projects using them
 precondition_keys = preconditions.map { |precondition| precondition["preconditionKey"] }
 test_keys = tests.map { |test| test["testKey"] }
@@ -569,7 +610,7 @@ testexec_keys = testexecs.map { |te| te["testExecKey"] }
 all_keys = precondition_keys + test_keys + testset_keys + testplan_keys + testexec_keys
 # iterate over all keys, split them by "-" and get the first element, which is the project name, and count the total of different projects
 all_xray_related_projects = all_keys.flatten.map { |k| k.split("-")[0] if !k.nil? }.uniq.reject {|data| data.nil?}
-print("Total different projects using Preconditions, Tests, Test Executions, or Test Plans: #{all_xray_related_projects.length}\n")
+print("Total different projects using Preconditions, Tests, Test Sets, Test Executions, or Test Plans: #{all_xray_related_projects.length}\n")
 
 
 exit
