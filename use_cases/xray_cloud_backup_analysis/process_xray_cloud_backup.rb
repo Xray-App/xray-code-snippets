@@ -620,11 +620,18 @@ print("Total different projects using Preconditions, Tests, Test Sets, Test Exec
 # print total of projects
 print("\nTotal projects: #{project_settings.length}\n")
 # print total of project in test repos
-print("\nTotal projects having a test repository: #{test_repos.length}\n")
+print("Total projects having a test repository: #{test_repos.length}\n")
 
 # based on project settings, print total projects having issue types on the issueTypeIds attribute, to inform about coverage
-print("\nTotal projects with coverage enabled (i.e., having coverable issue types configured): #{project_settings.select { |st| st["testCoverage"]["issueTypeIds"] && !st["testCoverage"]["issueTypeIds"].empty? if st["testCoverage"]}.length}\n")
+print("Total projects with coverage enabled (i.e., having coverable issue types configured): #{project_settings.select { |st| st["testCoverage"]["issueTypeIds"] && !st["testCoverage"]["issueTypeIds"].empty? if st["testCoverage"]}.length}\n")
 # based on project settings, print total projects having issue types on the defectMapping attribute
-print("\nTotal projects with defects mapping (i.e., having defect issue types configured): #{project_settings.select { |st| st["defectMapping"] && !st["defectMapping"].empty? }.length}\n")
+print("Total projects with defects mapping (i.e., having defect issue types configured): #{project_settings.select { |st| st["defectMapping"] && !st["defectMapping"].empty? }.length}\n")
+
+# print the top 3 tests with most failures, including the test key and the total of failures, based on the test runs
+print("\nTop 3 tests with most failures:\n")
+print("Test Key\t\tTotal failures\n")
+testruns.select { |tr| tr["status"] == "FAILED" }.group_by { |tr| tr["testIssueId"] }.sort_by { |k, v| -v.length }[0..2].each do |k, v|
+  print("#{htests[k]["testKey"]}\t\t\t#{v.length}\n")
+end
 
 exit
