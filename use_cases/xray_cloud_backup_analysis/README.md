@@ -178,4 +178,8 @@ prod		0
 Windows		0
 Test runs without Test Environment		2477
 Total different projects using Preconditions, Tests, Test Executions, or Test Plans: 6
+Total projects: 6
+Total projects having a test repository: 6
+Total projects with coverage enabled (i.e., having coverable issue types configured): 6
+Total projects with defects mapping (i.e., having defect issue types configured): 6
 ```
