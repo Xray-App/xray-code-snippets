@@ -257,11 +257,15 @@ end
 
 test_environments = []
 test_types = []
+project_settings = []
 psettings_files = Dir.entries(xraydata_dir).grep(/^(projectSettings_|settings.json)/)
 psettings_files.each do |psettings_file|
-  settings = JSON.parse!(File.read(File.join(xraydata_dir, psettings_file)))["projectSettings"]
+  settingsObj = JSON.parse!(File.read(File.join(xraydata_dir, psettings_file)))
+  settings = settingsObj["projectSettings"]
+  settings["projectId"] = settingsObj["info"]["projectId"] if settingsObj["info"] && settingsObj["info"]["projectId"]
   test_environments.append( settings["testEnvironmentOptions"]["testEnvironments"] ) if settings["testEnvironmentOptions"]
   test_types.append( settings["testTypeOptions"]["testTypes"] ) if settings["testTypeOptions"]
+  project_settings.append( settings ) if settingsObj["info"] && settingsObj["info"]["projectId"]
 end
 test_environments = test_environments.flatten().uniq
 test_types = test_types.flatten().uniq
@@ -612,5 +616,15 @@ all_keys = precondition_keys + test_keys + testset_keys + testplan_keys + testex
 all_xray_related_projects = all_keys.flatten.map { |k| k.split("-")[0] if !k.nil? }.uniq.reject {|data| data.nil?}
 print("Total different projects using Preconditions, Tests, Test Sets, Test Executions, or Test Plans: #{all_xray_related_projects.length}\n")
 
+
+# print total of projects
+print("\nTotal projects: #{project_settings.length}\n")
+# print total of project in test repos
+print("\nTotal projects having a test repository: #{test_repos.length}\n")
+
+# based on project settings, print total projects having issue types on the issueTypeIds attribute, to inform about coverage
+print("\nTotal projects with coverage enabled (i.e., having coverable issue types configured): #{project_settings.select { |st| st["testCoverage"]["issueTypeIds"] && !st["testCoverage"]["issueTypeIds"].empty? if st["testCoverage"]}.length}\n")
+# based on project settings, print total projects having issue types on the defectMapping attribute
+print("\nTotal projects with defects mapping (i.e., having defect issue types configured): #{project_settings.select { |st| st["defectMapping"] && !st["defectMapping"].empty? }.length}\n")
 
 exit
