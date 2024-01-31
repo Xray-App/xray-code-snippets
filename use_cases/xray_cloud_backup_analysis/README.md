@@ -119,6 +119,13 @@ Generic		3
 Exploratory		7
 Manual		4
 
+3 test repositories, by project ID and project key, if present, having the most folders in Jira:
+Project ID		Project Key		Total folders
+10004			BTW			9
+10007			EWB			8
+10001			XT			7
+
+
 Total tests having no steps: 399
 Total preconditions: 179
 Total tests having no preconditions: 562
@@ -148,6 +155,25 @@ XT-509		52
 XT-3		50
 Total test executions: 904
 Total test runs: 3016
-Test environments: ["Production", "qa", "firefox", "chrome", "TestCloud", "Linux", "Chrome", "Windows", "NODE_15.x", "test", "staging", "prod", "firefox", "jdk11", "chrome", "net50", "Dark", "Production"]
+Test environments: ["Production", "qa", "firefox", "chrome", "TestCloud", "Linux", "Chrome", "Windows", "NODE_15.x", "test", "staging", "prod", "jdk11", "net50", "Dark"]
+
+Test runs per Test Environment:
+Test Environment		Total
+firefox		326
+staging		66
+test		66
+jdk11		52
+chrome		32
+qa		22
+Production		18
+Chrome		13
+net50		9
+Linux		7
+TestCloud		7
+NODE_15.x		3
+Dark		1
+prod		0
+Windows		0
+Test runs without Test Environment		2477
 Total different projects using Preconditions, Tests, Test Executions, or Test Plans: 6
 ```
