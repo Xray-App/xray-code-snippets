@@ -17,6 +17,8 @@ It provides:
 
 ## How to
 
+Start by downloading all the files in this folder to some local directory.
+
 Create two zipped backups from [Xray global settings page](https://docs.getxray.app/display/XRAYCLOUD/Global+Settings%3A+Backup), one for the metadata and one for the Xray-managed attachments; 
 
 ![image](https://github.com/Xray-App/xray-code-snippets/assets/34485244/44e8b730-bd88-4dcc-b9e7-d0d053359a96)
@@ -49,7 +51,7 @@ Usage: bundle exec ruby process_xray_cloud_backup.rb [options]
 
 ```bash
 bundle install
-bundle exec ruby process_xray_cloud_backup.rb  -m ~/Downloads/dfc07383-782b-3a88-9f9b-bf458a9f1e70 -a ~/Downloads/dfc07383-782b-3a88-9f9b-bf458a9f1e70_attachment -i DA2258616A5944198E9BE40000000000 -s 5bae1aa5b49e5d263781da54ba55cc7deebd7840c68fe2fdfd2a070000000000
+bundle exec ruby process_xray_cloud_backup.rb  -m Downloads/dfc07383-782b-3a88-9f9b-bf458a9f1e70 -a Downloads/dfc07383-782b-3a88-9f9b-bf458a9f1e70_attachment -i DA2258616A5944198E9BE40000000000 -s 5bae1aa5b49e5d263781da54ba55cc7deebd7840c68fe2fdfd2a070000000000
 
 ```
 
@@ -119,6 +121,13 @@ Generic		3
 Exploratory		7
 Manual		4
 
+3 test repositories, by project ID and project key, if present, having the most folders in Jira:
+Project ID		Project Key		Total folders
+10004			BTW			9
+10007			EWB			8
+10001			XT			7
+
+
 Total tests having no steps: 399
 Total preconditions: 179
 Total tests having no preconditions: 562
@@ -148,6 +157,25 @@ XT-509		52
 XT-3		50
 Total test executions: 904
 Total test runs: 3016
-Test environments: ["Production", "qa", "firefox", "chrome", "TestCloud", "Linux", "Chrome", "Windows", "NODE_15.x", "test", "staging", "prod", "firefox", "jdk11", "chrome", "net50", "Dark", "Production"]
+Test environments: ["Production", "qa", "firefox", "chrome", "TestCloud", "Linux", "Chrome", "Windows", "NODE_15.x", "test", "staging", "prod", "jdk11", "net50", "Dark"]
+
+Test runs per Test Environment:
+Test Environment		Total
+firefox		326
+staging		66
+test		66
+jdk11		52
+chrome		32
+qa		22
+Production		18
+Chrome		13
+net50		9
+Linux		7
+TestCloud		7
+NODE_15.x		3
+Dark		1
+prod		0
+Windows		0
+Test runs without Test Environment		2477
 Total different projects using Preconditions, Tests, Test Executions, or Test Plans: 6
 ```
