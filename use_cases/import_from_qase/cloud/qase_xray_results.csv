@@ -1,0 +1,57 @@
+Issue ID,Issue Key,Test Type,Test Summary,Test Priority,Action,Data,Result,Issue Type,Precondition,Precondition Type,Description,Unstructured Definition,Gherkin Definition,Test Repo
+1,,Generic,Performance test,3,,,,Test,,,Performance test spamming 100 users simultaneously,,,
+2,,,Pre conditions,,,,,precondition,,Manual,"Pre conditions
+**Bold**
+*Italic*
+
+Bullets:
+
+1. one
+2. two 
+3. three",,,
+3,,Manual,My manual test title,3," ""Click on the login button"""," ""Data 1"""," ""The login page appear""",Test,2,,,,,Login
+3,,Manual,,3," ""click on the username field"""," ""Data 2"""," ""The username field is selected""",Test,,,,,,
+3,,Manual,,3," ""```\nInsert Username in the username field\n```"""," ""$Username"""," ""The Username appear in the field""",Test,,,,,,
+3,,Manual,,3," ""Insert the Password in the password field"""," """""," ""The Password appear in the password field""",Test,,,,,,
+3,,Manual,,3," ""Click on the Login button"""," """""," ""The page reloads and the user is now in the logged in state.""",Test,,,,,,
+3,,Manual,,3," ""Last step\n\n**Bold**\n\n*Italic*\n\nTable:\n\n| Header 1 | Header2 |\n| -------- | ------- |\n| Cell1 | Cell2 |"""," ""Last data dd"""," ""Last Result\n**Bold**\n\n*Italic*\n\nTable:\n\n| Header 1 | Header2 |\n| -------- | ------- |\n| Cell1 | Cell2 |""",Test,,,,,,
+4,,,Gherkin pre condition,,,,,precondition,,Cucumber,Gherkin pre condition,,,
+5,,Cucumber,Invalid login,3,,,,Test,4,,,," Given I access the application page
+ When I click the login button
+ And I insert ""failed"" in the username field
+ And I insert ""failed"" in the password field
+ And I click the login button
+ Then An error message stating that an error occurred in the login operation
+",Login
+6,,Manual,Validate listing page,3," ""Click on the login button"""," """""," ""The login page appear""",Test,,,"Test to validate the listing page.
+
+**Bold**
+
+*Italic*
+
+Table:
+
+| Header1 | Header2 |
+| ------- | ------- |
+| Cell1 | Cell2 |
+
+
+Bullets:
+
+* One
+* two
+* three",,,Listing
+6,,Manual,,3," ""Click on the username field"""," """""," ""The username field is selected""",Test,,,,,,
+6,,Manual,,3," ""Insert UserName in the field"""," """""," ""The UserName appear in the field""",Test,,,,,,
+6,,Manual,,3," ""Insert the Password in the password field"""," """""," ""The Password appear in the field""",Test,,,,,,
+6,,Manual,,3," ""Click on the Login button"""," """""," ""The page reloads and the user is now in the logged in state""",Test,,,,,,
+6,,Manual,,3," ""Click on the \""new arrivals\"" icon"""," """""," "" The \""New Arrivals\"" listing page is loaded.\n Each product has one thumbnail, product description, the price and availability.""",Test,,,,,,
+7,,Manual,Detail page,3," ""Click on the login button"""," """""," ""The login page appear""",Test,,,Validate the detail page of each product behaves as expected,,,Detail
+7,,Manual,,3," ""Click on the username field"""," """""," ""The username field is selected""",Test,,,,,,
+7,,Manual,,3," ""Insert UserName in the field"""," """""," ""The UserName appear in the field""",Test,,,,,,
+7,,Manual,,3," ""Insert the Password in the password field"""," """""," ""The Password appear in the field""",Test,,,,,,
+7,,Manual,,3," ""Click on the Login button"""," """""," ""The page reloads and the user is now in the logged in state""",Test,,,,,,
+7,,Manual,,3," ""Click over one product"""," """""," ""We are taken to the detail page of the product""",Test,,,,,,
+7,,Manual,,3," ""Click on the image of the product"""," """""," ""A pop-up appear with a carrousel of images of the product""",Test,,,,,,
+8,,Manual,Validate promotions,3," ""Step one"""," ""Data one"""," ""Expected result one""",Test,,,Validate detail page - promotions,,,Detail/Promotions
+8,,Manual,,3," ""Step two"""," ""Data two"""," ""Expected result two""",Test,,,,,,

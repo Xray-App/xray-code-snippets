@@ -1,0 +1,123 @@
+{
+    "config.encoding": "UTF-8",
+    "config.delimiter": ",",
+    "config.project.from.csv": false,
+    "config.project.key": "EWB",
+    "config.list.delimiter": ";",
+    "config.date.format": "DD/MM/YYYY HH:mm",
+    "config.create.test.repository.folders": true,
+    "config.field.mappings": [
+        {
+            "column.index": 0,
+            "jira.field": {
+                "group": "Xray",
+                "id": "__xray_testId",
+                "type": "string"
+            }
+        },
+        {
+            "column.index": 2,
+            "jira.field": {
+                "group": "Xray",
+                "id": "xray_testtype",
+                "type": "string"
+            }
+        },
+        {
+            "column.index": 3,
+            "jira.field": {
+                "group": "Native",
+                "id": "summary",
+                "type": "string"
+            }
+        },
+        {
+            "column.index": 4,
+            "jira.field": {
+                "group": "Native",
+                "id": "__priority_id",
+                "type": "string"
+            }
+        },
+        {
+            "column.index": 5,
+            "jira.field": {
+                "group": "Xray Test Step Fields",
+                "id": "__xray_step_action",
+                "type": "text"
+            }
+        },
+        {
+            "column.index": 6,
+            "jira.field": {
+                "group": "Xray Test Step Fields",
+                "id": "__xray_step_data",
+                "type": "text"
+            }
+        },
+        {
+            "column.index": 7,
+            "jira.field": {
+                "group": "Xray Test Step Fields",
+                "id": "__xray_step_result",
+                "type": "text"
+            }
+        },
+        {
+            "column.index": 8,
+            "jira.field": {
+                "group": "Native",
+                "id": "__xray_issue_type",
+                "type": "string"
+            }
+        },
+        {
+            "column.index": 9,
+            "jira.field": {
+                "group": "Xray",
+                "id": "__xray_preconditions",
+                "type": "string"
+            }
+        },
+        {
+            "column.index": 10,
+            "jira.field": {
+                "group": "Xray",
+                "id": "__xray_precondition_type",
+                "type": "string"
+            }
+        },
+        {
+            "column.index": 11,
+            "jira.field": {
+                "group": "Native",
+                "id": "description",
+                "type": "string"
+            }
+        },
+        {
+            "column.index": 12,
+            "jira.field": {
+                "group": "Xray",
+                "id": "xray_unstructured_def",
+                "type": "string"
+            }
+        },
+        {
+            "column.index": 13,
+            "jira.field": {
+                "group": "Xray",
+                "id": "xray_gherkin_def",
+                "type": "string"
+            }
+        },
+        {
+            "column.index": 14,
+            "jira.field": {
+                "group": "Xray",
+                "id": "xray_test_repository_folder",
+                "type": "string"
+            }
+        }
+    ]
+}

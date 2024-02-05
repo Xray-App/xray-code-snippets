@@ -1,0 +1,122 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters
+,,,,,,,,,,,,,,,,,,,,1,,Login,1
+,,,,,,,,,,,,,,,,,,,,2,,Listing,1
+,,,,,,,,,,,,,,,,,,,,3,,Detail,1
+,,,,,,,,,,,,,,,,,,,,4,3,Promotions,1
+5,"Performance test","Performance test spamming 100 users simultaneously",,,,high,critical,performance,undefined,automated,actual,no,unit,classic,,,,,,,,,,
+1,"My manual test title",,"Pre conditions
+**Bold**
+*Italic*
+
+Bullets:
+
+1. one
+2. two 
+3. three","Post Conditions",Login,undefined,normal,functional,positive,is-not-automated,actual,no,e2e,classic,"1. ""Click on the login button""
+2. ""click on the username field""
+3. ""```\nInsert Username in the username field\n```""
+4. ""Insert the Password in the password field""
+5. ""Click on the Login button""
+6. ""Last step\n\n**Bold**\n\n*Italic*\n\nTable:\n\n| Header 1 | Header2 |\n| -------- | ------- |\n| Cell1 | Cell2 |""
+","1. ""The login page appear""
+2. ""The username field is selected""
+3. ""The Username appear in the field""
+4. ""The Password appear in the password field""
+5. ""The page reloads and the user is now in the logged in state.""
+6. ""Last Result\n**Bold**\n\n*Italic*\n\nTable:\n\n| Header 1 | Header2 |\n| -------- | ------- |\n| Cell1 | Cell2 |""
+","1. ""Data 1""
+2. ""Data 2""
+3. ""$Username""
+4. """"
+5. """"
+6. ""Last data dd""
+",,,1,,Login,,"Username:John
+Username:Barbara
+Username:Peter
+Password:password
+Password:123456"
+3,"Invalid login",,"Gherkin pre condition",,Login,high,critical,functional,negative,is-not-automated,actual,no,e2e,gherkin,"1. Given I access the application page
+2. When I click the login button
+3. And I insert ""failed"" in the username field
+4. And I insert ""failed"" in the password field
+5. And I click the login button
+6. Then An error message stating that an error occurred in the login operation
+","1. """"
+2. """"
+3. """"
+4. """"
+5. """"
+6. """"
+","1. """"
+2. """"
+3. """"
+4. """"
+5. """"
+6. """"
+",,,1,,Login,,
+2,"Validate listing page","Test to validate the listing page.
+
+**Bold**
+
+*Italic*
+
+Table:
+
+| Header1 | Header2 |
+| ------- | ------- |
+| Cell1 | Cell2 |
+
+
+Bullets:
+
+* One
+* two
+* three",,,Listing,high,critical,regression,positive,is-not-automated,actual,no,e2e,classic,"1. ""Click on the login button""
+2. ""Click on the username field""
+3. ""Insert UserName in the field""
+4. ""Insert the Password in the password field""
+5. ""Click on the Login button""
+6. ""Click on the \""new arrivals\"" icon""
+","1. ""The login page appear""
+2. ""The username field is selected""
+3. ""The UserName appear in the field""
+4. ""The Password appear in the field""
+5. ""The page reloads and the user is now in the logged in state""
+6. ""1. The \""New Arrivals\"" listing page is loaded.\n2. Each product has one thumbnail, product description, the price and availability.""
+","1. """"
+2. """"
+3. """"
+4. """"
+5. """"
+6. """"
+",,,2,,Listing,,
+4,"Detail page","Validate the detail page of each product behaves as expected",,,Detail,low,normal,integration,undefined,is-not-automated,actual,no,unknown,classic,"1. ""Click on the login button""
+2. ""Click on the username field""
+3. ""Insert UserName in the field""
+4. ""Insert the Password in the password field""
+5. ""Click on the Login button""
+6. ""Click over one product""
+7. ""Click on the image of the product""
+","1. ""The login page appear""
+2. ""The username field is selected""
+3. ""The UserName appear in the field""
+4. ""The Password appear in the field""
+5. ""The page reloads and the user is now in the logged in state""
+6. ""We are taken to the detail page of the product""
+7. ""A pop-up appear with a carrousel of images of the product""
+","1. """"
+2. """"
+3. """"
+4. """"
+5. """"
+6. """"
+7. """"
+",,,3,,Detail,,
+6,"Validate promotions","Validate detail page - promotions",,,,medium,normal,other,undefined,is-not-automated,actual,no,unknown,classic,"1. ""Step one""
+2. ""Step two""
+","1. ""Expected result one""
+2. ""Expected result two""
+","1. ""Data one""
+2. ""Data two""
+",,,4,3,Promotions,,
+7,"Validate promotions - authenticated",,,,,undefined,normal,other,undefined,is-not-automated,actual,no,unknown,classic,,,,,,4,3,Promotions,,

@@ -1,0 +1,21 @@
+{
+  "projectKey" : {
+    "project" : "COM"
+  },
+  "field" : {
+    "Test Summary" : "summary",
+    "Action" : "Action",
+    "Test Repo" : "customfield_12100",
+    "Test Priority" : "priority",
+    "Data" : "Data",
+    "Labels" : "labels",
+    "Issue ID" : "Test Case Identifier",
+    "Result" : "Expected Result"
+  },
+  "link" : { },
+  "projectSelection" : {
+    "project" : "true"
+  },
+  "projectName" : { },
+  "value" : { }
+}
