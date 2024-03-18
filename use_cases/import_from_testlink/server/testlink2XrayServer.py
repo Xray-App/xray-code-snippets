@@ -31,13 +31,10 @@ def appendRows(issueID='', testSummary='', testPriority='', action='', data='', 
 def handleTestSuites(root, issueID, outputfile):
     # When exporting from a Test Suite Testlink adds one level
     testsuites = root.findall('testsuite')
-    if root.tag == 'testsuite' and len(testsuites) <= 1:
-        # Parse Testcases
-        issueID=handleTestCases(root, issueID+1, outputfile=outputfile)
-    else:
-        for testsuite in testsuites:
-            # Parse Testcases
-            issueID=handleTestCases(testsuite, issueID+1, outputfile=outputfile)
+    for testsuite in testsuites:
+        issueID = handleTestSuites(testsuite, issueID, outputfile)
+    # Parse Testcases
+    return handleTestCases(root, issueID, outputfile=outputfile)
 
 def handleTestCases(root, issueID, outputfile):
     # When exporting from a Test Suite Testlink adds one level
