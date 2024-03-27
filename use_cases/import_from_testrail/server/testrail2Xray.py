@@ -123,10 +123,11 @@ def handleTestSections(root, issueID, outputfile, repoName, outputtestrailEndpoi
                     if not hasSteps:
                         appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority, testRepo=testRepoName, data=additional_info, outputtestrailEndpoint=outputtestrailEndpoint)
                     issueID = issueID+1  
-                else:
-                    #ignore all other types 
-                    continue
+                elif type == 'Manual' or type == 'None':
+                    appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority,action=None,result=None, testRepo=testRepoName, labels=labels, outputtestrailEndpoint=outputtestrailEndpoint)
+                    issueID = issueID+1
             else:
+                #ignore all other types
                 continue
         
         innerSection = testsection.find('sections')
