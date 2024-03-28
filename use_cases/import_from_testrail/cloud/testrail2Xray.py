@@ -1,6 +1,7 @@
 import sys, getopt
 import re
 import xml.etree.ElementTree as ET
+import pandas as pd
 
 
 column = ["Issue ID","Issue Key","Test Type","Test Summary", "Test Priority", "Action","Data","Result","Test Repo","Precondition","Issue Type", "Precondition Type", "Unstructured Definition", "Labels"]
@@ -195,8 +196,8 @@ def main(argv):
    except Exception as err:
        print ("An exception occurred:", err)
 
-   inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_testrail/comic_estore.xml'
-   outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_testrail/comicEStore.csv'
+   #inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_testrail/comic_estore.xml'
+   #outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_testrail/comicEStore.csv'
    if not inputfile or not outputfile:
     print ('One of the input parameters is missing, please use: testrail2Xray.py -i <XML_inputfile> -o <CSV_outputfile>')
     sys.exit()
