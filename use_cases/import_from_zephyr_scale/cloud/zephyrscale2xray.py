@@ -4,19 +4,19 @@ import xml.etree.ElementTree as ET
 import markdownify
 import pandas as pd
 
-column = ["Issue ID","Issue Key","Test Type","Test Summary", "Test Priority", "Action","Data","Result","Test Repo","Precondition","Issue Type", "Precondition Type", "Unstructured Definition", "Labels", "Component", "Gherkin definition", "Description", "Links"]
+column = ["Issue ID","Issue Key","Test Type","Test Summary", "Test Priority", "Action","Data","Result","Test Repo","Precondition","Issue Type", "Precondition Type", "Unstructured Definition", "Labels", "Component", "Gherkin definition", "Description", "Links", "ViewPort"]
 row = []
 
-CLEANR = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
-EMPTYSPACES = re.compile('\n|\r')
-QUOTES = re.compile('\&quot\;')
+CLEANR = re.compile(r'<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
+EMPTYSPACES = re.compile(r'\n|\r')
+QUOTES = re.compile(r'\&quot\;')
 
 def cleanTags(txt):
     if txt:
         cleanTxt = markdownify.markdownify(txt, heading_style="ATX")
         cleanTxt = re.sub(r'\|\s+\|\s+\|\n\|\s+---\s+\|\s+---\s+\|','',cleanTxt)
         cleanTxt = re.sub(r'\|\s+---\s+\|','',cleanTxt)
-        cleanTxt = re.sub('\*([a-zA-Z0-9]+)\*', r'_\1_', cleanTxt)
+        cleanTxt = re.sub(r'\*([a-zA-Z0-9]+)\*', r'_\1_', cleanTxt)
         cleanTxt = re.sub(r'\*_([a-zA-Z0-9]+)_\*', r'*\1*', cleanTxt)
         cleanTxt = re.sub(r'\*\*\*\*\*\*\*\*', r'', cleanTxt)
         #cleanTxt = txt
@@ -100,7 +100,7 @@ def getShortPrecondition(precondition):
             precond = precondition[:254]
     return precond
 
-def appendRows(issueID='', issueKey='', testType=None, testSummary=None, testPriority=None, action=None, data=None, result=None, testRepo=None, issueType=None, precondition=None, unstructuredDefinition=None, labels=None, components=None, gherkindefinition=None, description=None, links=None):
+def appendRows(issueID='', issueKey='', testType=None, testSummary=None, testPriority=None, action=None, data=None, result=None, testRepo=None, issueType=None, precondition=None, unstructuredDefinition=None, labels=None, components=None, gherkindefinition=None, description=None, links=None, viewport=None):
     row.append({"Issue ID": issueID,
                 "Issue Key": '',
                 "Test Type": getTestType(testType),
@@ -118,7 +118,8 @@ def appendRows(issueID='', issueKey='', testType=None, testSummary=None, testPri
                 "Component": cleanTags(components.text) if components is not None else '',
                 "Gherkin definition": gherkindefinition.text if gherkindefinition is not None else '',
                 "Description": cleanTags(description.text) if description is not None else '',
-                "Links": links if links is not None else ''})
+                "Links": links if links is not None else '',
+                "ViewPort": viewport if viewport is not None else ''})
 
 def appendPrecondition(issueID='', precondition=None, type=None):
     row.append({"Issue ID": issueID,
@@ -162,6 +163,7 @@ def handleTestCases(root, issueID, outputfile, repoName):
         type = testcase.find('testScript').attrib['type']
         objective = testcase.find('objective')
         links = processIssues(testcase.findall('issues/issue'))
+        cf_viewport = ''
 
         if preconditions is not None:
             appendPrecondition(issueID=issueID, precondition=preconditions, type=type)
@@ -178,6 +180,12 @@ def handleTestCases(root, issueID, outputfile, repoName):
             appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority,precondition=preconditionID, testRepo=testRepoName, labels=labels, components=component, gherkindefinition=details, description=objective,links=links)
             issueID = issueID+1 
         elif type == 'steps':
+            customFields = testcase.findall('customFields/customField')
+            if customFields is not None:
+                for customfield in customFields:
+                    if customfield.attrib['name'] == 'Viewport':
+                        cf_viewport = customfield.find('value').text
+
             steps = testcase.find('testScript').findall('steps/step')
             hasSteps = False
             first_step = True
@@ -189,13 +197,13 @@ def handleTestCases(root, issueID, outputfile, repoName):
                 hasSteps = True
                 
                 if first_step:
-                    appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority,action=content,result=expected,precondition=preconditionID, testRepo=testRepoName, data=additional_info, labels=labels, description=objective,links=links)
+                    appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority,action=content,result=expected,precondition=preconditionID, testRepo=testRepoName, data=additional_info, labels=labels, description=objective,links=links, viewport=cf_viewport)
                     first_step = False
                 else:
-                    appendRows(issueID=issueID,testType=type, action=content,result=expected, data=additional_info, description=objective)
+                    appendRows(issueID=issueID,testType=type, action=content,result=expected, data=additional_info, description=objective, viewport=cf_viewport)
                 
             if not hasSteps:
-                appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority,precondition=preconditionID, testRepo=testRepoName, data=additional_info, description=objective,links=links)
+                appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority,precondition=preconditionID, testRepo=testRepoName, data=additional_info, description=objective,links=links, viewport=cf_viewport)
                 
             issueID = issueID+1  
 
@@ -230,8 +238,8 @@ def main(argv):
    except Exception as err:
        print ("An exception occurred:", err)
 
-   #inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_zephyr_scale/cloud/atm-exporter.xml'
-   #outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_zephyr_scale/cloud/atm-exporter.csv'
+   #inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_zephyr_scale/cloud/ExampleTC_XML_Export.xml'
+   #outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_zephyr_scale/cloud/CCExampleExport.csv'
    if not inputfile or not outputfile:
         print ('One of the input parameters is missing, please use: zephyrscale2Xray.py -i <XML_inputfile> -o <CSV_outputfile>')
         sys.exit()

@@ -7,16 +7,16 @@ import pandas as pd
 column = ["Issue ID","Issue Key","Test Type","Test Summary", "Test Priority", "Action","Data","Result","Test Repo","Issue Type", "Unstructured Definition", "Labels", "Component", "Description", "Links"]
 row = []
 
-CLEANR = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
-EMPTYSPACES = re.compile('\n|\r')
-QUOTES = re.compile('\&quot\;')
+CLEANR = re.compile(r'<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
+EMPTYSPACES = re.compile(r'\n|\r')
+QUOTES = re.compile(r'\&quot\;')
 
 def cleanTags(txt, zephyrscaleendpoint=None):
     if txt:
         cleanTxt = markdownify.markdownify(txt, heading_style="ATX")
         cleanTxt = re.sub(r'\|\s+\|\s+\|\n\|\s+---\s+\|\s+---\s+\|','',cleanTxt)
-        cleanTxt = re.sub(r'\|\s+---\s+\|','',cleanTxt)
-        cleanTxt = re.sub('\*([a-zA-Z0-9]+)\*', r'_\1_', cleanTxt)
+        cleanTxt = re.sub(r'\|?\s+---\s+\|?\n?','',cleanTxt)
+        cleanTxt = re.sub(r'\*([a-zA-Z0-9]+)\*', r'_\1_', cleanTxt)
         cleanTxt = re.sub(r'\*_([a-zA-Z0-9]+)_\*', r'*\1*', cleanTxt)
         cleanTxt = re.sub(r'\*\*\*\*\*\*\*\*', r'', cleanTxt)
     else:
