@@ -25,13 +25,13 @@ In each directory you have (same for cloud and server):
 
 #### Cloud
 ```Python
-python3 qase2Xray.py -i qase_export.xml -o qase_xray_results.csv
+python3 qase2Xray.py -i qase_export.csv -o qase_xray_results.csv
 ```
 The output for cloud version creates preconditions and link those to the tests in one import. It supports Scripted and BDD test types.
 
 #### Server
 ```Python
-python3 qase2Xray.py -i qase_export.xml -o qase_xray_results.csv
+python3 qase2Xray.py -i qase_export.csv -o qase_xray_results.csv
 ```
 
 The output for server version only creates the tests into Xray. Creation and association of preconditions must be done separately. It only supports Manual Tests.
