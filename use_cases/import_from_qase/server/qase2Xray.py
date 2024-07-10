@@ -74,7 +74,7 @@ def parseqase2XrayData(inputfile, outputfile):
     issueID = 1
     testID = ''
     suites = []
-    suites.insert(0, 'EMPTY')
+    suites = {"0":"EMPTY"}
     for index, xls_row in df.iterrows():
         preconditionID = 0
         testID = xls_row['v2.id']
@@ -87,9 +87,9 @@ def parseqase2XrayData(inputfile, outputfile):
             #Process suites
             suiteParentID = xls_row['suite_parent_id']
             if not pd.isna(suiteParentID):
-                suites.insert(int(suiteID), suites[int(suiteParentID)] + '/' + suite)
+                suites.update({int(suiteID):suites[int(suiteParentID)] + '/' + suite})
             else:                
-                suites.insert(int(suiteID), suite)
+                suites.update({int(suiteID):suite})
         else:
             #Process tests
             tags = xls_row['tags']

@@ -109,8 +109,7 @@ def parseqase2XrayData(inputfile, outputfile):
     issueID = 1
     lastTestType = ''
     testID = ''
-    suites = []
-    suites.insert(0, 'EMPTY')
+    suites = {"0":"EMPTY"}
     for index, xls_row in df.iterrows():
         preconditionID = 0
         testID = xls_row['v2.id']
@@ -125,9 +124,9 @@ def parseqase2XrayData(inputfile, outputfile):
             #Process suites
             suiteParentID = xls_row['suite_parent_id']
             if not pd.isna(suiteParentID):
-                suites.insert(int(suiteID), suites[int(suiteParentID)] + '/' + suite)
+                suites.update({int(suiteID):  suites[int(suiteParentID)] + '/' + suite})
             else:                
-                suites.insert(int(suiteID), suite)
+                suites.update({int(suiteID):suite})
         else:
             if not pd.isna(precondition):
                 #process preconditions
@@ -163,7 +162,7 @@ def parseqase2XrayData(inputfile, outputfile):
                             index = index+1
                     
                 issueID=issueID+1
-            elif automation == 'automated':
+            elif automation == 'automated' or automation == 'is-not-automated':
                     appendRows(issueID=issueID,stepsType=stepsType, testType=automation,testSummary=xls_row['title'],testPriority=priority, description=xls_row['description'], testRepo=suites[int(suite_id)] if not pd.isna(suite_id) else '') 
                     issueID=issueID+1
  
@@ -189,8 +188,8 @@ def main(argv):
    except Exception as err:
        print ("An exception occurred:", err)
 
-   #inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qase/cloud/qase_export.csv'
-   #outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qase/cloud/qase_xray_results.csv'
+   #inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qase/cloud/DEMO-2024-07-10.csv'
+   #outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qase/cloud/qase_xray_resultsCC.csv'
 
    if not inputfile or not outputfile:
         print ('One of the input parameters is missing, please use: qase2Xray.py -i <CSV_inputfile> -o <CSV_outputfile>')
