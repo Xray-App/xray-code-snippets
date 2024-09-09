@@ -21,6 +21,37 @@ def cleanTags(txt):
 
     return cleanTxt
 
+def convert_to_jira_markdown(text):
+    if not text:
+        return text
+
+    # Convert \\n to \n
+    text = re.sub(r'\\n', r'\n', text)
+
+    # Convert \\" to "
+    text = re.sub(r'\\"', r'"', text)
+
+    # Convert \\/ to /
+    text = re.sub(r'\\/', r'/', text)
+
+    # Convert \t to &nbsp;
+    text = re.sub(r'\\t', r'\t', text)
+
+    # Convert bold (**text**) to Jira bold (*text*)
+    text = re.sub(r'\*\*(.*?)\*\*', r'*\1*', text)
+
+    # Convert underline (<u>text</u>) to Jira underline (+text+)
+    text = re.sub(r'<u>(.*?)</u>', r'+\1+', text)
+
+    # Convert code blocks (`code`) to Jira code syntax {{code}}
+    text = re.sub(r'```(.*?)```', r'{{\1}}', text, flags=re.DOTALL)  # For multiline code blocks
+    text = re.sub(r'`([^`]+)`', r'{{\1}}', text)  # For inline code
+
+    # Note: Jira tables require a specific format. If your CSV fields contain HTML tables,
+    # you'll need a more complex parser to convert them properly. This script does not handle tables.
+
+    return text
+
 def getPriorityValue(priorityName):
     priority = 4
 
@@ -56,14 +87,14 @@ def appendRows(issueID='', issueKey='', stepsType=None, testType=None, testSumma
                 "Test Type": getTestType(testType, stepsType),
                 "Test Summary": testSummary if testSummary is not None else '',
                 "Test Priority": getPriorityValue(testPriority) if testPriority is not None else '3',
-                "Action": action if action is not None and testType not in noActionTypes else '',
-                "Data": data if data is not None and testType not in noActionTypes else '',
-                "Result": result if result is not None and testType not in noActionTypes else '',
+                "Action": convert_to_jira_markdown(action) if action is not None and not pd.isna(action) and testType not in noActionTypes else '',
+                "Data": convert_to_jira_markdown(data.strip()) if data is not None and not pd.isna(data) and testType not in noActionTypes else '',
+                "Result": convert_to_jira_markdown(result) if result is not None and not pd.isna(result) and testType not in noActionTypes else '',
                 "Precondition": precondition if precondition is not None and precondition != 0 else '',
                 "Precondition Type": '',
                 "Unstructured Definition": unstrusturedDefinition if unstrusturedDefinition is not None and testType == 'ApiTest' else '',
                 "Issue Type": 'Test',
-                "Description": description if description is not None else '',
+                "Description": convert_to_jira_markdown(description) if description is not None and not pd.isna(description)  else '',
                 "Gherkin Definition": gherkinDefinition if gherkinDefinition is not None and stepsType == 'gherkin' else '',
                 "Test Repo": testRepo})
 
@@ -188,8 +219,8 @@ def main(argv):
    except Exception as err:
        print ("An exception occurred:", err)
 
-   #inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qase/cloud/DEMO-2024-07-10.csv'
-   #outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qase/cloud/qase_xray_resultsCC.csv'
+   #inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qase/cloud/qase_export.csv'
+   #outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_qase/cloud/CC_XRay_Export_result.csv'
 
    if not inputfile or not outputfile:
         print ('One of the input parameters is missing, please use: qase2Xray.py -i <CSV_inputfile> -o <CSV_outputfile>')
