@@ -1,6 +1,7 @@
 import sys, getopt
 import re
 import xml.etree.ElementTree as ET
+from xml import etree
 import pandas as pd
 
 
@@ -48,6 +49,10 @@ def getTestType(type):
     return testType
 
 def appendRows(issueID='', issueKey='', testType=None, testSummary=None, testPriority=None, action=None, data=None, result=None, testRepo=None, issueType=None, precondition=None, unstructuredDefinition=None, labels=None):
+    #if testSummary.text.find('Have a saved payment method by making') > 0:
+    #    stopHere = True
+
+
     row.append({"Issue ID": issueID,
                 "Issue Key": '',
                 "Test Type": getTestType(testType),
@@ -64,6 +69,9 @@ def appendRows(issueID='', issueKey='', testType=None, testSummary=None, testPri
                 "Labels": labels.text if labels is not None else ''})
 
 def appendPrecondition(issueID='', precondition=None):
+    #if precondition.text.find('Have a saved payment method by making') > 0:
+    #    stopHere = True
+
     row.append({"Issue ID": issueID,
                 "Issue Key": '',
                 "Test Type": '',
@@ -106,7 +114,7 @@ def handleTestSections(root, issueID, outputfile, repoName):
             custom = testcase.find('custom')
             if custom is not None:
                 automation_type = custom.find('automation_type')
-                type = automation_type.find('value').text.strip() if automation_type is not None else 'Manual'
+                type = automation_type.find('value').text.strip() if (automation_type is not None and automation_type.find('value').text.strip()!= 'None') else 'Manual'
                 preconditions = custom.find('preconds')
                 if preconditions is not None:
                     appendPrecondition(issueID=issueID, precondition=preconditions)
@@ -118,6 +126,8 @@ def handleTestSections(root, issueID, outputfile, repoName):
 
                 mission = custom.find('mission')
                 goals = custom.find('goals')
+
+                test_steps = custom.find('test_steps')
 
                 if steps is not None:
                     # Text field with steps
@@ -153,6 +163,24 @@ def handleTestSections(root, issueID, outputfile, repoName):
 
                     appendRows(issueID=issueID,testType='Exploratory',testSummary=title,testPriority=priority,precondition=preconditionID, testRepo=testRepoName, unstructuredDefinition=uDefinition, labels=labels)
                     issueID = issueID+1  
+                elif test_steps is not None:
+                    # Steps in different cells
+                    first_step = True
+                    hasSteps = False
+                    for step in test_steps:
+                        index = step.find('index')
+                        content = step.find('content')
+                        expected = step.find('expected')
+                        additional_info = step.find('additional_info')
+                        hasSteps = True
+                        if first_step:
+                            appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority,action=content,result=expected,precondition=preconditionID, testRepo=testRepoName, data=additional_info, labels=labels)
+                            first_step = False
+                        else:
+                            appendRows(issueID=issueID,testType=type, action=content,result=expected, data=additional_info)
+                    if not hasSteps:
+                        appendRows(issueID=issueID,testType=type,testSummary=title,testPriority=priority,precondition=preconditionID, testRepo=testRepoName, data=additional_info)
+                    issueID = issueID+1  
                 else:
                     #ignore all other types 
                     continue
@@ -172,10 +200,16 @@ def handleTestSections(root, issueID, outputfile, repoName):
 
 
 def parseTestrail2XrayData(inputfile, outputfile):
-    # Parsing XML file
-    xmlParse = ET.parse(inputfile)
-    root = xmlParse.getroot()
-    issueID = 1
+    try:
+        # Parsing XML file
+        xmlParse = ET.parse(inputfile)
+        #ET.iterparse()
+        root = xmlParse.getroot()
+        issueID = 1
+    except etree.XMLSyntaxError as e:
+        print(f"XML parsing error: {e}")
+    except IOError as e:
+        print(f"File error: {e}")
 
     handleTestSections(root=root, issueID=issueID, outputfile=outputfile, repoName=None)
     
@@ -196,8 +230,8 @@ def main(argv):
    except Exception as err:
        print ("An exception occurred:", err)
 
-   #inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_testrail/comic_estore.xml'
-   #outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_testrail/comicEStore.csv'
+   ##inputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_testrail/cloud/SmokeXML.xml'
+   ##outputfile='/Users/cristianocunha/Documents/Projects/tutorials/xray-code-snippets/use_cases/import_from_testrail/cloud/SmokeXMLCC.csv'
    if not inputfile or not outputfile:
     print ('One of the input parameters is missing, please use: testrail2Xray.py -i <XML_inputfile> -o <CSV_outputfile>')
     sys.exit()
