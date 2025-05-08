@@ -20,7 +20,7 @@ pip install -r requirements.txt
 ```
 
 ```bash
-python csv_to_junit.py sample.csv junit.xml
+python csv_to_junit.py example.csv junit.xml
 ```
 
 After generating the JUnit XML report having the test results, these can be easily pushed to Xray (DC or Cloud) by invoking the proper REST API endpoints.
@@ -29,4 +29,4 @@ This folder provides examples of how to push it using some basic Unix/Linux shel
 
 ## Sample CSV
 
-Please see `sample.csv` as an example of the layout of the CSV that should be generated with the test results.
+Please see [example.csv](example.csv) as an example of the layout of the CSV that should be generated with the test results.
