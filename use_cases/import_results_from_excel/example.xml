@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <testsuites>
+            
+            <testsuite name="Test Suite">
+                
+                <testcase name="test2" time="0">
+                    <failure message="FAIL"><![CDATA[bad things happened]]></failure>
+                    <system-err><![CDATA[
+                    bad things happened
+                    ]]></system-err>
+                </testcase>
+                
+
+                <testcase name="other test" time="0">
+                    <system-out><![CDATA[
+                    
+                    ]]></system-out>
+                </testcase>
+                
+            </testsuite>
+            
+        </testsuites>
+        
