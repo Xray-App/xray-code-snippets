@@ -27,6 +27,10 @@ After generating the JUnit XML report having the test results, these can be easi
 
 This folder provides examples of how to push it using some basic Unix/Linux shell scripts that should be adapted to your own context.
 
-## Sample CSV
+## Sample CSV and imported results
 
 Please see [example.csv](example.csv) as an example of the layout of the CSV that should be generated with the test results.
+
+After importing, these results would be something like this on Xray:
+
+![results on Xray](results_on_xray.png)
