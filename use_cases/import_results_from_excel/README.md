@@ -1,4 +1,4 @@
-# CSV to Junit XML
+# Import test results from Excel/Google Spreadsheets using a CSV to Junit XML converter
 
 This code provides a Python script that can be used to convert from a CSV file to a Junit XML report. This can be used to easily push results to Xray / Jira, using the proper JUnit related REST API endpoint.
 The `csv_to_junit.py` script generates an enhanced JUnit XML report
