@@ -19,20 +19,39 @@ In each directory you have (same for cloud and server):
     * One XML file that is the result of exporting from TestRail
     * One CSV file that is the result of executing the script (testrail2Xray.py)  against the XML file
     * One configuration Json file that you can use to configure the mappings in the Test Case Importer
-    * testrail2Xray.py - Scripts that will convert XML files to CSV files for cloud and server versions respectively. 
+    * testrail2Xray.py and testrail2Xray.xsl (cloud-only) - Scripts that will convert exported XML files to CSV files for import.
 
 ### Script usage
 
 #### Install dependencies
+
+##### Python
+
 ```Python
 pip install -r requirements.txt
 ```
 
+##### XSLT
+
+```shell
+npm install xslt3 --global
+```
+
 #### Cloud
+
+The output for cloud version creates preconditions and test sections (if they exist in TestRail) and link those to the tests in one import. It supports Manual, Automated and Exploratory tests.
+
+##### Python
+
 ```Python
 python3 testrail2Xray.py -i comic_estore.xml -o comicEstore.csv
 ```
-The output for cloud version creates preconditions and test sections (if they exist in TestRail) and link those to the tests in one import. It supports Manual, Automated and Exploratory tests.
+
+##### XSLT
+
+```shell
+xslt3 -xsl:testrail2Xray.xsl -s:comic_estore.xml -o:comicEstore.csv
+```
 
 #### Server
 ```Python
@@ -50,3 +69,4 @@ The output for server version only creates the tests into Xray and the Test Repo
 ### Source-code
 
 - [Python 3.12.0](https://www.python.org/downloads/release/python-3120/)
+- [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
